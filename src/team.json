@@ -1,0 +1,14 @@
+{
+  "team": "Shoemaker",
+  "org_url": "https://github.com/shoemaker-spaceapps",
+  "site_url": "https://shoemaker-spaceapps.github.io/",
+  "demo_url": "https://shoemaker-spaceapps.github.io/demo/",
+  "repo_url": "https://github.com/shoemaker-spaceapps/shoemaker-spaceapps.github.io",
+  "challenge": "Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars",
+  "members": [
+    {"name": "Melike Kızılay", "role": "geology, lunar targets and analog interpretation"},
+    {"name": "Tarık Tuna Taşaltı", "role": "data pipeline, similarity model and validation"},
+    {"name": "Nagihan Koçcenk", "role": "water and ISRU (in-situ resource utilization) use cases"},
+    {"name": "Zeynep Naz Erkoç", "role": "known analog catalogue and hard negative analogs"}
+  ]
+}
