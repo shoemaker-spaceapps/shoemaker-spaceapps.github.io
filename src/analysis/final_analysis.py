@@ -340,7 +340,9 @@ def rock_analogs(w, t2, S, k=5):
         out.append(top[["target_id", "rank_rock_pool", "rank_all", "window_id", "place", "region", "roi", "lat", "lon", "lito",
                         "bazalt_frac", "bazik_plutonik_frac", "bare_frac", "aridity_index", "slope_p50", "slope_p90", "relief",
                         "genel_skor", "sicaklik_yillik_ort_C", "yagis_mm_yil", "note", "confidence"]])
-    return pd.concat(out, ignore_index=True)
+    R = pd.concat(out, ignore_index=True)
+    R[["rank_rock_pool", "rank_all"]] = R[["rank_rock_pool", "rank_all"]].astype(int)
+    return R
 
 
 def targets_table(t2, out_moon=PIPE):
