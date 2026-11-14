@@ -1,21 +1,23 @@
 #!/usr/bin/env python3
 """Water, ice and ISRU reading of the Earth regions for the polar lunar targets (writes out_final/water_ice.csv).
 
-Groups follow fixed thresholds on v4 windows and NASA POWER climate; no number comes from earlier tables.
+Each window gets a group from its own values (fixed thresholds on v4 windows and NASA POWER climate); a row is the
+best-scoring window of one group in one region, so every number in a row belongs to the window it points to.
 Usage: python src/analysis/water_ice.py [--out-moon results/pipeline] [--out results]
 """
 import argparse
 import os
 
+import numpy as np
 import pandas as pd
 
 import final_analysis as F
 
 DRY_ARIDITY, DRY_BARE = 0.05, 0.8
-ICE_SNOW, ICE_COLD_C = 0.05, -15.0
+ICE_SNOW, ICE_MAAT_C = 0.05, -2.0   # mean annual air temperature below -2 C is a common proxy for likely permafrost
 RULES = {
     "Dry-surface analog": f"aridity < {DRY_ARIDITY} and bare > {DRY_BARE}",
-    "Ice-bearing analog": f"snow > {ICE_SNOW} or lowest hourly temperature in 2001 to 2025 < {ICE_COLD_C:g} °C (a rough permafrost proxy)",
+    "Ice-bearing analog": "snow or ice cover above 5% of the window, or mean annual air temperature below -2 °C (a common proxy for likely permafrost)",
     "Rock-closest (fails bare-surface mask)": "most windows fail the bare-surface mask, but the best window's rock matches the target",
     "Terrain analog": "none of the above, and most windows pass the bare-surface mask",
     "Not a surface analog": "most windows fail the bare-surface mask and the best window's rock does not match",
@@ -30,12 +32,12 @@ ISRU = {
 
 
 def comment(g, r):
-    a, bare, snow, cold, rain = r.aridity, r.bare, r.snow, r.coldest_min_C, r.rain_mm
+    a, bare, snow, maat, rain = r.aridity, r.bare, r.snow, r.mean_annual_C, r.rain_mm
     if g == "Dry-surface analog":
         s = (f"Hyper-arid (aridity {a:.3f}) and {bare:.0%} bare, close to the dryness of lunar regolith. "
              "No natural ice, so buried ice must be emplaced to test extraction.")
     elif g == "Ice-bearing analog":
-        s = (f"Cold ground (lowest hourly temperature {cold:.0f} °C) with {snow:.0%} snow cover, useful for ice drilling "
+        s = (f"Cold ground (mean annual air temperature {maat:.1f} °C) with {snow:.0%} snow or ice cover, useful for ice drilling "
              "and melting trials, but liquid water has no lunar counterpart.")
     elif g == "Rock-closest (fails bare-surface mask)":
         s = (f"Closest on rock, but only {bare:.0%} bare with aridity {a:.2f}, so it fails the bare-surface mask. "
@@ -49,14 +51,13 @@ def comment(g, r):
     return s
 
 
-def group(r):
-    if r.aridity < DRY_ARIDITY and r.bare > DRY_BARE:
-        return "Dry-surface analog"
-    if r.snow > ICE_SNOW or (r.coldest_min_C == r.coldest_min_C and r.coldest_min_C < ICE_COLD_C):
-        return "Ice-bearing analog"
-    if r.mask_share < 0.5:
-        return "Rock-closest (fails bare-surface mask)" if r.best_rock_match else "Not a surface analog"
-    return "Terrain analog"
+def window_group(w, rock_match):
+    """Group of every window, from its own values (not from a regional median)."""
+    dry = (w.aridity_index < DRY_ARIDITY) & (w.bare_frac > DRY_BARE)
+    ice = (w.snow_frac > ICE_SNOW) | (w.sicaklik_yillik_ort_C < ICE_MAAT_C)
+    g = np.where(dry, "Dry-surface analog", np.where(ice, "Ice-bearing analog", np.where(
+        w.aday_maskesi == 1, "Terrain analog", np.where(rock_match, "Rock-closest (fails bare-surface mask)", "Not a surface analog"))))
+    return pd.Series(g, index=w.index)
 
 
 def main():
@@ -71,21 +72,22 @@ def main():
     rows = []
     for tid in F.POLAR:
         t = t2.loc[tid]
-        d = w.assign(score=S[tid]["genel_skor"][w.index], rock=S[tid]["kayac_eslesmesi"][w.index])
-        for reg, g in d.groupby("region"):
-            best = g.loc[g.score.idxmax()]
-            rows.append(dict(target_id=tid, region=reg, n_windows=len(g), best_score=round(float(best.score), 4),
-                             best_window=best.window_id, best_lat=best.lat, best_lon=best.lon,
-                             aridity=round(float(g.aridity_index.median()), 3), bare=round(float(g.bare_frac.median()), 3),
-                             snow=round(float(g.snow_frac.median()), 3),
-                             coldest_min_C=round(float(g.sicaklik_en_soguk_ay_min_C.median()), 1),
-                             rain_mm=round(float(g.yagis_mm_yil.median()), 0),
-                             mask_share=round(float(g.aday_maskesi.mean()), 3),
-                             best_rock_match=bool(best.rock == 1 and t.lito != "bilinmiyor"),
-                             well_studied=int(g.well_studied.mean() > 0.5),
+        rock = (S[tid]["kayac_eslesmesi"][w.index] == 1) & (t.lito != "bilinmiyor")
+        d = w.assign(score=S[tid]["genel_skor"][w.index], group=window_group(w, rock).values)
+        d = d[np.isfinite(d.score)]
+        for (reg, grp), g in d.groupby(["region", "group"]):
+            b = g.loc[g.score.idxmax()]
+            reg_all = d[d.region == reg]
+            rows.append(dict(target_id=tid, region=reg, group=grp, n_windows=len(g), n_region=len(reg_all),
+                             best_score=round(float(b.score), 4), best_window=b.window_id, best_lat=b.lat, best_lon=b.lon,
+                             aridity=round(float(b.aridity_index), 3), bare=round(float(b.bare_frac), 3),
+                             snow=round(float(b.snow_frac), 3), mean_annual_C=round(float(b.sicaklik_yillik_ort_C), 1),
+                             coldest_min_C=round(float(b.sicaklik_en_soguk_ay_min_C), 1), rain_mm=round(float(b.yagis_mm_yil), 0),
+                             region_median_aridity=round(float(reg_all.aridity_index.median()), 3),
+                             region_median_bare=round(float(reg_all.bare_frac.median()), 3),
+                             well_studied=int(b.well_studied),
                              control=int(reg in (F.ROI_EN["amazon_ctrl"], F.ROI_EN["bavaria_ctrl"]))))
     W = pd.DataFrame(rows)
-    W["group"] = [group(r) for r in W.itertuples()]
     W["group_rule"] = W.group.map(RULES)
     W["reading"] = [comment(g, r) for g, r in zip(W.group, W.itertuples())]
     W["isru_test_use"] = W.group.map(ISRU)
