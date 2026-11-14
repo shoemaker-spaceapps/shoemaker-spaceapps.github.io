@@ -1,0 +1,15 @@
+{
+  "grid_hucre": 3194,
+  "secilen_hucre": 766,
+  "hucre_sinif": {
+    "vb": 679,
+    "pb": 87
+  },
+  "neg_merkez": [
+    "neg_N17"
+  ],
+  "auto_ham": 20851,
+  "atlanan_kutu_ici": 279,
+  "atlanan_5km": 0,
+  "auto_kalan": 20572
+}

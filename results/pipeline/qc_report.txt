@@ -1,0 +1,143 @@
+=== QC RAPORU: T4'ten once kontrol et ===
+
+[T1] Bolge bazinda ozet (medyan degerler)
+                        n  valid  slope_p90  TRI_p90  bare  maske
+roi                                                              
+amazon_ctrl           121   1.00       6.12    10.40  0.00   0.00
+anatolia_kapadokya     49   1.00       9.89    17.15  0.08   0.02
+anatolia_karacadag     49   1.00       3.92     6.52  0.00   0.00
+anatolia_kula          49   1.00      14.48    24.60  0.01   0.00
+arizona_sfvf           99   1.00       5.52     9.12  0.20   0.53
+atacama               156   1.00       9.69    16.37  1.00   1.00
+auto_* (759 hucre)  20572   0.99       5.00     8.53  0.01   0.45
+bavaria_ctrl           49   1.00       5.19     9.09  0.00   0.00
+chad_tibesti          110   1.00      15.61    26.43  1.00   1.00
+devon_haughton         36   1.00       6.07    10.23  0.41   0.64
+hawaii_kau             12   1.00       7.68    12.40  0.24   0.33
+hawaii_maunakea        30   1.00       8.41    13.60  0.02   0.37
+iceland_central        99   1.00       7.96    13.15  0.86   0.89
+labrador_mistastin     42   1.00       9.15    15.10  0.00   0.00
+lanzarote              20   1.00       2.99     4.90  0.10   0.40
+lonar                   9   1.00       2.90     4.91  0.00   0.00
+namib                 110   1.00       8.14    13.84  0.97   1.00
+neg_N01                 6   1.00       3.57     6.45  0.98   1.00
+neg_N02                25   1.00       0.00     0.00  0.99   1.00
+neg_N03                25   1.00       3.77     6.35  1.00   1.00
+neg_N04                30   1.00       1.82     3.27  1.00   1.00
+neg_N05                30   1.00       0.48     0.78  0.00   1.00
+neg_N06                30   1.00       2.40     4.12  0.63   1.00
+neg_N07                30   1.00       1.53     2.59  1.00   1.00
+neg_N08                 6   1.00       1.00     1.78  0.71   1.00
+neg_N09                 2   1.00      17.40    30.63  0.90   1.00
+neg_N10                30   1.00       0.22     0.38  0.56   1.00
+neg_N11                30   1.00       0.05     0.09  1.00   1.00
+neg_N12                20   1.00       2.57     4.34  1.00   1.00
+neg_N13                16   1.00      23.80    41.98  0.99   1.00
+neg_N14                20   1.00      37.76    71.66  0.88   1.00
+neg_N15                 1   1.00       5.13     8.74  0.00   0.00
+neg_N16                 1   1.00       3.15     5.26  0.78   1.00
+neg_N17                 1   1.00       2.17     3.79  0.03   1.00
+ries                   20   1.00       6.92    11.83  0.00   0.00
+stillwater             48   1.00      24.08    40.89  0.01   0.06
+sudbury                99   1.00       7.06    11.83  0.00   0.00
+taos_plateau           45   1.00       8.94    15.28  0.01   0.16
+tenerife               20   1.00      21.42    38.34  0.08   0.40
+
+[T1] Eksik veri oranlari
+slope_p50        0.005
+slope_p90        0.005
+TRI_p90          0.005
+bare_frac        0.000
+aridity_index    0.021
+
+[T1] Litoloji dagilimi (alan bazli 'lito'; merkez etiketi 'lito_merkez')
+                 lito (alan)  lito_merkez
+bazaltik               10725        10520
+sedimanter              7661         7406
+kristalen               1827         1891
+volkanik_asidik          957         1071
+plutonik_bazik           466          533
+bilinmiyor               238          400
+piroklastik              196          232
+su                        66           83
+buz                       11           11
+  alan bazli etiket merkezden farkli: 2143 / 22147 pencere
+
+[T1] Negatif bolgeler: pencere sayisi
+  neg_N01     6
+  neg_N02    25
+  neg_N03    25
+  neg_N04    30
+  neg_N05    30
+  neg_N06    30
+  neg_N07    30
+  neg_N08     6
+  neg_N09     2
+  neg_N10    30
+  neg_N11    30
+  neg_N12    20
+  neg_N13    16
+  neg_N14    20
+  neg_N15     1
+  neg_N16     1
+  neg_N17     1  (kutu pencereden kucuk -> merkez penceresi)
+
+[T2] Ay hedefleri
+ target_id                                                                    dem_source  valid_frac  slope_p50  slope_p90  TRI_p90  relief
+    T_mare SLDEM2015_256_0N_60N_000_120_FLOAT.LBL;SLDEM2015_256_60S_0S_000_120_FLOAT.LBL         1.0       1.27       2.79     4.81  232.98
+ T_imbrium SLDEM2015_256_0N_60N_000_120_FLOAT.LBL;SLDEM2015_256_60S_0S_000_120_FLOAT.LBL         1.0       1.28      19.20    31.73  729.98
+T_highland SLDEM2015_256_0N_60N_000_120_FLOAT.LBL;SLDEM2015_256_60S_0S_000_120_FLOAT.LBL         1.0       3.19      11.55    18.78  699.63
+  T_nobile                                                        LDEM_80S_80MPP_ADJ.TIF         1.0       7.93      14.67    23.47 1354.14
+      T_n2                                                        LDEM_80S_80MPP_ADJ.TIF         1.0       9.61      17.60    28.88 1459.50
+      T_mm                                                        LDEM_80S_80MPP_ADJ.TIF         1.0      11.02      21.36    36.74 1479.17
+      T_ma                                                        LDEM_80S_80MPP_ADJ.TIF         1.0      17.11      24.19    41.09 2031.17
+      T_g2                                                        LDEM_80S_80MPP_ADJ.TIF         1.0      12.54      17.71    29.35 2479.39
+      T_mp                                                        LDEM_80S_80MPP_ADJ.TIF         1.0       7.85      13.76    22.85  929.19
+      T_sp                                                        LDEM_80S_80MPP_ADJ.TIF         1.0       7.17      11.92    19.39 1218.00
+      T_cb                                                        LDEM_80S_80MPP_ADJ.TIF         1.0      14.87      23.62    39.52 2411.03
+      T_n1                                                        LDEM_80S_80MPP_ADJ.TIF         1.0      15.88      26.53    45.93 2561.66
+      T_hw                                                        LDEM_80S_80MPP_ADJ.TIF         1.0       7.08      11.64    19.04 1199.20
+
+[T2] Artemis III: LDEM egimi ile QuickMap egimi (birebir ayni beklenmez, buyukluk mertebesi tutmali)
+target_id              region             dem_source  slope_p50  slope_p90  quickmap_slope_deg  p50/qm  p90/qm
+     T_n2        Nobile Rim 2 LDEM_80S_80MPP_ADJ.TIF       9.61      17.60                9.11    1.05    1.93
+     T_mm         Mons Mouton LDEM_80S_80MPP_ADJ.TIF      11.02      21.36               10.72    1.03    1.99
+     T_ma     Malapert Massif LDEM_80S_80MPP_ADJ.TIF      17.11      24.19               15.31    1.12    1.58
+     T_g2   de Gerlache Rim 2 LDEM_80S_80MPP_ADJ.TIF      12.54      17.71                8.66    1.45    2.04
+     T_mp Mons Mouton Plateau LDEM_80S_80MPP_ADJ.TIF       7.85      13.76                8.20    0.96    1.68
+     T_sp        Slater Plain LDEM_80S_80MPP_ADJ.TIF       7.17      11.92                5.79    1.24    2.06
+     T_cb  Peak Near Cabeus B LDEM_80S_80MPP_ADJ.TIF      14.87      23.62               16.45    0.90    1.44
+     T_n1        Nobile Rim 1 LDEM_80S_80MPP_ADJ.TIF      15.88      26.53               14.36    1.11    1.85
+     T_hw             Haworth LDEM_80S_80MPP_ADJ.TIF       7.08      11.64                8.17    0.87    1.42
+
+[T3] Bilinen sahalar -> pencere ve maske durumu
+  Rio Grande Gorge (Taos Plateau, New Mexico) pencere= 35  maskeden gecen=  4
+  Merriam Crater (Arizona)       pencere=  4  maskeden gecen=  4
+  Sudbury Impact Structure (Ontario) pencere= 63  maskeden gecen=  0  -> ISTISNA (maskeye takiliyor, T5_exceptions'ta raporlanacak)
+  Stillwater Complex (Montana)   pencere= 18  maskeden gecen=  1
+  Peñas de Tao basalt outcrop / quarry pencere=  4  maskeden gecen=  4
+  Teide National Park — Minas de San José pencere=  1  maskeden gecen=  1
+  Askja volcanic field           pencere=  6  maskeden gecen=  6
+  Kīlauea — Kaʻū Desert field area pencere=  6  maskeden gecen=  2
+  Lonar Impact Crater            pencere=  1  maskeden gecen=  0  -> ISTISNA (maskeye takiliyor, T5_exceptions'ta raporlanacak)
+  Meteor Crater (Barringer Crater) pencere=  4  maskeden gecen=  3
+  Ries Impact Crater             pencere=  9  maskeden gecen=  0  -> ISTISNA (maskeye takiliyor, T5_exceptions'ta raporlanacak)
+  Cinder Lake Crater Field       pencere=  4  maskeden gecen=  0  -> ISTISNA (maskeye takiliyor, T5_exceptions'ta raporlanacak)
+  Black Point Lava Flow          pencere=  9  maskeden gecen=  9
+  Haughton Impact Structure      pencere= 16  maskeden gecen=  9
+  Mistastin Lake Crater          pencere= 16  maskeden gecen=  0  -> ISTISNA (maskeye takiliyor, T5_exceptions'ta raporlanacak)
+
+[T1 x T2] Hedef degerleri Dunya dagiliminin hangi yuzdeliginde?
+  T_mare      {'slope_p50': 46.6, 'slope_p90': 34.2, 'TRI_p90': 34.7}
+  T_imbrium   {'slope_p50': 46.8, 'slope_p90': 88.1, 'TRI_p90': 87.1}
+  T_highland  {'slope_p50': 72.0, 'slope_p90': 72.9, 'TRI_p90': 71.2}
+  T_nobile    {'slope_p50': 90.3, 'slope_p90': 80.5, 'TRI_p90': 78.3}
+  T_n2        {'slope_p50': 92.7, 'slope_p90': 85.8, 'TRI_p90': 84.6}
+  T_mm        {'slope_p50': 94.2, 'slope_p90': 90.7, 'TRI_p90': 90.7}
+  T_ma        {'slope_p50': 97.7, 'slope_p90': 93.4, 'TRI_p90': 93.1}
+  T_g2        {'slope_p50': 95.2, 'slope_p90': 86.0, 'TRI_p90': 85.1}
+  T_mp        {'slope_p50': 90.1, 'slope_p90': 78.5, 'TRI_p90': 77.4}
+  T_sp        {'slope_p50': 88.9, 'slope_p90': 74.0, 'TRI_p90': 72.3}
+  T_cb        {'slope_p50': 96.8, 'slope_p90': 92.9, 'TRI_p90': 92.2}
+  T_n1        {'slope_p50': 97.3, 'slope_p90': 95.3, 'TRI_p90': 95.2}
+  T_hw        {'slope_p50': 88.8, 'slope_p90': 73.2, 'TRI_p90': 71.6}

@@ -1,0 +1,16 @@
+site_id,site_name,target_id,dims,n_windows,best_rank_ahp,best_rank_terrain,best_rank_bare_pool,glim_label_correct
+S01,"Rio Grande Gorge (Taos Plateau, New Mexico)",T_imbrium,"arazi,kayac",35,204,385,2025.0,0.43
+S02,Merriam Crater (Arizona),T_mare,kayac,4,1120,167,650.0,0.75
+S03,Sudbury Impact Structure (Ontario),T_highland,surec,63,327,4775,,0.03
+S04,Stillwater Complex (Montana),T_highland,kayac,18,580,140,10026.0,0.0
+S05,Peñas de Tao basalt outcrop / quarry,T_mare,kayac,4,7300,14082,2930.0,1.0
+S06,Teide National Park — Minas de San José,T_mare,operasyon,1,21804,21739,9957.0,0.0
+S07,Askja volcanic field,T_mare,kayac,6,7309,14107,2936.0,1.0
+S08,Kīlauea — Kaʻū Desert field area,T_mare,kayac,6,6356,11331,3280.0,1.0
+S09,Lonar Impact Crater,T_mare,"arazi,kayac,surec",1,1293,2118,,1.0
+S10,Meteor Crater (Barringer Crater),T_highland,surec,4,11760,11623,5973.0,0.0
+S11,Ries Impact Crater,T_imbrium,surec,9,15403,8834,,0.0
+S12,Cinder Lake Crater Field,T_mare,"operasyon,kayac",4,6420,11483,,0.5
+S13,Black Point Lava Flow,T_mare,"arazi,kayac",9,9678,149,4094.0,0.0
+S14,Haughton Impact Structure,T_nobile,"surec,operasyon",16,5157,4913,2331.0,0.0
+S15,Mistastin Lake Crater,T_highland,"kayac,surec",16,191,3721,,0.06

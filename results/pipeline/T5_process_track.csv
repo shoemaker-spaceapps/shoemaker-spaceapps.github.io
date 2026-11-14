@@ -1,0 +1,4 @@
+site_id,site_name,analog_to,n_windows,best_rank,best_rank_all,note
+S03,Sudbury Impact Structure (Ontario),T_highland,63,,179,
+S10,Meteor Crater (Barringer Crater),T_highland,4,6194.0,13281,"The crater is roughly 1.2 km across, far smaller than the Imbrium basin. It is not a scale, composition, or basin-form match; use it only as a small impact-feature/process comparator. Rationale: Meteor Crater is listed among the CAFE catalogue sites and USGS identifies it as an analogue for impact processes and stratigraphic relationships."
+S11,Ries Impact Crater,T_imbrium,9,,13830,"Ries is far smaller than the Imbrium basin and its target rocks are terrestrial sedimentary/crystalline units. The T_imbrium link is process/morphology only, not a direct geological or scale match. Rationale: Ries is listed in the CAFE summary and IUGS describes it as a well-preserved ~25 km impact structure with many impact-related outcrops and a history of astronaut field training."

@@ -1,0 +1,18 @@
+negative_id,name,target_id,status,n_windows,best_rank_ahp,best_rank_pipeline,best_rank_terrain,of_windows
+N01,Bonneville Salt Flats,T_mare,used,6,15581,14964,11131,22147
+N02,Salar de Uyuni (orta),T_mare,used,25,11307,12612,2931,22147
+N03,Salar de Atacama,T_mare,used,25,9887,10395,518,22147
+N04,Grand Erg Oriental,T_mare,used,30,13099,9935,6327,22147
+N05,Nullarbor Plain,T_mare,used,30,16070,14132,12011,22147
+N06,Spitzkoppe-Erongo granitleri,T_highland,used,30,629,1055,186,22147
+N07,Tassili n'Ajjer kumtaşı platosu,T_imbrium,used,30,10762,10489,114,22147
+N08,White Sands National Park,T_mare,used,6,9919,9925,579,22147
+N09,Badwater Basin,T_mare,used,2,11830,13434,3933,22147
+N10,Makgadikgadi Pans,T_mare,used,30,16544,14636,12784,22147
+N11,Chott el Djerid,T_mare,used,30,9947,10213,614,22147
+N12,Dasht-e Kavir,T_mare,used,20,9737,9136,245,22147
+N13,Wadi Rum,T_highland,used,16,2931,5020,2538,22147
+N14,Jabal al Akhdar,T_highland,cikarildi: ofiyolit gabrosu,20,223,298,6973,22147
+N15,Enchanted Rock,T_highland,used,1,9322,6992,9140,22147
+N16,Bisti / De-Na-Zin Wilderness,T_highland,used,1,13326,10625,13209,22147
+N17,Uluru,T_highland,used,1,9675,13261,9503,22147

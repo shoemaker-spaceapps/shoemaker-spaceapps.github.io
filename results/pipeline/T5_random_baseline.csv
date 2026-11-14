@@ -1,0 +1,16 @@
+site_id,site_name,eval_track,pool,n_in_pool,best_rank,rand_p_topk,rand_median_rank,rand_mrr,p_value
+S01,"Rio Grande Gorge (Taos Plateau, New Mexico)",yuzey,10107,4,2168.0,0.007,1631.0,0.0028349418865193997,0.6151
+S02,Merriam Crater (Arizona),yuzey,10107,4,875.0,0.0079,1613.0,0.003402759558084977,0.2996
+S03,Sudbury Impact Structure (Ontario),surec,10107,0,,,,,
+S04,Stillwater Complex (Montana),malzeme,253,0,,,,,
+S05,Peñas de Tao basalt outcrop / quarry,yuzey,10107,4,2662.0,0.0081,1597.0,0.003395668803885175,0.70595
+S06,Teide National Park — Minas de San José,yuzey,10107,1,9740.0,0.0019,5027.5,0.0009681103406426324,0.9634
+S07,Askja volcanic field,yuzey,10107,6,2673.0,0.01185,1089.0,0.004529339006460575,0.8409
+S08,Kīlauea — Kaʻū Desert field area,yuzey,10107,2,2115.0,0.00445,3027.5,0.0017915494517296714,0.3677
+S09,Lonar Impact Crater,malzeme,6216,1,362.0,0.0033,3112.5,0.001533812267780279,0.06015
+S10,Meteor Crater (Barringer Crater),surec,10107,3,6194.0,0.0069,2071.0,0.0024590994714172505,0.94105
+S11,Ries Impact Crater,surec,10107,0,,,,,
+S12,Cinder Lake Crater Field,yuzey,10107,0,,,,,
+S13,Black Point Lava Flow,yuzey,10107,9,3739.0,0.01675,753.0,0.00619102716170426,0.98365
+S14,Haughton Impact Structure,yuzey,10107,9,528.0,0.01675,751.0,0.005565524607514334,0.38315
+S15,Mistastin Lake Crater,malzeme,253,1,57.0,0.07935,127.0,0.02491178870436027,0.2242

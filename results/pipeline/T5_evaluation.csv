@@ -1,0 +1,16 @@
+site_id,site_name,analog_to,eval_track,rank_col,n_windows,best_rank,recall_at_k,reciprocal_rank,status
+S01,"Rio Grande Gorge (Taos Plateau, New Mexico)",T_imbrium,yuzey,rank,35,2168.0,0.0,0.00046125461254612545,degerlendirildi
+S02,Merriam Crater (Arizona),T_mare,yuzey,rank,4,875.0,0.0,0.001142857142857143,degerlendirildi
+S03,Sudbury Impact Structure (Ontario),T_highland,surec,rank,63,,,,surec izi (recall disi)
+S04,Stillwater Complex (Montana),T_highland,malzeme,material_track,18,,0.0,0.0,istisna
+S05,Peñas de Tao basalt outcrop / quarry,T_mare,yuzey,rank,4,2662.0,0.0,0.0003756574004507889,degerlendirildi
+S06,Teide National Park — Minas de San José,T_mare,yuzey,rank,1,9740.0,0.0,0.0001026694045174538,degerlendirildi
+S07,Askja volcanic field,T_mare,yuzey,rank,6,2673.0,0.0,0.0003741114852225963,degerlendirildi
+S08,Kīlauea — Kaʻū Desert field area,T_mare,yuzey,rank,6,2115.0,0.0,0.00047281323877068556,degerlendirildi
+S09,Lonar Impact Crater,T_mare,malzeme,material_track,1,362.0,0.0,0.0027624309392265192,degerlendirildi
+S10,Meteor Crater (Barringer Crater),T_highland,surec,rank,4,6194.0,,,surec izi (recall disi)
+S11,Ries Impact Crater,T_imbrium,surec,rank,9,,,,surec izi (recall disi)
+S12,Cinder Lake Crater Field,T_mare,yuzey,rank,4,,0.0,0.0,istisna
+S13,Black Point Lava Flow,T_mare,yuzey,rank,9,3739.0,0.0,0.0002674511901577962,degerlendirildi
+S14,Haughton Impact Structure,T_nobile,yuzey,rank,16,528.0,0.0,0.001893939393939394,degerlendirildi
+S15,Mistastin Lake Crater,T_highland,malzeme,material_track,16,57.0,0.0,0.017543859649122806,degerlendirildi

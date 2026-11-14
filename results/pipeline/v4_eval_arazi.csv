@@ -1,0 +1,4 @@
+site_id,site_name,hedef,pencere,sira,rastgele_medyan,p,rastgele_ilk20,hedefe_ozgu,en_yakin_diger_hedef
+S01,"Rio Grande Gorge (Taos Plateau, New Mexico)",T_imbrium,35,385,440,0.4521,0.03,False,T_mm
+S09,Lonar Impact Crater,T_mare,1,2118,11057,0.0943,0.001,True,T_highland
+S13,Black Point Lava Flow,T_mare,9,149,1622,0.0597,0.009,True,T_highland

@@ -1,0 +1,13 @@
+target_id,score,auc,ci_low,ci_high,pos_sites,neg_regions,n_pos_windows,n_neg_windows,note
+T_mare,genel_skor,0.9198,0.7741,0.9979,"S02,S05,S07,S08,S09,S12,S13","N01,N02,N03,N04,N05,N08,N09,N10,N11,N12",34,204,
+T_mare,arazi_benzerligi,0.4255,0.1297,0.7224,"S02,S05,S07,S08,S09,S12,S13","N01,N02,N03,N04,N05,N08,N09,N10,N11,N12",34,204,
+T_mare,kayac_eslesmesi,0.8235,0.6538,0.9839,"S02,S05,S07,S08,S09,S12,S13","N01,N02,N03,N04,N05,N08,N09,N10,N11,N12",34,204,
+T_mare,sim,0.8698,0.6988,1.0,"S02,S05,S07,S08,S09,S12,S13","N01,N02,N03,N04,N05,N08,N09,N10,N11,N12",34,204,
+T_imbrium,genel_skor,0.9019,,,S01,N07,35,30,"one positive site, no interval"
+T_imbrium,arazi_benzerligi,0.8362,,,S01,N07,35,30,"one positive site, no interval"
+T_imbrium,kayac_eslesmesi,0.7143,,,S01,N07,35,30,"one positive site, no interval"
+T_imbrium,sim,0.9057,,,S01,N07,35,30,"one positive site, no interval"
+T_highland,genel_skor,0.5288,0.2873,0.8309,"S04,S15","N06,N13,N15,N16,N17",34,49,
+T_highland,arazi_benzerligi,0.5222,0.2873,0.8217,"S04,S15","N06,N13,N15,N16,N17",34,49,
+T_highland,kayac_eslesmesi,0.5147,0.5,0.5312,"S04,S15","N06,N13,N15,N16,N17",34,49,
+T_highland,sim,0.614,0.2876,0.9536,"S04,S15","N06,N13,N15,N16,N17",34,49,

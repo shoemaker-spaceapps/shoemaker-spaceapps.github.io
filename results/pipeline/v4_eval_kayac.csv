@@ -1,0 +1,11 @@
+site_id,site_name,hedef_lito,pencere,dogru_oran,etiketler
+S01,"Rio Grande Gorge (Taos Plateau, New Mexico)",bazaltik,35,0.43,sedimanter:18; bazaltik:15; kristalen:1; volkanik_asidik:1
+S02,Merriam Crater (Arizona),bazaltik,4,0.75,bazaltik:3; sedimanter:1
+S04,Stillwater Complex (Montana),plutonik_bazik,18,0.0,sedimanter:9; kristalen:8; volkanik_asidik:1
+S05,Peñas de Tao basalt outcrop / quarry,bazaltik,4,1.0,bazaltik:4
+S07,Askja volcanic field,bazaltik,6,1.0,bazaltik:6
+S08,Kīlauea — Kaʻū Desert field area,bazaltik,6,1.0,bazaltik:6
+S09,Lonar Impact Crater,bazaltik,1,1.0,bazaltik:1
+S12,Cinder Lake Crater Field,bazaltik,4,0.5,volkanik_asidik:2; bazaltik:2
+S13,Black Point Lava Flow,bazaltik,9,0.0,sedimanter:9
+S15,Mistastin Lake Crater,plutonik_bazik,16,0.06,kristalen:15; plutonik_bazik:1
