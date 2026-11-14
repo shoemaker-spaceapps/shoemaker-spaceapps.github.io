@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Earth's Moon twins | Team $team</title>
+<meta name="description" content="Pick a place on the Moon and see the places on Earth that match it best in slope, relief and rock.">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="preload" href="data/home.json" as="fetch" crossorigin>
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body class="home">
+<a class="skip" href="#targets">Skip to the lunar targets</a>
+<header class="top">
+  <div class="wrap top-row">
+    <span class="mark">Team $team</span>
+    <nav aria-label="Pages"><a href="explore/">Explore the data</a><a href="demo/">Demo</a><a href="$repo_url">GitHub</a></nav>
+    <button id="theme" class="theme" type="button" aria-label="Switch light or dark theme">Dark</button>
+  </div>
+</header>
+
+<main>
+<section class="space" aria-labelledby="h-hero">
+  <div class="wrap space-head">
+    <h1 id="h-hero">Earth's Moon twins</h1>
+    <p class="lede">Pick a place on the Moon. The Earth globe turns to the places that match it best in slope, relief and rock.</p>
+  </div>
+  <div class="globes" id="globes">
+    <figure class="globe-box">
+      <div id="moon-globe" class="globe" aria-hidden="true"></div>
+      <figcaption>Moon <button type="button" id="pole" class="pill">South pole</button></figcaption>
+    </figure>
+    <figure class="globe-box">
+      <div id="earth-globe" class="globe" aria-hidden="true"></div>
+      <figcaption>Earth: <span id="earth-label"></span><span class="hint">Click a dot to compare it with the Moon.</span></figcaption>
+      <div id="card" class="cmp" hidden aria-live="polite"></div>
+    </figure>
+  </div>
+  <div id="fallback" class="wrap fallback" hidden>
+    <img src="assets/globes_static.jpg" alt="The Moon with Mare Tranquillitatis marked, next to the Earth turned to the basalt fields of the Arabian Peninsula" width="1600" height="700">
+    <p>Your browser cannot show the 3D globes. <a href="explore/">Open the map instead</a>.</p>
+  </div>
+  <div class="wrap">
+    <div id="targets" class="targets" role="group" aria-label="Lunar targets"></div>
+  </div>
+</section>
+
+<section class="wrap lines" aria-labelledby="h-found">
+  <h2 id="h-found">What we found</h2>
+  <div class="line">
+    <p class="big">$terrain_auc → $rock_auc → $mare_auc</p>
+    <p>Shape alone misleads: on terrain, a salt desert ($best_salt_name) ranks above $n_mare_known_below of our $n_mare_known known mare sites. With rock type, the right places come first.
+    <span class="note">AUC; 0.5 is chance. We picked the look-alikes for their rock, so terrain failing alone is the finding; the gain from adding terrain is suggestive, not proven.</span></p>
+  </div>
+  <div class="line">
+    <p class="big">$n_neg / 0</p>
+    <p>None of $n_neg look-alike places with the wrong rock reaches the top 100 for its lunar target.</p>
+  </div>
+  <div class="line">
+    <p class="big">Arabia, Afar</p>
+    <p>The best mare analogs are basalt fields in the Arabian Peninsula; the best Imbrium analogs lie in the Afar rift. Both sit outside the four well-studied regions and are less studied as lunar analogs.</p>
+  </div>
+</section>
+
+<section class="wrap breaks" aria-labelledby="h-break">
+  <h2 id="h-break">Where it breaks</h2>
+  <p>Every Earth analog fails somewhere.</p>
+  <ul class="tags"><li>Gravity</li><li>Vacuum</li><li>Radiation</li><li>Permanent shadow</li></ul>
+  <p class="cold"><span><b>$div_cold_lo K</b> coldest spot in our Artemis III windows, yearly mean (NASA Diviner)</span>
+  <span><b>$earth_cold_C °C</b> lowest hourly temperature at the coldest Earth match, 2001 to 2025 (NASA POWER)</span></p>
+</section>
+
+<section id="team" class="wrap" aria-labelledby="h-team">
+  <h2 id="h-team">Team</h2>
+  <ul class="team">
+$team_items
+  </ul>
+  <p class="namesake">We named the team after Eugene Shoemaker, who founded USGS Astrogeology and trained Apollo astronauts in geology at analog sites like Meteor Crater.</p>
+  <p><a href="$org_url">Team Shoemaker on GitHub</a></p>
+</section>
+</main>
+
+<footer class="wrap foot">
+  <p class="foot-links"><a href="explore/">Explore the data</a><a href="demo/">Demo slides</a><a href="$repo_url">Code on GitHub</a></p>
+  <p class="small">Data: NASA LRO, POWER, GIBS; ESA Copernicus DEM, WorldCover; JAXA Kaguya; GLiM. Credits and licences on the <a href="explore/#more">explore page</a>.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/globe.gl@2.46.2/dist/globe.gl.min.js"></script>
+<script src="assets/home.js"></script>
+</body>
+</html>

@@ -4,185 +4,70 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Earth's Moon twins | Team Shoemaker</title>
-<meta name="description" content="We scanned 22,147 Earth windows and ranked how much each looks like a place on the Moon, including 9 Artemis III regions.">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<meta name="description" content="Pick a place on the Moon and see the places on Earth that match it best in slope, relief and rock.">
 <link rel="stylesheet" href="assets/site.css">
+<link rel="preload" href="data/home.json" as="fetch" crossorigin>
 <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 </head>
-<body>
-<a class="skip" href="#explorer">Skip to the map</a>
+<body class="home">
+<a class="skip" href="#targets">Skip to the lunar targets</a>
 <header class="top">
   <div class="wrap top-row">
     <span class="mark">Team Shoemaker</span>
-    <nav aria-label="Sections">
-      <a href="#found">Findings</a><a href="#explorer">Map</a><a href="#featured">Analogs</a><a href="#checked">Checks</a><a href="#artemis">Artemis III</a><a href="#method">Method</a><a href="https://shoemaker-spaceapps.github.io/demo/">Demo</a>
-    </nav>
+    <nav aria-label="Pages"><a href="explore/">Explore the data</a><a href="demo/">Demo</a><a href="https://github.com/shoemaker-spaceapps/shoemaker-spaceapps.github.io">GitHub</a></nav>
     <button id="theme" class="theme" type="button" aria-label="Switch light or dark theme">Dark</button>
   </div>
 </header>
 
 <main>
-<section class="hero wrap" aria-labelledby="h-hero">
-  <p class="kicker">NASA Space Apps Challenge 2026</p>
-  <h1 id="h-hero">Earth's Moon twins</h1>
-  <p class="lede">We cut Earth into 22,147 windows, each 10 km wide, and ranked how much each one looks like a place on the Moon in slope, relief and rock. Then we checked the ranking against places we know are good analogs and places we know are not.</p>
-  <dl class="stats">
-    <div><dt>Earth windows scanned</dt><dd>22,147</dd></div>
-    <div><dt>Lunar targets, including 9 Artemis III regions</dt><dd>13</dd></div>
-    <div><dt>Mare score AUC, 95% interval 0.77 to 1.00</dt><dd>0.92</dd></div>
-  </dl>
-  <p class="small">AUC (area under the curve) is the chance that a known analog scores higher than a look-alike with the wrong rock. 0.5 is a coin flip, 1.0 is perfect.</p>
-  <p class="challenge">Challenge: <em>Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars</em>. We cover the Moon only.</p>
-  <p class="namesake">We named the team after Eugene Shoemaker, who founded USGS Astrogeology and trained Apollo astronauts in geology at analog sites like Meteor Crater.</p>
+<section class="space" aria-labelledby="h-hero">
+  <div class="wrap space-head">
+    <h1 id="h-hero">Earth's Moon twins</h1>
+    <p class="lede">Pick a place on the Moon. The Earth globe turns to the places that match it best in slope, relief and rock.</p>
+  </div>
+  <div class="globes" id="globes">
+    <figure class="globe-box">
+      <div id="moon-globe" class="globe" aria-hidden="true"></div>
+      <figcaption>Moon <button type="button" id="pole" class="pill">South pole</button></figcaption>
+    </figure>
+    <figure class="globe-box">
+      <div id="earth-globe" class="globe" aria-hidden="true"></div>
+      <figcaption>Earth: <span id="earth-label"></span><span class="hint">Click a dot to compare it with the Moon.</span></figcaption>
+      <div id="card" class="cmp" hidden aria-live="polite"></div>
+    </figure>
+  </div>
+  <div id="fallback" class="wrap fallback" hidden>
+    <img src="assets/globes_static.jpg" alt="The Moon with Mare Tranquillitatis marked, next to the Earth turned to the basalt fields of the Arabian Peninsula" width="1600" height="700">
+    <p>Your browser cannot show the 3D globes. <a href="explore/">Open the map instead</a>.</p>
+  </div>
+  <div class="wrap">
+    <div id="targets" class="targets" role="group" aria-label="Lunar targets"></div>
+  </div>
 </section>
 
-<section id="found" class="wrap band" aria-labelledby="h-found">
+<section class="wrap lines" aria-labelledby="h-found">
   <h2 id="h-found">What we found</h2>
-  <div class="findings">
-    <article>
-      <p class="num">0 of 16</p>
-      <h3>Look-alikes do not reach the top</h3>
-      <p>We picked 16 places that look like the Moon from orbit but have the wrong rock: salt flats, sand seas, granite domes, sandstone plateaus. None of them gets into the top 100 for its own lunar target. The closest is Spitzkoppe-Erongo granites, at rank 629 of 22,147.</p>
-    </article>
-    <article>
-      <p class="num">0.43 / 0.82 / 0.92</p>
-      <h3>Shape alone is misleading</h3>
-      <p>On terrain alone our mare score does worse than chance (AUC 0.43). Rock alone reaches 0.82, and the two together 0.92. The best salt flat window, Salar de Atacama, ranks 518 of 22,147 on terrain, ahead of 5 of our 7 known mare analog sites. That surprised us. Flat, bare ground is not the same as a basalt plain.</p>
-    </article>
-    <article>
-      <p class="num">Arabia, Afar, Andes</p>
-      <h3>Candidates beyond the usual sites</h3>
-      <p>Outside Antarctica, Atacama, Iceland and Hawaii, the strongest mare candidates are the basalt fields (harrats) of the Arabian Peninsula. The Imbrium rim matches best in the Afar rift of East Africa. The rough Artemis III targets match best in the Andes.</p>
-    </article>
+  <div class="line">
+    <p class="big">0.43 → 0.82 → 0.92</p>
+    <p>Shape alone misleads: on terrain, a salt desert (Dasht-e Kavir) ranks above 5 of our 7 known mare sites. With rock type, the right places come first.
+    <span class="note">AUC; 0.5 is chance. We picked the look-alikes for their rock, so terrain failing alone is the finding; the gain from adding terrain is suggestive, not proven.</span></p>
+  </div>
+  <div class="line">
+    <p class="big">16 / 0</p>
+    <p>None of 16 look-alike places with the wrong rock reaches the top 100 for its lunar target.</p>
+  </div>
+  <div class="line">
+    <p class="big">Arabia, Afar</p>
+    <p>The best mare analogs are basalt fields in the Arabian Peninsula; the best Imbrium analogs lie in the Afar rift. Both sit outside the four well-studied regions and are less studied as lunar analogs.</p>
   </div>
 </section>
 
-<section id="explorer" class="explorer" aria-labelledby="h-map">
-  <div class="wrap">
-    <h2 id="h-map">Explore the map</h2>
-    <p>Pick a lunar target. Each dot is a 10 km Earth window; darker and larger means more similar. Click a dot or a table row for its numbers next to the Moon's.</p>
-    <form class="controls" onsubmit="return false">
-      <label>Lunar target <select id="target"></select></label>
-      <label>Pool
-        <select id="pool">
-          <option value="lesser">Lesser-known places</option>
-          <option value="bare">All bare-surface windows</option>
-          <option value="all">All windows</option>
-        </select>
-      </label>
-      <label class="check"><input type="checkbox" id="spaced" checked> Top 20 at least 30 km apart</label>
-      <label class="check"><input type="checkbox" id="showneg"> Show hard negatives</label>
-      <label class="check"><input type="checkbox" id="showknown" checked> Show known sites</label>
-    </form>
-    <p id="pool-note" class="small"></p>
-  </div>
-  <div id="map" role="region" aria-label="Map of Earth windows ranked by similarity to the selected lunar target"></div>
-  <div class="wrap">
-    <p class="legend small"><span class="dot d1"></span> top 20 <span class="dot d2"></span> top 200 <span class="dot d3"></span> top 1,500 <span class="box bk"></span> known analog site <span class="box bn"></span> hard negative</p>
-    <h3 id="top-title">Top 20</h3>
-    <div class="table-scroll"><table id="top-table" class="data"><caption class="sr">Top 20 windows for the selected target and pool</caption></table></div>
-  </div>
-</section>
-
-<section id="featured" class="wrap band" aria-labelledby="h-feat">
-  <h2 id="h-feat">Featured analogs</h2>
-  <p>For each target we keep windows that both of our scores put in the top 100 of the lesser-known pool, then take the best five at least 30 km apart. Each card says what matches, where the analogy breaks, and what a mission team could test there.</p>
-  <div><label class="inline">Lunar target <select id="feat-target"></select></label></div>
-  <div id="cards" class="cards"></div>
-</section>
-
-<section id="checked" class="wrap" aria-labelledby="h-check">
-  <h2 id="h-check">How we checked it</h2>
-  <p>We never used the known sites to build the score. We used them only to test it. For each target we compare windows from known analog sites with windows from hard negatives (look-alikes with the wrong rock). The interval comes from a bootstrap that resamples whole sites and whole negative regions 2,000 times.</p>
-  <div class="split">
-    <div class="table-scroll"><table id="auc-table" class="data"><caption>AUC by target and score (95% interval)</caption></table></div>
-    <div id="auc-chart" class="chart" role="img" aria-label="AUC with intervals for terrain only, rock only, combined and pipeline scores"></div>
-  </div>
-  <h3>Honest notes</h3>
-  <ul class="notes">
-    <li>Imbrium has one known site (Rio Grande Gorge), so its AUC of 0.90 has no interval. Terrain alone does well there (0.84), but one site is not much evidence.</li>
-    <li>The highland result (0.53, interval 0.29 to 0.83) is not a real test. The rock map (GLiM) labels both known highland sites with the wrong rock, so we mark highland candidates as low confidence.</li>
-    <li>We do not report how often a known site lands in the top 20. With 22,147 windows, a random ranking almost never does that either, so the number says little. AUC compares known sites with look-alikes directly.</li>
-  </ul>
-  <div class="split">
-    <div><h3>Hard negatives, best rank in their own target</h3><div class="table-scroll"><table id="neg-table" class="data"></table></div></div>
-    <div><h3>Known sites, best rank in their own target</h3><div class="table-scroll"><table id="known-table" class="data"></table></div></div>
-  </div>
-</section>
-
-<section id="artemis" class="wrap band" aria-labelledby="h-art">
-  <h2 id="h-art">Artemis III</h2>
-  <p>The nine Artemis III candidate regions are near the lunar south pole. We do not know their rock type well, so we rank them by terrain only. To check our slopes, we compared our 10 km median slope with the region slope from LROC QuickMap. Ours is 0.87 to 1.45 times the QuickMap value, so the two agree in size.</p>
-  <div class="split">
-    <div id="qm-chart" class="chart" role="img" aria-label="Our median slope compared with LROC QuickMap slope for nine Artemis III regions"></div>
-    <div><h3>Lunar temperatures from Diviner</h3><div id="diviner"></div></div>
-  </div>
-  <h3>Climate extremes among terrain matches</h3>
-  <p>Among the 100 lesser-known windows that look most like each target in terrain, these are the coldest and the ones with the largest daily temperature swing (NASA POWER, 2001 to 2025). Even the coldest Earth window is far warmer than a lunar polar crater.</p>
-  <div class="table-scroll"><table id="ext-table" class="data"></table></div>
-
-  <h3 id="water">Water, ice and ISRU</h3>
-  <p>Polar craters that never see sunlight hold water ice. These cold traps are the main reason for a polar base, and no place on Earth matches them. In our Artemis III windows, Diviner's thermal model finds a depth where buried ice would stay stable under 7% to 60% of the ground. What Earth can offer is a dry, bare surface to bury ice in, or cold ground with real ice to drill. ISRU (in-situ resource utilization) means making water, oxygen or fuel from local material. The table groups Earth regions by what kind of water or ice test they suit.</p>
-  <div><label class="inline">Lunar target <select id="water-target"></select></label></div>
-  <div class="table-scroll"><table id="water-table" class="data"></table></div>
-  <p class="small">Group rules: dry-surface when aridity is below 0.05 and more than 80% of the ground is bare; ice-bearing when snow covers more than 5% or the coldest month's minimum is below -15 °C (a stand-in for permafrost). Regions marked well-studied are Atacama, Iceland, Hawaii and Antarctica.</p>
-</section>
-
-<section id="method" class="wrap" aria-labelledby="h-method">
-  <h2 id="h-method">Method</h2>
-  <ol class="steps">
-    <li><strong>Data.</strong> Moon elevation from LRO LOLA and SLDEM2015 (LOLA combined with Kaguya). Earth elevation from Copernicus GLO-30, land cover from ESA WorldCover, rock type from GLiM, dryness from the Global Aridity Index, climate from NASA POWER.</li>
-    <li><strong>Windows.</strong> We cut Earth into 10 km squares: 21 study regions, 759 half-degree cells picked automatically because they are dry and basaltic (20,572 windows), and 17 hard negative boxes.</li>
-    <li><strong>Features.</strong> For every window and every lunar target: median slope, steep-end slope (90th percentile), relief, and the main rock class by area. A DEM (digital elevation model) gives the slopes.</li>
-    <li><strong>Similarity.</strong> One score per window and target, with weights from AHP (analytic hierarchy process, a way to turn expert pairwise judgments into weights): rock 0.42, steep-end slope 0.23, relief 0.23, median slope 0.12.</li>
-    <li><strong>Checks.</strong> AUC against hard negatives with bootstrap intervals, and a second, independent score from our first pipeline as a robustness check.</li>
-    <li><strong>Candidates.</strong> Bare or dry windows outside well-studied areas, known sites and negatives, kept only if both scores rank them in the top 100.</li>
-  </ol>
-  <div class="split">
-    <div><h3>What we cover</h3><p>Terrain (slope, relief), rock type, bare surface, dryness, Earth climate (temperature, daily swing, rain, wind), simple operations flags (landing and rover slope limits), and a water and ice reading.</p></div>
-    <div><h3>What we leave out</h3><p>Lava tubes and caves, biology, dust chemistry and grain size, magnetism, and the lunar environment itself (gravity, vacuum, radiation, permanent shadow).</p></div>
-  </div>
-</section>
-
-<section id="breaks" class="wrap band" aria-labelledby="h-break">
+<section class="wrap breaks" aria-labelledby="h-break">
   <h2 id="h-break">Where it breaks</h2>
-  <div class="split">
-    <div>
-      <h3>Earth is not the Moon</h3>
-      <p>Gravity on Earth is about six times stronger. There is air, weather, liquid water and a magnetic field, so dust settles, rocks weather and radiation stays low. No Earth site has permanent shadow. In our Artemis III windows, Diviner shows the coldest spots averaging 40 to 96 kelvin over a year (-233 to -177 °C). An analog can only stand in for part of the Moon at a time.</p>
-    </div>
-    <div>
-      <h3>Our method has limits</h3>
-      <p>GLiM is a global rock map and misses small units. It shows the Black Point lava flow as only 8% of its box, and it does not show the Stillwater complex at all. We have only 15 known sites, and one of them covers Imbrium alone. Our 10 km windows are too coarse for small craters such as Meteor Crater, and POWER climate cells are about 50 km wide.</p>
-    </div>
-  </div>
-</section>
-
-<section id="impact" class="wrap" aria-labelledby="h-impact">
-  <h2 id="h-impact">Why it matters</h2>
-  <p>Mission teams pick analog sites mostly by habit: the same deserts and volcanoes come up again and again. This map turns that choice into a ranked, checkable list. A team planning rover tests on basaltic regolith can open the mare target, filter to lesser-known places, and see that the Arabian harrats match slope, relief and rock, with a link to the satellite view and the reasons the analogy fails. A team preparing for the south pole can see which Earth terrain is as rough as Malapert Massif, and that none of it is as cold.</p>
-  <p>Next steps: a finer rock map than GLiM, Diviner temperatures for every polar target, thermal infrared data (ASTER) to tell basalt from look-alikes from orbit, and the same method for Mars.</p>
-</section>
-
-<section id="credits" class="wrap band" aria-labelledby="h-credits">
-  <h2 id="h-credits">Data and credits</h2>
-  <ul class="credits">
-    <li><strong>NASA</strong>: <a href="https://pgda.gsfc.nasa.gov/products/90">LRO LOLA south pole elevation, LDEM_80S_80MPP_ADJ (Barker et al. 2021), via the Planetary Geodesy Data Archive</a>. Used for elevation for the polar and Artemis III targets.</li>
-    <li><strong>NASA and JAXA</strong>: <a href="https://pgda.gsfc.nasa.gov/products/54">SLDEM2015, LRO LOLA combined with Kaguya (SELENE) Terrain Camera</a>. Used for elevation for the Apollo targets.</li>
-    <li><strong>NASA</strong>: <a href="https://pds-geosciences.wustl.edu/missions/lro/diviner.htm">LRO Diviner Polar Resource Product (PDS Geosciences Node)</a>. Used for polar temperatures and ice stability.</li>
-    <li><strong>NASA</strong>: <a href="https://power.larc.nasa.gov/">POWER climatology, 2001 to 2025</a>. Used for Earth temperature, daily swing, rain and wind.</li>
-    <li><strong>NASA</strong>: <a href="https://worldview.earthdata.nasa.gov/">GIBS and Worldview (MODIS Terra true color, Blue Marble)</a>. Used for map imagery and satellite views of each candidate.</li>
-    <li><strong>ESA</strong>: <a href="https://registry.opendata.aws/copernicus-dem/">Copernicus DEM GLO-30</a>. Used for Earth elevation, slope and relief.</li>
-    <li><strong>ESA</strong>: <a href="https://esa-worldcover.org/en">WorldCover 2021 v200</a>. Used for bare ground and snow share.</li>
-    <li><strong>JAXA</strong>: <a href="https://www.kaguya.jaxa.jp/index_e.htm">Kaguya (SELENE) mission</a>. Used for terrain camera data inside SLDEM2015.</li>
-    <li><strong>Hartmann and Moosdorf 2012</strong>: <a href="https://doi.pangaea.de/10.1594/PANGAEA.788537">Global Lithological Map (GLiM), CC-BY 3.0</a>. Used for rock type.</li>
-    <li><strong>Zomer et al.</strong>: <a href="https://doi.org/10.6084/m9.figshare.7504448">Global Aridity Index v3</a>. Used for dryness.</li>
-    <li><strong>LROC, Arizona State University</strong>: <a href="https://quickmap.lroc.asu.edu/">QuickMap (Artemis III candidate regions and slopes)</a>. Used for Artemis III region centres and slope check.</li>
-    <li><strong>ESA</strong>: CAFE analog site catalogue. Used for known analog sites (with our own literature checks).</li>
-    <li><strong>Macrostrat</strong>: <a href="https://macrostrat.org/">geologic map API</a>. Used for rock type check at known sites.</li>
-    <li><strong>Esri</strong>: <a href="https://www.esri.com/">World Imagery</a>. Used for high-resolution map layer.</li>
-    <li><strong>Leaflet and Plotly</strong>: <a href="https://leafletjs.com/">open-source map and chart libraries</a>. Used for this page.</li>
-  </ul>
+  <p>Every Earth analog fails somewhere.</p>
+  <ul class="tags"><li>Gravity</li><li>Vacuum</li><li>Radiation</li><li>Permanent shadow</li></ul>
+  <p class="cold"><span><b>40 K</b> coldest spot in our Artemis III windows, yearly mean (NASA Diviner)</span>
+  <span><b>-47 °C</b> lowest hourly temperature at the coldest Earth match, 2001 to 2025 (NASA POWER)</span></p>
 </section>
 
 <section id="team" class="wrap" aria-labelledby="h-team">
@@ -193,16 +78,17 @@
 <li><strong>Nagihan Koçcenk</strong>: water and ISRU (in-situ resource utilization) use cases</li>
 <li><strong>Zeynep Naz Erkoç</strong>: known analog catalogue and hard negative analogs</li>
   </ul>
-  <p>Code, data tables and the demo: <a href="https://github.com/shoemaker-spaceapps/shoemaker-spaceapps.github.io">GitHub repository</a> · <a href="https://github.com/shoemaker-spaceapps">Team Shoemaker on GitHub</a> · <a href="https://shoemaker-spaceapps.github.io/demo/">7-slide demo</a></p>
+  <p class="namesake">We named the team after Eugene Shoemaker, who founded USGS Astrogeology and trained Apollo astronauts in geology at analog sites like Meteor Crater.</p>
+  <p><a href="https://github.com/shoemaker-spaceapps">Team Shoemaker on GitHub</a></p>
 </section>
 </main>
 
-<footer class="wrap foot small">
-  <p>Team Shoemaker, NASA Space Apps Challenge 2026. Satellite images: NASA GIBS, Esri. Map library: Leaflet. Charts: Plotly. Code under the MIT license.</p>
+<footer class="wrap foot">
+  <p class="foot-links"><a href="explore/">Explore the data</a><a href="demo/">Demo slides</a><a href="https://github.com/shoemaker-spaceapps/shoemaker-spaceapps.github.io">Code on GitHub</a></p>
+  <p class="small">Data: NASA LRO, POWER, GIBS; ESA Copernicus DEM, WorldCover; JAXA Kaguya; GLiM. Credits and licences on the <a href="explore/#more">explore page</a>.</p>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/4.3.0/plotly-basic.min.js"></script>
-<script src="assets/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/globe.gl@2.46.2/dist/globe.gl.min.js"></script>
+<script src="assets/home.js"></script>
 </body>
 </html>

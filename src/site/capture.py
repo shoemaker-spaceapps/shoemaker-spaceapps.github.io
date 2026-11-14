@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser captures with Playwright: demo and submission images, demo.pdf, and a sheet of slide thumbnails.
+"""Browser captures with Playwright: globe and map images, submission images, demo.pdf, and slide thumbnails.
 
 Usage: python src/site/capture.py [--docs docs] [--submission submission] [--sheet slides_sheet.png]
 """
@@ -14,6 +14,16 @@ from playwright.sync_api import sync_playwright
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 HIDE_HEADER = ".top, .skip { display: none !important; }"
+GL_ARGS = ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"]   # WebGL in headless Chromium
+
+
+def open_best_card(page):
+    """Click the best Earth candidate of the selected target and wait for the comparison card."""
+    xy = page.evaluate("""() => { const g = window.__globes, t = g.data().find(d => d.id === document.querySelector('#earth-globe').dataset.target);
+        const b = t.best[0], c = g.earth.getScreenCoords(b.lat, b.lon, 0.06), r = document.querySelector('#earth-globe').getBoundingClientRect();
+        return [r.left + c.x, r.top + c.y]; }""")
+    page.mouse.click(xy[0], xy[1])
+    page.wait_for_selector("#card:not([hidden])", timeout=5000)
 
 
 def serve(directory):
@@ -37,19 +47,25 @@ def main():
     os.makedirs(sub, exist_ok=True)
     srv, base = serve(a.docs)
     with sync_playwright() as p:
-        b = p.chromium.launch()
+        b = p.chromium.launch(args=GL_ARGS)
+        h = b.new_page(viewport=dict(width=1600, height=900), device_scale_factor=1)
+        h.goto(f"{base}/", wait_until="networkidle")
+        h.wait_for_selector("#earth-globe[data-view]", timeout=30000)
+        h.wait_for_timeout(1500)
+        h.locator("#globes").screenshot(path=os.path.join(a.docs, "assets", "globes_static.jpg"), type="jpeg", quality=80)
+        open_best_card(h)
+        h.wait_for_timeout(600)
+        h.locator("#globes").screenshot(path=os.path.join(img, "globes_mare.jpg"), type="jpeg", quality=84)
+        h.locator("#globes").screenshot(path=os.path.join(sub, "globes.png"))
         pg = b.new_page(viewport=dict(width=1600, height=900), device_scale_factor=1)
         pg.add_init_script("document.addEventListener('DOMContentLoaded', () => { const s = document.createElement('style');"
                            f" s.textContent = '{HIDE_HEADER} #map {{ height: 900px !important; }}'; document.head.appendChild(s); }});")
-        pg.goto(f"{base}/?target=T_mare&pool=lesser&base=marble&view=21.5,42,5", wait_until="networkidle")
+        pg.goto(f"{base}/explore/?target=T_mare&pool=lesser&view=21.5,42,5", wait_until="networkidle")
         pg.wait_for_timeout(4000)
-        pg.locator("#map").screenshot(path=os.path.join(img, "map_mare.jpg"), type="jpeg", quality=82)
-        pg.locator("#map").screenshot(path=os.path.join(sub, "map.png"))
         hi = b.new_page(viewport=dict(width=1440, height=900), device_scale_factor=2)
         hi.add_init_script(f"document.addEventListener('DOMContentLoaded', () => {{ const s = document.createElement('style'); s.textContent = '{HIDE_HEADER}'; document.head.appendChild(s); }});")
-        hi.goto(f"{base}/?target=T_mare", wait_until="networkidle")
+        hi.goto(f"{base}/explore/?target=T_mare", wait_until="networkidle")
         hi.wait_for_timeout(1500)
-        hi.locator("#cards .card").first.screenshot(path=os.path.join(img, "card_mare.png"))
         hi.locator("#cards .card").first.screenshot(path=os.path.join(sub, "candidate_card.png"))
         pg.locator("#checked .split").first.screenshot(path=os.path.join(sub, "auc_chart.png"))
         pg.locator("#artemis .split").first.screenshot(path=os.path.join(sub, "artemis_chart.png"))

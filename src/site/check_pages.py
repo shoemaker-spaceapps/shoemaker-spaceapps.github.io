@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Open the site and the demo at desktop and phone width; report console errors, horizontal overflow and broken images.
+"""Open the homepage, the explore page and the demo at desktop and phone width; report console errors,
+horizontal overflow and broken images.
 
 Usage: python src/site/check_pages.py [--docs docs | --url https://...] [--shots DIR]
 """
@@ -10,7 +11,7 @@ import sys
 from playwright.sync_api import sync_playwright
 
 sys.path.insert(0, os.path.dirname(__file__))
-from capture import ROOT, serve  # noqa: E402
+from capture import GL_ARGS, ROOT, serve  # noqa: E402
 
 
 def main():
@@ -22,12 +23,13 @@ def main():
     srv, base = (None, a.url.rstrip("/")) if a.url else serve(a.docs)
     problems = []
     with sync_playwright() as p:
-        b = p.chromium.launch()
+        b = p.chromium.launch(args=GL_ARGS)
         for name, vp in [("desktop", dict(width=1440, height=900)), ("phone", dict(width=390, height=844))]:
-            for page_name, path in [("site", "/"), ("demo", "/demo/")]:
+            for page_name, path in [("home", "/"), ("explore", "/explore/"), ("demo", "/demo/")]:
                 pg = b.new_page(viewport=vp, is_mobile=name == "phone", has_touch=name == "phone")
+                # GL driver messages come from the software GPU of headless Chromium, not from the page
                 pg.on("console", lambda m, t=f"{page_name}/{name}": problems.append(f"{t} console {m.type}: {m.text}")
-                      if m.type in ("error", "warning") else None)
+                      if m.type in ("error", "warning") and "GL Driver Message" not in m.text else None)
                 pg.on("pageerror", lambda e, t=f"{page_name}/{name}": problems.append(f"{t} page error: {e}"))
                 resp = pg.goto(base + path, wait_until="networkidle")
                 pg.wait_for_timeout(2500)

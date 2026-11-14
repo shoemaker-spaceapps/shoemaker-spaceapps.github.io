@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the static site: docs/index.html from templates/index.html and compact JSON in docs/data/.
+"""Build the static site: docs/index.html (globes), docs/explore/index.html (map and tables) and JSON in docs/data/.
 
 All numbers come from the final results (results/) and the pipeline tables (results/pipeline/).
 Usage: python src/site/build_site.py [--pipeline-dir results/pipeline] [--final-dir results] [--docs docs]
@@ -28,6 +28,54 @@ NEG_KIND = {"N01": "salt flat", "N02": "salt flat", "N03": "salt flat", "N04": "
             "N15": "granite dome", "N16": "badlands", "N17": "sandstone"}
 LITO_CODES = ["bazaltik", "plutonik_bazik", "sedimanter", "kristalen", "volkanik_asidik", "piroklastik", "su", "buz", "bilinmiyor"]
 SCALE = 10000
+SALT_PLAYA = ["N01", "N02", "N03", "N09", "N11", "N12"]   # salt flats and playas among the mare negatives
+
+
+LITO_EN = {"bazaltik": "basalt", "plutonik_bazik": "basic plutonic", "sedimanter": "sedimentary", "kristalen": "crystalline",
+           "volkanik_asidik": "acid volcanic", "piroklastik": "pyroclastic", "su": "water", "buz": "ice", "bilinmiyor": "unknown"}
+POLAR = {"T_nobile", "T_n2", "T_mm", "T_ma", "T_g2", "T_mp", "T_sp", "T_cb", "T_n1", "T_hw"}
+
+
+def short_break(r, t, tid):
+    """One line on where the analogy fails, for the homepage card."""
+    if tid in POLAR:
+        return f"No permanent shadow here; the lowest hourly temperature in 2001 to 2025 was {r.sicaklik_en_soguk_ay_min_C:.0f} °C."
+    if t.lito != "bilinmiyor" and r.lito != t.lito:
+        return f"Different rock: {LITO_EN.get(r.lito, r.lito)} instead of {LITO_EN.get(t.lito, t.lito)}."
+    if r.yagis_mm_yil > 250:
+        return f"It rains {r.yagis_mm_yil:.0f} mm a year, so the ground weathers."
+    if r.bare_frac < 0.5:
+        return f"Only {r.bare_frac:.0%} of the ground is bare."
+    return "Earth gravity, air and weather; no vacuum or space radiation."
+
+
+def home_data(w, t2, S, targets, robust, F):
+    """Per target: Moon values, the 5 robust candidates and the top 100 lesser-known windows."""
+    pool = w.lesser_known.values == 1
+    tg = targets.set_index("target_id")
+    out = []
+    for tid, (name, kind) in TARGET_NAMES.items():
+        t, tr = t2.loc[tid], tg.loc[tid]
+        rank = F.pool_rank(S[tid]["genel_skor"], pool)
+        top = np.where(rank <= 100)[0]
+        top = top[np.argsort(rank[top])]
+        best = [int(x[2:]) for x in robust[robust.target_id == tid].sort_values("rank_sum").window_id]
+
+        def item(ix):
+            r = w.iloc[ix]
+            return dict(w=r.window_id, lat=round(float(r.lat), 3), lon=round(float(r.lon), 3), reg=r.region,
+                        g=round(float(S[tid]["genel_skor"][ix]), 3), r=int(rank[ix]) if rank[ix] == rank[ix] else None,
+                        s50=round(float(r.slope_p50), 1), s90=round(float(r.slope_p90), 1), rel=int(round(r.relief)),
+                        lito=LITO_EN.get(r.lito, r.lito), tmin=round(float(r.sicaklik_en_soguk_ay_min_C), 1),
+                        bare=int(round(r.bare_frac * 100)), br=short_break(r, t, tid),
+                        n14=bool(r.n14_note))
+        div = {k: (None if tr.get(c, np.nan) != tr.get(c, np.nan) else round(float(tr[c]), 0))
+               for k, c in [("avg", "diviner_ort_K"), ("cold", "diviner_ort_K_en_soguk")]}
+        out.append(dict(id=tid, name=name, kind=kind, lat=float(t.lat), lon=float(t.lon), badge=F.badge(tid, False),
+                        moon=dict(s50=round(float(t.slope_p50), 1), s90=round(float(t.slope_p90), 1), rel=int(round(t.relief)),
+                                  lito=LITO_EN.get(t.lito, t.lito), **div),
+                        best=[item(ix) for ix in best], top=[item(ix) for ix in top if ix not in best]))
+    return out
 
 
 def i(x, k=1):
@@ -91,6 +139,8 @@ def main():
             div_cold=float(r.get("diviner_ort_K_en_soguk", np.nan)), div_ice=float(r.get("diviner_buz_pay", np.nan)),
             badge=F.badge(tid, False)).items()})
     json.dump(tg, open(os.path.join(out, "targets.json"), "w"), separators=(",", ":"))
+    json.dump(home_data(w, t2, S, targets, robust, F), open(os.path.join(out, "home.json"), "w"),
+              separators=(",", ":"), ensure_ascii=False)
 
     def cand_rows(df):
         keep = ["target_id", "rank_ahp", "rank_pipeline", "window_id", "region", "lat", "lon", "genel_skor", "lito",
@@ -122,7 +172,7 @@ def main():
     A = auc.set_index(["target_id", "score"])
     used = negs[negs.status == "used"]
     mare_neg = used[used.target_id == "T_mare"]
-    salt = mare_neg[mare_neg.negative_id.isin(["N01", "N02", "N03", "N09", "N10", "N11"])]
+    salt = mare_neg[mare_neg.negative_id.isin(SALT_PLAYA)]
     best_salt = salt.loc[salt.best_rank_terrain.idxmin()]
     mare_known = known[(known.target_id == "T_mare") & known.dims.str.contains("arazi|kayac")]
     qmr = targets.quickmap_ratio_p50.dropna()
@@ -149,6 +199,7 @@ def main():
         best_neg_rank=f"{int(used.best_rank_ahp.min()):,}",
         best_neg_name=NEG_EN.get(used.loc[used.best_rank_ahp.idxmin(), "name"], used.loc[used.best_rank_ahp.idxmin(), "name"]),
         best_salt_name=NEG_EN.get(best_salt["name"], best_salt["name"]), best_salt_rank=f"{int(best_salt.best_rank_terrain):,}",
+        best_salt_kind=NEG_KIND.get(best_salt.negative_id, ""),
         n_mare_known=len(mare_known),
         n_mare_known_below=int((mare_known.best_rank_terrain > best_salt.best_rank_terrain).sum()),
         qm_lo=f2(qmr.min()), qm_hi=f2(qmr.max()),
@@ -163,8 +214,11 @@ def main():
         site_url=team["site_url"], demo_url=team["demo_url"], repo_url=team["repo_url"], org_url=team["org_url"],
         challenge=team["challenge"], team=team["team"],
         team_items="\n".join(f'<li><strong>{m["name"]}</strong>: {m["role"]}</li>' for m in team["members"]))
-    tpl = string.Template(open(os.path.join(os.path.dirname(__file__), "templates", "index.html"), encoding="utf-8").read())
-    open(os.path.join(a.docs, "index.html"), "w", encoding="utf-8").write(tpl.substitute(vals))
+    tdir = os.path.join(os.path.dirname(__file__), "templates")
+    for src, dst in [("home.html", "index.html"), ("explore.html", os.path.join("explore", "index.html"))]:
+        os.makedirs(os.path.dirname(os.path.join(a.docs, dst)) or a.docs, exist_ok=True)
+        tpl = string.Template(open(os.path.join(tdir, src), encoding="utf-8").read())
+        open(os.path.join(a.docs, dst), "w", encoding="utf-8").write(tpl.substitute(vals))
     json.dump(vals, open(os.path.join(out, "numbers.json"), "w"), indent=1, ensure_ascii=False, default=lambda o: o.item() if hasattr(o, "item") else str(o))
     size = sum(os.path.getsize(os.path.join(dp, fn)) for dp, _, fs in os.walk(a.docs) for fn in fs)
     print(f"site written to {a.docs} ({size / 1e6:.2f} MB)")
