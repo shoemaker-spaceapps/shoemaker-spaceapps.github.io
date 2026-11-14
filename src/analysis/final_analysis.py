@@ -250,12 +250,12 @@ def profile(r, t, tid):
     if r.yagis_mm_yil == r.yagis_mm_yil and r.yagis_mm_yil > 250:
         breaks.append(f"It gets {r.yagis_mm_yil:.0f} mm of rain a year, so the surface weathers.")
     if tid in POLAR:
-        cold = f"; the coldest month here has a mean minimum of {r.sicaklik_en_soguk_ay_min_C:.0f} °C" \
+        cold = f"; the lowest hourly temperature here in 2001 to 2025 was {r.sicaklik_en_soguk_ay_min_C:.0f} °C" \
             if r.sicaklik_en_soguk_ay_min_C == r.sicaklik_en_soguk_ay_min_C else ""
         breaks.append("No place on Earth has permanent shadow or the cold of lunar polar craters" + cold + ".")
     if r.n14_note:
         breaks.append(f"Note: {r.n14_note}.")
-    climate = (f"Climate (NASA POWER, 2001 to 2025): coldest-month minimum {r.sicaklik_en_soguk_ay_min_C:.1f} °C, "
+    climate = (f"Climate (NASA POWER, 2001 to 2025): lowest hourly temperature {r.sicaklik_en_soguk_ay_min_C:.1f} °C, "
                f"daily range {r.gunluk_fark_C:.1f} °C, {r.yagis_mm_yil:.0f} mm rain a year, wind {r.ruzgar_10m_ms:.1f} m/s."
                if r.sicaklik_en_soguk_ay_min_C == r.sicaklik_en_soguk_ay_min_C else "Climate: not available.")
     return why, " ".join(breaks), use_for(tid), climate

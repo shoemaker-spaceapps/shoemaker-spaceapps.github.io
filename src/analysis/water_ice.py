@@ -15,7 +15,7 @@ DRY_ARIDITY, DRY_BARE = 0.05, 0.8
 ICE_SNOW, ICE_COLD_C = 0.05, -15.0
 RULES = {
     "Dry-surface analog": f"aridity < {DRY_ARIDITY} and bare > {DRY_BARE}",
-    "Ice-bearing analog": f"snow > {ICE_SNOW} or coldest-month minimum < {ICE_COLD_C:g} °C (permafrost proxy)",
+    "Ice-bearing analog": f"snow > {ICE_SNOW} or lowest hourly temperature in 2001 to 2025 < {ICE_COLD_C:g} °C (a rough permafrost proxy)",
     "Rock-closest (fails bare-surface mask)": "most windows fail the bare-surface mask, but the best window's rock matches the target",
     "Terrain analog": "none of the above, and most windows pass the bare-surface mask",
     "Not a surface analog": "most windows fail the bare-surface mask and the best window's rock does not match",
@@ -35,7 +35,7 @@ def comment(g, r):
         s = (f"Hyper-arid (aridity {a:.3f}) and {bare:.0%} bare, close to the dryness of lunar regolith. "
              "No natural ice, so buried ice must be emplaced to test extraction.")
     elif g == "Ice-bearing analog":
-        s = (f"Cold ground (coldest-month minimum {cold:.0f} °C) with {snow:.0%} snow cover, useful for ice drilling "
+        s = (f"Cold ground (lowest hourly temperature {cold:.0f} °C) with {snow:.0%} snow cover, useful for ice drilling "
              "and melting trials, but liquid water has no lunar counterpart.")
     elif g == "Rock-closest (fails bare-surface mask)":
         s = (f"Closest on rock, but only {bare:.0%} bare with aridity {a:.2f}, so it fails the bare-surface mask. "
