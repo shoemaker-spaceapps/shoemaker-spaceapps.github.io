@@ -49,8 +49,12 @@ a { color: var(--accent); }
 
 .s-map { padding: 0; }
 .s-map { background: #070708; }
-.s-map .bleed { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 84%; object-fit: contain; object-position: center bottom; }
-.s-map .overlay { position: absolute; left: 0; top: 0; background: var(--paper); padding: 4vmin 5vmin 3.5vmin 8vmin; max-width: 62%; border-bottom-right-radius: 6px; }
+.s-map { flex-direction: column; }
+.s-map .shot { flex: 1; min-height: 0; width: 100%; object-fit: contain; object-position: center; display: block; }
+.s-map .band { background: var(--paper); padding: 4vmin 8vmin 3vmin; }
+.s-map .band h2 { margin: 0 0 1.4vmin; }
+.s-map .band p { margin: 0; font-size: 2.7vmin; max-width: 80ch; }
+.s-map .cap { color: #d8cfc0; font-size: 2.3vmin; margin: 0; padding: 1.2vmin 8vmin 2.4vmin; }
 
 .s-number .big { display: grid; grid-template-columns: 1fr 1fr; gap: 6vmin; margin-top: 8vmin; }
 .s-number .big b { display: block; font-family: var(--serif); font-size: 15vmin; line-height: 1; color: var(--accent); }
@@ -73,3 +77,7 @@ a { color: var(--accent); }
 }
 
 .s-pair .note { margin-top: 1.4vmin; font-size: 2.3vmin; color: var(--muted); }
+
+.s-number .pair { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6vmin; }
+.s-number .pair p { margin: 0; font-size: 3vmin; line-height: 1.35; }
+.s-number .pair b { display: block; font-size: 2.3vmin; color: var(--muted); font-weight: 600; margin-bottom: .8vmin; }
