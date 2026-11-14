@@ -36,27 +36,27 @@
 </section>
 
 <section class="slide s-pair" aria-label="Slide 4 of 7">
-  <h2>Terrain alone cannot tell a salt flat from a basalt field.</h2>
+  <h2>Terrain alone cannot tell a salt desert from a basalt field.</h2>
   <div class="pair">
-    <figure><img src="img/salt.jpg" alt="NASA MODIS image of $best_salt_name, a white salt flat"><figcaption>$best_salt_name, salt flat. Terrain rank $best_salt_rank.</figcaption></figure>
-    <figure><img src="img/basalt.jpg" alt="NASA MODIS image of a dark basalt field in the $mare1_region"><figcaption>$mare1_region, basalt field. Combined rank 1.</figcaption></figure>
+    <figure><img src="img/salt.jpg" alt="NASA MODIS image of $best_salt_name, a $best_salt_kind"><figcaption>$best_salt_name: terrain rank $best_salt_rank</figcaption></figure>
+    <figure><img src="img/basalt.jpg" alt="NASA MODIS image of a dark basalt field in the $mare1_region"><figcaption>Arabian basalt field: rank 1</figcaption></figure>
   </div>
   <p class="auc"><span>Terrain <b>$terrain_auc</b></span><span>Rock <b>$rock_auc</b></span><span>Both <b>$mare_auc</b></span><em>AUC, mare target</em></p>
+  <p class="note">We picked the look-alikes for their rock, so terrain failing is the finding.</p>
 </section>
 
 <section class="slide s-map" aria-label="Slide 5 of 7">
-  <img class="bleed" src="img/map_mare.jpg" alt="Map of the best Earth windows for the lunar mare target, clustered in the Arabian Peninsula and the Afar rift">
+  <img class="bleed" src="img/globes_mare.jpg" alt="Our homepage: the Moon with Mare Tranquillitatis selected, and the Earth turned to the basalt fields of the Arabian Peninsula with a comparison card open">
   <div class="overlay">
     <h2>Beyond the usual sites, the best mare matches are Arabia's basalt fields.</h2>
   </div>
-  <img class="card" src="img/card_mare.png" alt="Candidate card for a basalt field in the $mare1_region, with why it is similar, where it breaks and what to test there">
 </section>
 
 <section class="slide s-number" aria-label="Slide 6 of 7">
   <h2>No place on Earth is as cold as the Artemis III sites.</h2>
   <div class="big">
     <div><b>$div_cold_lo K</b><span>coldest spot in our Artemis III windows (NASA Diviner)</span></div>
-    <div><b>$earth_cold_C °C</b><span>coldest Earth terrain match, $earth_cold_region (NASA POWER)</span></div>
+    <div><b>$earth_cold_C °C</b><span>lowest hourly temperature at the coldest Earth match, $earth_cold_region, 2001 to 2025 (NASA POWER)</span></div>
   </div>
   <p class="aside">For water and ice tests, Earth offers dry ground to bury ice in, or frozen ground to drill.</p>
 </section>
