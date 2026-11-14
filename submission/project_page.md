@@ -12,17 +12,17 @@ We built a map that ranks 22,147 places on Earth, each 10 km wide, by how much t
 
 ## Link to Project Demo
 
-- 7-slide demo: https://shoemaker-spaceapps.github.io/demo/
-- Same demo as PDF: https://shoemaker-spaceapps.github.io/demo/demo.pdf
+- Demo as PDF (7 slides): https://shoemaker-spaceapps.github.io/demo/demo.pdf
+- Same demo as web slides: https://shoemaker-spaceapps.github.io/demo/
 
 ## Link to Final Project
 
-- Website with the interactive map: https://shoemaker-spaceapps.github.io/
+- Website: https://shoemaker-spaceapps.github.io/ (globes) and https://shoemaker-spaceapps.github.io/explore/ (full map, tables and method)
 - Code and data tables: https://github.com/shoemaker-spaceapps/shoemaker-spaceapps.github.io
 
 ## Detailed Project Description
 
-**What it does.** Pick a lunar target on the map: one of the Apollo 11, 15 and 16 sites, the Nobile crater area, or one of the 9 Artemis III regions. The map shows the Earth windows that look most like it, from a pool of lesser-known places, all bare-surface windows, or all windows. Each window opens a side-by-side table of its numbers and the Moon's, a climate line from NASA POWER, and a link to the NASA Worldview satellite view. For each target, five "featured analogs" explain why the place is similar, where the analogy breaks, and what a mission team could test there.
+**What it does.** On the homepage, two globes show the Moon and the Earth. Pick a lunar target on the Moon globe one of the Apollo 11, 15 and 16 sites, the Nobile crater area, or one of the 9 Artemis III regions. and the Earth globe turns to the windows that look most like it; click one to compare it with the Moon. The explore page has the full map, with a pool of lesser-known places, all bare-surface windows, or all windows. Each window opens a side-by-side table of its numbers and the Moon's, a climate line from NASA POWER, and a link to the NASA Worldview satellite view. For each target, five "featured analogs" explain why the place is similar, where the analogy breaks, and what a mission team could test there.
 
 **How it works.**
 1. Moon elevation comes from LRO LOLA (SLDEM2015, made with Kaguya) and, near the south pole, from the LOLA polar elevation model. Earth elevation comes from Copernicus GLO-30, land cover from ESA WorldCover, rock type from GLiM, dryness from the Global Aridity Index, and climate from NASA POWER.
@@ -33,8 +33,8 @@ We built a map that ranks 22,147 places on Earth, each 10 km wide, by how much t
 
 **What we found.**
 - Look-alikes do not reach the top. None of our 16 hard negatives gets into the top 100 for its own target; the closest is Spitzkoppe-Erongo granites at rank 629.
-- Shape alone is misleading. For the mare target, terrain alone scores an AUC of 0.43, worse than chance. Rock alone gives 0.82, and both together 0.92. The best salt flat window, Salar de Atacama, ranks 518 of 22,147 on terrain, ahead of 5 of our 7 known mare sites.
-- New candidates beyond Antarctica, Atacama, Iceland and Hawaii:
+- Shape alone is misleading. For the mare target, terrain alone scores an AUC of 0.43, worse than chance. Rock alone gives 0.82, and both together 0.92. The best salt flat or playa window, Dasht-e Kavir, ranks 245 of 22,147 on terrain, ahead of 5 of our 7 known mare sites. We picked the look-alikes for their different rock, so it is expected that rock separates them; the real finding is that terrain alone fails. The step from 0.82 to 0.92 suggests that terrain adds to rock, but the intervals overlap.
+- Candidates outside the four well-studied regions (Antarctica, Atacama, Iceland, Hawaii) and less studied as lunar analogs:
   - Mare (Apollo 11): Arabian Peninsula (32.225, 37.553); Arabian Peninsula (22.495, 40.243); Afar and East Africa (13.135, 40.731)
   - Imbrium rim (Apollo 15): Afar and East Africa (11.995, 41.638); Afar and East Africa (11.495, 42.546); Arabian Peninsula (25.315, 37.649)
   - Highlands (Apollo 16), low confidence: Iran, Afghanistan and Pakistan (32.725, 59.481); Central Asia and Tibet (35.495, 89.887); Iran, Afghanistan and Pakistan (26.635, 66.352)
@@ -42,7 +42,7 @@ We built a map that ranks 22,147 places on Earth, each 10 km wide, by how much t
   - Artemis III regions, terrain only: Andes (22 of 45 candidates), then Patagonia; Sahara; Iran, Afghanistan and Pakistan; Galapagos
 - Our 10 km median slope for the Artemis III regions is 0.87 to 1.45 times the LROC QuickMap region slope, so the two agree in size.
 
-**Water, ice and ISRU.** Polar craters that never see sunlight hold water ice, and these cold traps are the main reason for a polar base. NASA Diviner data put the coldest spots in our Artemis III windows at 40 to 96 kelvin as a yearly mean, and its thermal model finds buried ice could stay stable under 7% to 60% of the ground. No Earth place matches that; the coldest Earth terrain match has a coldest-month minimum of -47 °C. We group Earth regions by the water or ice test they suit (ISRU, in-situ resource utilization, means making water, oxygen or fuel from local material): dry-surface analogs such as Sahara and Tibesti, Chad; ice-bearing analogs such as Europe and Anatolia and Central Asia and Tibet; terrain analogs such as Iran, Afghanistan and Pakistan and Andes. Each region comes with a one-line reading and a concrete ISRU test.
+**Water, ice and ISRU.** Polar craters that never see sunlight hold water ice, and these cold traps are the main reason for a polar base. NASA Diviner data put the coldest spots in our Artemis III windows at 40 to 96 kelvin as a yearly mean, and its thermal model finds that water ice would stay stable within 2.9 m of the surface under 7% to 60% of the ground. No Earth place matches that; at the coldest Earth terrain match the lowest hourly temperature in 2001 to 2025 was -47 °C (NASA POWER). We group Earth regions by the water or ice test they suit (ISRU, in-situ resource utilization, means making water, oxygen or fuel from local material): dry-surface analogs such as Sahara and Tibesti, Chad; ice-bearing analogs such as Europe and Anatolia and Central Asia and Tibet; terrain analogs such as Iran, Afghanistan and Pakistan and Andes. Each region comes with a one-line reading and a concrete ISRU test.
 
 **Benefits.** Analog site choice today leans on a few famous places. This map gives a ranked, checkable list with reasons and limits for each place, so a team can pick a site for a specific test (rover driving on basaltic ground, landing hazard detection on rough slopes, ice extraction in dry regolith) and see what the site cannot simulate.
 
@@ -62,25 +62,26 @@ We built a map that ranks 22,147 places on Earth, each 10 km wide, by how much t
 
 ## Use of Super Intelligence (SI)
 
-We used an AI coding assistant (Claude by Anthropic) for writing and debugging code, for data processing scripts (downloads, reprojection, the NASA POWER and Diviner readers), and for first drafts of the website, the demo and these texts. The team defined the problem, made the scientific decisions, chose the lunar targets, the known analog sites and the hard negatives, did the geological interpretation, set the AHP weights, and checked every result. Every number on the site comes from our own data tables.
+An AI assistant (Claude by Anthropic) wrote most of the code and most of the texts on the website, in the demo and on this page, following the team's directions. The team defined the problem, chose the lunar targets, selected the known analog sites and the hard negatives, made the geological interpretation and the water and ISRU interpretation, set the AHP weights, and reviewed the results. Every number shown comes from our own result tables.
 
 ## NASA Data
 
 - **LRO LOLA south pole elevation, LDEM_80S_80MPP_ADJ** (Planetary Geodesy Data Archive): https://pgda.gsfc.nasa.gov/products/90. Elevation, slope and relief for the Nobile and Artemis III targets.
 - **SLDEM2015, LRO LOLA with Kaguya Terrain Camera** (Planetary Geodesy Data Archive): https://pgda.gsfc.nasa.gov/products/54. Elevation, slope and relief for the Apollo targets.
 - **LRO Diviner Polar Resource Product** (PDS Geosciences Node): https://pds-geosciences.wustl.edu/missions/lro/diviner.htm. Yearly mean and maximum temperature and ice stability in the polar target windows.
-- **NASA POWER climatology, 2001 to 2025**: https://power.larc.nasa.gov/. Coldest-month minimum, daily temperature swing, rain and wind for every Earth window.
+- **NASA POWER climatology, 2001 to 2025**: https://power.larc.nasa.gov/. Lowest hourly temperature in 2001 to 2025 (climatology T2M_MIN), mean daily temperature swing, rain and wind for every Earth window.
 - **NASA GIBS and Worldview (MODIS Terra true color, Blue Marble)**: https://worldview.earthdata.nasa.gov/. Map layers and satellite views of every candidate.
 - **LRO LROC QuickMap** (Arizona State University): https://quickmap.lroc.asu.edu/. Artemis III region centres and the slope check.
+- **NASA SVS CGI Moon Kit and NASA Blue Marble**: https://svs.gsfc.nasa.gov/4720 and https://visibleearth.nasa.gov/images/73909/december-blue-marble-next-generation-w-topography-and-bathymetry. Textures of the two globes on the homepage.
 
 ## Space Agency Partner Data and Other References
 
-- **ESA Copernicus DEM GLO-30**: https://registry.opendata.aws/copernicus-dem/. Earth elevation, slope and relief.
-- **ESA WorldCover 2021 v200**: https://esa-worldcover.org/en. Bare ground and snow share.
+- **ESA Copernicus DEM GLO-30**: https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM. Earth elevation, slope and relief. Produced using Copernicus WorldDEM-30 © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved.
+- **ESA WorldCover 2021 v200** (CC BY 4.0): https://esa-worldcover.org/en. Bare ground and snow share. © ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium.
 - **JAXA Kaguya (SELENE) Terrain Camera**: https://www.kaguya.jaxa.jp/index_e.htm. Part of SLDEM2015.
 - **ESA CAFE analog site catalogue**. Known analog sites, checked against the literature by our team.
-- **GLiM, Global Lithological Map** (Hartmann and Moosdorf 2012, CC-BY 3.0): https://doi.pangaea.de/10.1594/PANGAEA.788537. Rock type.
-- **Global Aridity Index v3** (Zomer et al.): https://doi.org/10.6084/m9.figshare.7504448. Dryness.
+- **GLiM, Global Lithological Map Database v1.0** (CC-BY 3.0): Hartmann, J. and Moosdorf, N. (2012), PANGAEA, https://doi.org/10.1594/PANGAEA.788537, and Geochemistry, Geophysics, Geosystems 13, Q12004, https://doi.org/10.1029/2012GC004370. Rock type.
+- **Global Aridity Index and Potential Evapotranspiration (ET0) Database, Version 3.1** (CC BY 4.0): Zomer, R. and Trabucco, A. (2019), figshare, https://doi.org/10.6084/m9.figshare.7504448. Dryness.
 - **Macrostrat**: https://macrostrat.org/. Rock type check at known sites.
-- **Esri World Imagery**: high-resolution map layer.
-- **Leaflet** (https://leafletjs.com/) and **Plotly** (https://plotly.com/javascript/): map and charts.
+- **Esri World Imagery**: high-resolution map layer. Source: Esri, Vantor, Earthstar Geographics, and the GIS User Community.
+- **Leaflet** (https://leafletjs.com/), **Plotly** (https://plotly.com/javascript/) and **globe.gl** (https://globe.gl/): map, charts and globes.

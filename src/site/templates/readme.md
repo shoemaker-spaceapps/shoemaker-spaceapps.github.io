@@ -2,8 +2,8 @@
 
 Team $team, NASA Space Apps Challenge 2026. Challenge: *$challenge*. We cover the Moon only.
 
-- Site: $site_url
-- Demo, 7 slides: $demo_url ([PDF]($demo_pdf))
+- Site: $site_url (globes) and ${site_url}explore/ (map, tables and method)
+- Demo, 7 slides: [PDF]($demo_pdf) and $demo_url
 
 ## What we did
 
@@ -13,10 +13,10 @@ We never used the known analog sites to build the score. We used them, and $n_ne
 
 ## What we found
 
-- Mare target: AUC $mare_auc (95% interval $mare_lo to $mare_hi). AUC is the chance that a known analog scores higher than a look-alike; 0.5 is a coin flip. Terrain alone gives $terrain_auc, rock alone $rock_auc.
+- Mare target: AUC $mare_auc (95% interval $mare_lo to $mare_hi). AUC is the chance that a known analog scores higher than a look-alike; 0.5 is a coin flip. Terrain alone gives $terrain_auc, rock alone $rock_auc. We picked the look-alikes for their different rock, so rock separating them is expected; the finding is that terrain alone fails. The step from $rock_auc to $mare_auc suggests that terrain adds to rock, but the intervals overlap.
 - No hard negative reaches the top 100 for its own target. The closest is $best_neg_name, at rank $best_neg_rank of $n_windows.
-- Outside the well-studied areas, the best mare candidates are basalt fields in the Arabian Peninsula, the best Imbrium-rim candidates are in the Afar rift, and the rough Artemis III targets match terrain in the Andes.
-- Diviner puts the coldest spots in our Artemis III windows at $div_cold_lo to $div_cold_hi K as a yearly mean. The coldest Earth terrain match has a coldest-month minimum of $earth_cold_C °C.
+- The best mare candidates are basalt fields in the Arabian Peninsula, the best Imbrium-rim candidates are in the Afar rift, and the rough Artemis III targets match terrain in the Andes. These lie outside the four well-studied regions and are less studied as lunar analogs.
+- Diviner puts the coldest spots in our Artemis III windows at $div_cold_lo to $div_cold_hi K as a yearly mean. At the coldest Earth terrain match, the lowest hourly temperature in 2001 to 2025 was $earth_cold_C °C (NASA POWER).
 
 Final tables are in `results/`. Candidate profiles with reasons are in `results/robust_candidates.csv`.
 
@@ -30,7 +30,7 @@ Final tables are in `results/`. Candidate profiles with reasons are in `results/
 ## Repository layout
 
 ```
-docs/        the website (index.html, assets/, data/) and the 7-slide demo (demo/)
+docs/        the website: homepage with globes (index.html), explore page (explore/), assets/, data/, and the demo (demo/)
 src/         code: pipeline/ builds windows and climate, analysis/ scores and checks, site/ builds pages and texts
 data/        small inputs: known sites, hard negatives, Artemis III regions, AHP weights, source catalogues
 results/     final tables; results/pipeline/ holds the window and target tables they come from
@@ -62,6 +62,7 @@ python src/site/build_demo.py
 python src/site/build_submission.py
 python src/site/capture.py
 python src/site/check_pages.py
+python src/site/test_home.py
 ```
 
 ### From raw data (about one hour; Earth tiles are read online)
@@ -87,7 +88,7 @@ Then run the commands in the section above. The raw files are not in the reposit
 | SLDEM2015 (LRO LOLA with Kaguya) | [PGDA product 54](https://pgda.gsfc.nasa.gov/products/54) | two 256 px/deg tiles covering 0 to 120 E, with their .LBL labels |
 | LOLA south pole elevation | [PGDA product 90](https://pgda.gsfc.nasa.gov/products/90) | LDEM_80S_80MPP_ADJ.TIF |
 | GLiM rock map | [PANGAEA](https://doi.pangaea.de/10.1594/PANGAEA.788537) | LiMW_GIS 2015.gdb and the 0.5 degree grid in hartmann-moosdorf_2012.zip (unpack to data/raw/glim_0p5/) |
-| Global Aridity Index v3 | [figshare](https://doi.org/10.6084/m9.figshare.7504448) | ai_v31_yr.tif |
+| Global Aridity Index v3.1 | [figshare](https://doi.org/10.6084/m9.figshare.7504448) | ai_v31_yr.tif |
 | Copernicus GLO-30, ESA WorldCover | [AWS open data](https://registry.opendata.aws/copernicus-dem/), [WorldCover](https://esa-worldcover.org/en) | read online by the pipeline |
 | NASA POWER, LRO Diviner | [POWER](https://power.larc.nasa.gov/), [PDS](https://pds-geosciences.wustl.edu/missions/lro/diviner.htm) | read online by the scripts |
 
@@ -107,13 +108,23 @@ Column names come from our pipeline and are kept as they are; this is what they 
 | aday_maskesi | 1 if the window is bare (30% or more) or dry (aridity below 0.2) |
 | genel_skor, arazi_benzerligi, kayac_eslesmesi | official score, terrain similarity, rock match (0 or 1) |
 | sim, rank, rank_all | pipeline score and its rank among bare windows and among all windows |
-| sicaklik_en_soguk_ay_min_C, gunluk_fark_C, yagis_mm_yil | coldest-month minimum temperature, daily temperature swing, yearly rain (NASA POWER) |
+| sicaklik_en_soguk_ay_min_C, gunluk_fark_C, yagis_mm_yil | lowest hourly temperature in 2001 to 2025 (POWER climatology T2M_MIN, lowest of the 12 months), mean daily temperature swing, yearly rain (NASA POWER) |
 | inis_uygun, rover_uygun | slope proxies: gentle enough for landing tests, drivable for rovers |
 | dims, eval_track | what a known site is known for (arazi = terrain, kayac = rock, surec = process, operasyon = operations) and how it is evaluated |
 
 ## Data and credits
 
-NASA: LRO LOLA ([PGDA](https://pgda.gsfc.nasa.gov/products/90)), LRO Diviner ([PDS](https://pds-geosciences.wustl.edu/missions/lro/diviner.htm)), [POWER](https://power.larc.nasa.gov/), [GIBS and Worldview](https://worldview.earthdata.nasa.gov/). NASA and JAXA: [SLDEM2015](https://pgda.gsfc.nasa.gov/products/54) (LOLA with the Kaguya Terrain Camera). ESA: [Copernicus DEM GLO-30](https://registry.opendata.aws/copernicus-dem/), [WorldCover](https://esa-worldcover.org/en), CAFE analog catalogue. [GLiM](https://doi.pangaea.de/10.1594/PANGAEA.788537) (Hartmann and Moosdorf 2012, CC-BY 3.0). [Global Aridity Index v3](https://doi.org/10.6084/m9.figshare.7504448). [LROC QuickMap](https://quickmap.lroc.asu.edu/) for the Artemis III regions. [Macrostrat](https://macrostrat.org/). Map: [Leaflet](https://leafletjs.com/), charts: [Plotly](https://plotly.com/javascript/), imagery layer: Esri.
+NASA: LRO LOLA ([PGDA](https://pgda.gsfc.nasa.gov/products/90)), LRO Diviner ([PDS](https://pds-geosciences.wustl.edu/missions/lro/diviner.htm)), [POWER](https://power.larc.nasa.gov/), [GIBS and Worldview](https://worldview.earthdata.nasa.gov/). NASA and JAXA: [SLDEM2015](https://pgda.gsfc.nasa.gov/products/54) (LOLA with the Kaguya Terrain Camera). ESA: CAFE analog catalogue. [LROC QuickMap](https://quickmap.lroc.asu.edu/) for the Artemis III regions. [Macrostrat](https://macrostrat.org/). Globes: NASA SVS [CGI Moon Kit](https://svs.gsfc.nasa.gov/4720) and [Blue Marble](https://visibleearth.nasa.gov/images/73909/december-blue-marble-next-generation-w-topography-and-bathymetry). Map: [Leaflet](https://leafletjs.com/), charts: [Plotly](https://plotly.com/javascript/), globes: [globe.gl](https://globe.gl/).
+
+Attribution required by the data licences:
+
+- Copernicus DEM GLO-30 ([licence](https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM)): produced using Copernicus WorldDEM-30 © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved.
+- ESA WorldCover 2021 v200, CC BY 4.0: © ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium.
+- Global Aridity Index and Potential Evapotranspiration (ET0) Database, Version 3.1, CC BY 4.0: Zomer, R. and Trabucco, A. (2019), figshare, https://doi.org/10.6084/m9.figshare.7504448.
+- GLiM, CC-BY 3.0: Hartmann, J. and Moosdorf, N. (2012), Global Lithological Map Database v1.0, PANGAEA, https://doi.org/10.1594/PANGAEA.788537; and The new global lithological map database GLiM, Geochemistry, Geophysics, Geosystems 13, Q12004, https://doi.org/10.1029/2012GC004370.
+- Esri World Imagery: Source: Esri, Vantor, Earthstar Geographics, and the GIS User Community.
+
+We resampled these data to our 10 km windows.
 
 ## Team
 

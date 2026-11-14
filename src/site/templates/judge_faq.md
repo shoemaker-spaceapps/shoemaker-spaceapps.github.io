@@ -10,7 +10,10 @@ We tested it on $n_sites known analog sites and $n_neg hard negatives (look-alik
 No. The weights come from AHP (expert pairwise judgments) and were set before testing. The known sites are used only to test the score.
 
 **Why is terrain alone below 0.5 for the mare?**
-The mare is flat and bare. So are salt flats and sand seas. On terrain alone, the best salt flat window ($best_salt_name) ranks $best_salt_rank of $n_windows, ahead of $n_mare_known_below of our $n_mare_known known mare sites. Rock type is what separates them, which is why the combined score reaches $mare_auc.
+The mare is flat and bare. So are salt flats, playas and sand seas. On terrain alone, the best salt flat or playa window ($best_salt_name) ranks $best_salt_rank of $n_windows, ahead of $n_mare_known_below of our $n_mare_known known mare sites.
+
+**So rock does all the work?**
+Partly by design. We picked the look-alikes because their rock differs, so the rock term is expected to separate them. The finding is that terrain alone fails. The step from rock alone ($rock_auc) to rock plus terrain ($mare_auc) suggests terrain helps, but the intervals overlap, so we do not claim it is proven.
 
 **What about the highland and the Artemis III targets?**
 The highland test fails (AUC $high_auc, interval $high_lo to $high_hi) because the global rock map labels both known highland sites with the wrong rock. We say so and mark highland candidates as low confidence. For the Artemis III regions the lunar rock type is not set, so we rank them by terrain only and mark them that way.
@@ -18,14 +21,15 @@ The highland test fails (AUC $high_auc, interval $high_lo to $high_hi) because t
 **How good is your lunar slope?**
 For the Artemis III regions our 10 km median slope is $qm_lo to $qm_hi times the LROC QuickMap region slope. They agree in size, not exactly, because the areas and methods differ.
 
-**Which candidates are new?**
+**Are these candidates new?**
+They lie outside the four well-studied regions (Antarctica, Atacama, Iceland, Hawaii) and are less studied as lunar analogs. We do not claim they are unknown. The Afar region, including the Danakil Depression, is already studied as a Mars and astrobiology analog; what we add is a ranked, checked case for it as a lunar terrain analog. The Arabian basalt fields (harrats) are less studied as lunar mare analogs.
 $robust_md
 
 **Where does the analogy break?**
-Everywhere for gravity, vacuum and radiation. On top of that, each candidate card lists its own breaks: rain, plant cover, relief or rock that does not match. For the polar targets, no Earth site has permanent shadow: Diviner puts the coldest spots in our Artemis III windows at $div_cold_lo to $div_cold_hi K as a yearly mean, while the coldest Earth terrain match has a coldest-month minimum of $earth_cold_C °C.
+Everywhere for gravity, vacuum and radiation. On top of that, each candidate card lists its own breaks: rain, plant cover, relief or rock that does not match. For the polar targets, no Earth site has permanent shadow: Diviner puts the coldest spots in our Artemis III windows at $div_cold_lo to $div_cold_hi K as a yearly mean, while at the coldest Earth terrain match the lowest hourly temperature in 2001 to 2025 was $earth_cold_C °C.
 
 **What about water and ice?**
-We sort Earth regions into dry-surface analogs (to bury ice and test extraction), ice-bearing analogs (to drill and melt real ice) and terrain analogs (to plan rover routes for moving ice). Diviner's model finds buried ice could stay stable under $div_ice_lo to $div_ice_hi of the ground in our Artemis III windows.
+We sort Earth regions into dry-surface analogs (to bury ice and test extraction), ice-bearing analogs (to drill and melt real ice) and terrain analogs (to plan rover routes for moving ice). Diviner's model finds that water ice would stay stable within 2.9 m of the surface (losing less than 1 kg per square metre per billion years) under $div_ice_lo to $div_ice_hi of the ground in our Artemis III windows.
 
 **What NASA data did you use?**
 LRO LOLA and SLDEM2015 for lunar elevation, LRO Diviner for polar temperatures, NASA POWER for Earth climate, GIBS and Worldview for imagery, and LROC QuickMap for the Artemis III regions.
@@ -34,4 +38,4 @@ LRO LOLA and SLDEM2015 for lunar elevation, LRO Diviner for polar temperatures, 
 A finer rock map than GLiM, thermal infrared data (ASTER) to tell basalt from look-alikes from orbit, Diviner for every polar target, and the same method for Mars.
 
 **How did you use AI?**
-For coding, debugging, data processing scripts and first drafts of texts. The team made the scientific decisions and checked every result.
+An AI assistant wrote most of the code and most of the texts, following our directions. The team defined the problem, chose the targets, the known sites and the hard negatives, made the geological and the water and ISRU interpretation, and reviewed the results.
