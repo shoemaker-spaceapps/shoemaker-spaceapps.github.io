@@ -41,7 +41,8 @@ ROI_EN = {"anatolia_kula": "Kula, western Anatolia", "anatolia_karacadag": "Kara
 REGION_BOXES = [("Galapagos", -2, 1, -92, -89), ("Cape Verde", 14, 18, -26, -22), ("Hawaii", 18, 23, -161, -154), ("Iceland", 63, 67, -25, -13),
                 ("Afar and East Africa", -12, 18, 33, 52), ("Iran, Afghanistan and Pakistan", 24, 40, 47, 72),
                 ("Arabian Peninsula", 12, 34, 34, 60),
-                ("Deccan (India)", 8, 28, 68, 88), ("Sahara", 12, 37.5, -18, 34),
+                ("Deccan (India)", 8, 28, 68, 88), ("Europe and Anatolia", 35.8, 42.2, 25.6, 45),
+                ("Sahara", 12, 37.5, -18, 34),
                 ("Central and West Africa", -12, 12, -20, 33), ("Southern Africa", -36, -12, 10, 42),
                 ("Greenland and Arctic", 60, 90, -75, -10), ("Arctic islands", 75, 90, -180, 180),
                 ("Siberia and North Asia", 50, 80, 60, 180),
@@ -303,10 +304,49 @@ def candidates(w, t2, S):
     return pd.concat(robust, ignore_index=True), pd.concat(top20, ignore_index=True), pd.concat(extremes, ignore_index=True)
 
 
-def targets_table(t2):
+TURKIYE = (35.8, 42.2, 25.6, 44.9)   # rough box, used only for the place label and the ophiolite note
+ROCK_TARGETS = ["T_mare", "T_imbrium", "T_highland", "T_nobile"]
+
+
+def place(roi, region, lat, lon):
+    if roi == "anatolia_karacadag":
+        return "Karacadağ, Türkiye"
+    la0, la1, lo0, lo1 = TURKIYE
+    if la0 <= lat <= la1 and lo0 <= lon <= lo1:
+        return "eastern Türkiye" if lon >= 36 else "central Türkiye" if lon >= 30 else "western Türkiye"
+    return region
+
+
+def rock_analogs(w, t2, S, k=5):
+    """Windows that fail the bare-surface mask but share the target rock, best first, at least 30 km apart."""
+    out = []
+    for tid in ROCK_TARGETS:
+        t = t2.loc[tid]
+        g = S[tid]["genel_skor"]
+        pool = ((w.aday_maskesi.values == 0) & (w.lito.values == t.lito) & (w.hard_negative.values == 0)
+                & (w.in_known_site.values == 0))
+        d = w.copy()
+        d["genel_skor"], d["target_id"] = g, tid
+        d["rank_all"] = A.ranks(np.nan_to_num(g, nan=-1)).astype(float)
+        d.loc[~np.isfinite(g), "rank_all"] = np.nan
+        d["rank_rock_pool"] = pool_rank(g, pool)
+        top = spaced(d[d.rank_rock_pool.notna()].sort_values("rank_rock_pool"), k).copy()
+        top["place"] = [place(*x) for x in zip(top.roi, top.region, top.lat, top.lon)]
+        tr = top.place.str.endswith("Türkiye") & (top.roi != "anatolia_karacadag")
+        note = np.where(tr & top.target_id.isin(["T_highland", "T_nobile"]), "low confidence, likely ophiolite", top.n14_note)
+        top["note"] = [("; ".join(x for x in [n, f"window is partly sea (land {c:.0%})" if c < 0.75 else ""] if x)) for n, c in zip(note, top.glim_kapsama)]
+        top["confidence"] = ["low confidence" if (tid in ("T_highland", "T_nobile") or n) else "tested against known sites"
+                             for n in top.note]
+        out.append(top[["target_id", "rank_rock_pool", "rank_all", "window_id", "place", "region", "roi", "lat", "lon", "lito",
+                        "bazalt_frac", "bazik_plutonik_frac", "bare_frac", "aridity_index", "slope_p50", "slope_p90", "relief",
+                        "genel_skor", "sicaklik_yillik_ort_C", "yagis_mm_yil", "note", "confidence"]])
+    return pd.concat(out, ignore_index=True)
+
+
+def targets_table(t2, out_moon=PIPE):
     t = t2.reset_index()
     t["quickmap_ratio_p50"] = (t.slope_p50 / t.quickmap_slope_deg).round(2)
-    div = os.path.join(PIPE, "diviner_targets.csv")
+    div = os.path.join(out_moon, "diviner_targets.csv")
     if os.path.exists(div):
         t = t.merge(pd.read_csv(div), on="target_id", how="left")
     return t
@@ -322,8 +362,9 @@ def main():
     S = scores(t1, t2, ahp, sim)
     w = window_frame(t1, t3, neg)
     tables = {"auc_ci": auc_table(t1, t3, neg, S), "negatives": negatives_table(t1, neg, S),
-              "known_sites": known_sites_table(t1, t3, t2, S), "targets": targets_table(t2)}
+              "known_sites": known_sites_table(t1, t3, t2, S), "targets": targets_table(t2, a.out_moon)}
     tables["robust_candidates"], tables["lesser_known_top20"], tables["climate_extremes"] = candidates(w, t2, S)
+    tables["rock_analogs"] = rock_analogs(w, t2, S)
     for n, df in tables.items():
         df.to_csv(os.path.join(a.out, f"{n}.csv"), index=False)
     with pd.ExcelWriter(os.path.join(a.out, "results.xlsx")) as xw:
