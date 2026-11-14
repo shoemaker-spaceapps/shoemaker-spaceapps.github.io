@@ -232,3 +232,11 @@ details.more[open] > summary { margin-bottom: 8px; }
   .found th, .found td { display: block; border: 0; padding: 2px 0; }
   .found td[data-l]::before { content: attr(data-l) ": "; color: var(--muted); font-size: .82rem; }
 }
+.split > *, .findings > *, .cards > *, .explorer > * { min-width: 0; }
+.split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.cards { grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); }
+.table-scroll { max-width: 100%; }
+table.data td.txt { min-width: 15rem; max-width: 24rem; white-space: normal; }
+.tnote { font-size: .86rem; color: var(--muted); margin-top: 6px; }
+.shared { border-left: 3px solid var(--accent); padding-left: 12px; }
+@media (max-width: 760px) { .split { grid-template-columns: minmax(0, 1fr); } }

@@ -68,7 +68,7 @@ def home_data(w, t2, S, targets, robust, rock, F):
         def item(ix, rk=rank):
             r = w.iloc[ix]
             pl = F.place(r.roi, r.region, r.lat, r.lon)
-            oph = pl.endswith("Türkiye") and r.roi != "anatolia_karacadag" and tid in ("T_highland", "T_nobile")
+            oph = F.ophiolite(pl, r.lat, r.lon) and r.lito == "plutonik_bazik" and tid in ("T_highland", "T_nobile")
             return dict(w=r.window_id, lat=round(float(r.lat), 3), lon=round(float(r.lon), 3), reg=pl,
                         g=round(float(S[tid]["genel_skor"][ix]), 3), r=int(rk[ix]) if rk[ix] == rk[ix] else None,
                         mask=int(r.aday_maskesi), note="low confidence, likely ophiolite" if oph else "",
@@ -234,7 +234,11 @@ def main():
     n_top = sum(len(x) for x in tops)
     n_out = sum(int((w.well_studied.values[x] == 0).sum()) for x in tops)
     kara = rock[rock.window_id.isin(w[w.roi == "anatolia_karacadag"].window_id) & (rock.target_id == "T_mare")].iloc[0]
-    art_rb = robust[robust.target_id.isin(F.ARTEMIS)].region.value_counts()
+    art_rb = robust[robust.target_id.isin(F.ARTEMIS)].area.value_counts()
+    oph = rock[rock.note.fillna("").str.contains("ophiolite")]
+    tname = {"T_nobile": "Nobile", "T_highland": "the highland"}
+    oph_list = "; ".join(f"{' and '.join(g.place)} for {tname[t]} (rank{'s' if len(g) > 1 else ''} {' and '.join(str(x) for x in g.rank_all)} of all windows)"
+                         for t, g in oph.groupby("target_id", sort=False))
     nob = water[(water.target_id == "T_nobile") & (water.lesser_known == 1)].sort_values("best_score", ascending=False)
     vals = dict(
         n_valid=f"{valid:,}", n_top_bare=f"{n_top:,}", n_top_out=f"{n_out:,}", pct_top_out=f"{n_out / n_top:.0%}",
@@ -243,7 +247,7 @@ def main():
         kara_bare=f"{kara.bare_frac:.0%}", mare_s50=f"{t2.loc['T_mare'].slope_p50:.2f}",
         andes=f"{art_rb.get('Andes', 0)} of {art_rb.sum()}",
         nob_dry=nob[nob.group == "Dry-surface analog"].region.iloc[0], nob_ice=nob[nob.group == "Ice-bearing analog"].region.iloc[0],
-        find_rows=find_rows(t2, robust, rock, targets, art_rb, F), rock_rows=rock_rows(rock),
+        find_rows=find_rows(t2, robust, rock, targets, art_rb, F), rock_rows=rock_rows(rock), oph_list=oph_list,
         n_windows=f"{len(w):,}", n_targets=len(t2), n_artemis=int(t2.index.isin(F.ARTEMIS).sum()),
         n_named=int(w.loc[~w.roi.str.startswith(("auto_", "neg_")), "roi"].nunique()),
         n_auto_windows=f"{n_auto:,}", n_auto_cells=int(w[w.roi.str.startswith('auto_')].roi.nunique()),

@@ -57,36 +57,37 @@
 <section id="featured" class="wrap band" aria-labelledby="h-feat">
   <h2 id="h-feat">Featured analogs</h2>
   <p>For each target we keep windows that both of our scores put in the top 100 of the lesser-known pool, then take the best five at least 30 km apart. Each card says what matches, where the analogy breaks, and what a mission team could test there.</p>
+  <p class="shared"><b>Where every place breaks.</b> Earth has about six times the Moon's gravity, an atmosphere and a magnetic field, so dust, heat and radiation behave differently. No place on Earth has permanent shadow or the cold of a lunar polar crater. For the Artemis III targets the lunar rock type is not set, so rock is not compared. Each card adds only what is specific to that place.</p>
   <div><label class="inline">Lunar target <select id="feat-target"></select></label></div>
   <div id="cards" class="cards"></div>
 </section>
 
 <section id="rock" class="wrap" aria-labelledby="h-rock">
   <h2 id="h-rock">Rock analogs under farmland and grass</h2>
-  <p>The bare-surface mask keeps places where a rover could drive on exposed ground. Some places match the Moon on rock and terrain but are covered by fields or grass, so the mask hides them. They are useful for rock sampling and lab work, not for surface operations. The table lists the five best per target (at least 30 km apart) among windows that fail the mask, with their rank among all 22,030 windows. Karacadağ in Türkiye, a basalt plateau, ranks 11 of 22,030 for the mare and 3 in this list; it is our first candidate for field sampling and XRF (X-ray fluorescence) analysis. The eastern and central Türkiye windows for Nobile and the highland fall on rock the global map calls basic plutonic, which there is most likely ophiolite, not anorthosite, so we mark them low confidence.</p>
+  <p>The bare-surface mask keeps places where a rover could drive on exposed ground. Some places match the Moon on rock and terrain but are covered by fields or grass, so the mask hides them. They are useful for rock sampling and lab work, not for surface operations. The table lists the five best per target (at least 30 km apart) among windows that fail the mask, with their rank among all 22,030 windows. Karacadağ lava field in southeastern Türkiye, a basalt plateau, ranks 11 of 22,030 for the mare and 3 in this list; it is our first candidate for field sampling and XRF (X-ray fluorescence) analysis. Some windows sit on rock the global map calls basic plutonic: Doğanşehir, Malatya, eastern Türkiye for the highland (rank 7 of all windows); northwestern Iran (Khoy ophiolite belt) and Karaman, central Türkiye for Nobile (ranks 1 and 2 of all windows). There the rock is most likely ophiolite, not anorthosite, so we mark them low confidence. Windows with less than 80% land are left out.</p>
   <div class="table-scroll"><table class="data">
     <thead><tr><th>Lunar target</th><th>Place</th><th>Window centre</th><th class="n">Rank, all windows</th><th class="n">Rank, this list</th><th class="n">Bare</th><th class="n">Slope median / 90th</th><th>Rock</th></tr></thead>
     <tbody>
-<tr><td>Mare Tranquillitatis</td><td>East Asia</td><td>45.545, 114.564</td><td class="n">6</td><td class="n">1</td><td class="n">0%</td><td class="n">1.20° / 3.01°</td><td>basalt</td></tr>
-<tr><td>Mare Tranquillitatis</td><td>Western US and Mexico</td><td>34.905, -108.116</td><td class="n">8</td><td class="n">2</td><td class="n">2%</td><td class="n">1.21° / 2.82°</td><td>basalt</td></tr>
-<tr><td>Mare Tranquillitatis</td><td>Karacadağ, Türkiye</td><td>37.715, 39.684</td><td class="n">11</td><td class="n">3</td><td class="n">1%</td><td class="n">1.30° / 2.47°</td><td>basalt</td></tr>
-<tr><td>Mare Tranquillitatis</td><td>eastern Türkiye</td><td>37.315, 39.896</td><td class="n">12</td><td class="n">4</td><td class="n">0%</td><td class="n">1.32° / 2.49°</td><td>basalt</td></tr>
-<tr><td>Mare Tranquillitatis</td><td>Western US and Mexico</td><td>34.315, -109.946</td><td class="n">13</td><td class="n">5</td><td class="n">2%</td><td class="n">1.39° / 2.76°</td><td>basalt</td></tr>
-<tr><td>Hadley Rille, Imbrium rim</td><td>Deccan (India)</td><td>20.315, 74.240</td><td class="n">1</td><td class="n">1</td><td class="n">0%</td><td class="n">1.06° / 19.40°</td><td>basalt</td></tr>
-<tr><td>Hadley Rille, Imbrium rim</td><td>Western US and Mexico</td><td>43.405, -113.067</td><td class="n">4</td><td class="n">2</td><td class="n">1%</td><td class="n">1.02° / 17.13°</td><td>basalt</td></tr>
-<tr><td>Hadley Rille, Imbrium rim</td><td>Cape Verde <span class="tag warn">window is partly sea (land 52%)</span></td><td>15.225, -23.767</td><td class="n">10</td><td class="n">3</td><td class="n">1%</td><td class="n">0.00° / 18.02°</td><td>basalt</td></tr>
-<tr><td>Hadley Rille, Imbrium rim</td><td>Greenland and Arctic</td><td>81.545, -27.194</td><td class="n">11</td><td class="n">4</td><td class="n">28%</td><td class="n">3.15° / 20.15°</td><td>basalt</td></tr>
-<tr><td>Hadley Rille, Imbrium rim</td><td>Deccan (India)</td><td>17.995, 74.047</td><td class="n">14</td><td class="n">5</td><td class="n">1%</td><td class="n">2.63° / 18.81°</td><td>basalt</td></tr>
-<tr><td>Descartes highlands</td><td>Central Asia and Tibet</td><td>49.545, 96.069</td><td class="n">2</td><td class="n">1</td><td class="n">0%</td><td class="n">3.73° / 13.90°</td><td>basic plutonic</td></tr>
-<tr><td>Descartes highlands</td><td>Central Asia and Tibet</td><td>49.815, 93.488</td><td class="n">3</td><td class="n">2</td><td class="n">0%</td><td class="n">1.84° / 9.21°</td><td>basic plutonic</td></tr>
-<tr><td>Descartes highlands</td><td>Iran, Afghanistan and Pakistan</td><td>34.405, 47.554</td><td class="n">6</td><td class="n">3</td><td class="n">7%</td><td class="n">1.47° / 11.40°</td><td>basic plutonic</td></tr>
-<tr><td>Descartes highlands</td><td>eastern Türkiye <span class="tag warn">low confidence, likely ophiolite</span></td><td>38.045, 37.900</td><td class="n">7</td><td class="n">4</td><td class="n">4%</td><td class="n">3.53° / 14.70°</td><td>basic plutonic</td></tr>
-<tr><td>Descartes highlands</td><td>Central Asia and Tibet</td><td>48.995, 99.706</td><td class="n">8</td><td class="n">5</td><td class="n">0%</td><td class="n">5.17° / 11.17°</td><td>basic plutonic</td></tr>
-<tr><td>Nobile crater area</td><td>eastern Türkiye <span class="tag warn">low confidence, likely ophiolite</span></td><td>38.725, 44.673</td><td class="n">1</td><td class="n">1</td><td class="n">23%</td><td class="n">6.28° / 15.35°</td><td>basic plutonic</td></tr>
-<tr><td>Nobile crater area</td><td>central Türkiye <span class="tag warn">low confidence, likely ophiolite</span></td><td>37.135, 32.895</td><td class="n">2</td><td class="n">2</td><td class="n">1%</td><td class="n">6.41° / 21.33°</td><td>basic plutonic</td></tr>
-<tr><td>Nobile crater area</td><td>Central Asia and Tibet</td><td>49.725, 93.209</td><td class="n">5</td><td class="n">3</td><td class="n">0%</td><td class="n">5.08° / 16.23°</td><td>basic plutonic</td></tr>
-<tr><td>Nobile crater area</td><td>Central Asia and Tibet</td><td>48.225, 96.972</td><td class="n">8</td><td class="n">4</td><td class="n">0%</td><td class="n">7.86° / 14.52°</td><td>basic plutonic</td></tr>
-<tr><td>Nobile crater area</td><td>Western US and Mexico</td><td>44.635, -117.558</td><td class="n">11</td><td class="n">5</td><td class="n">0%</td><td class="n">9.28° / 16.93°</td><td>basic plutonic</td></tr>
+<tr><td>Mare Tranquillitatis</td><td>Mongolia</td><td>45.545, 114.564</td><td class="n">6</td><td class="n">1</td><td class="n">0%</td><td class="n">1.20° / 3.01°</td><td>basalt</td></tr>
+<tr><td>Mare Tranquillitatis</td><td>United States</td><td>34.905, -108.116</td><td class="n">8</td><td class="n">2</td><td class="n">2%</td><td class="n">1.21° / 2.82°</td><td>basalt</td></tr>
+<tr><td>Mare Tranquillitatis</td><td>Karacadağ lava field, southeastern Türkiye</td><td>37.715, 39.684</td><td class="n">11</td><td class="n">3</td><td class="n">1%</td><td class="n">1.30° / 2.47°</td><td>basalt</td></tr>
+<tr><td>Mare Tranquillitatis</td><td>Karacadağ lava field, southeastern Türkiye</td><td>37.315, 39.896</td><td class="n">12</td><td class="n">4</td><td class="n">0%</td><td class="n">1.32° / 2.49°</td><td>basalt</td></tr>
+<tr><td>Mare Tranquillitatis</td><td>United States</td><td>34.315, -109.946</td><td class="n">13</td><td class="n">5</td><td class="n">2%</td><td class="n">1.39° / 2.76°</td><td>basalt</td></tr>
+<tr><td>Hadley Rille, Imbrium rim</td><td>India</td><td>20.315, 74.240</td><td class="n">1</td><td class="n">1</td><td class="n">0%</td><td class="n">1.06° / 19.40°</td><td>basalt</td></tr>
+<tr><td>Hadley Rille, Imbrium rim</td><td>United States</td><td>43.405, -113.067</td><td class="n">4</td><td class="n">2</td><td class="n">1%</td><td class="n">1.02° / 17.13°</td><td>basalt</td></tr>
+<tr><td>Hadley Rille, Imbrium rim</td><td>Greenland</td><td>81.545, -27.194</td><td class="n">11</td><td class="n">3</td><td class="n">28%</td><td class="n">3.15° / 20.15°</td><td>basalt</td></tr>
+<tr><td>Hadley Rille, Imbrium rim</td><td>India</td><td>17.995, 74.047</td><td class="n">14</td><td class="n">4</td><td class="n">1%</td><td class="n">2.63° / 18.81°</td><td>basalt</td></tr>
+<tr><td>Hadley Rille, Imbrium rim</td><td>Mexico</td><td>29.905, -107.741</td><td class="n">24</td><td class="n">7</td><td class="n">0%</td><td class="n">2.49° / 15.93°</td><td>basalt</td></tr>
+<tr><td>Descartes highlands</td><td>Mongolia</td><td>49.545, 96.069</td><td class="n">2</td><td class="n">1</td><td class="n">0%</td><td class="n">3.73° / 13.90°</td><td>basic plutonic</td></tr>
+<tr><td>Descartes highlands</td><td>Mongolia</td><td>49.815, 93.488</td><td class="n">3</td><td class="n">2</td><td class="n">0%</td><td class="n">1.84° / 9.21°</td><td>basic plutonic</td></tr>
+<tr><td>Descartes highlands</td><td>Iran</td><td>34.405, 47.554</td><td class="n">6</td><td class="n">3</td><td class="n">7%</td><td class="n">1.47° / 11.40°</td><td>basic plutonic</td></tr>
+<tr><td>Descartes highlands</td><td>Doğanşehir, Malatya, eastern Türkiye <span class="tag warn">low confidence, likely ophiolite</span></td><td>38.045, 37.900</td><td class="n">7</td><td class="n">4</td><td class="n">4%</td><td class="n">3.53° / 14.70°</td><td>basic plutonic</td></tr>
+<tr><td>Descartes highlands</td><td>Mongolia</td><td>48.995, 99.706</td><td class="n">8</td><td class="n">5</td><td class="n">0%</td><td class="n">5.17° / 11.17°</td><td>basic plutonic</td></tr>
+<tr><td>Nobile crater area</td><td>northwestern Iran (Khoy ophiolite belt) <span class="tag warn">low confidence, likely ophiolite</span></td><td>38.725, 44.673</td><td class="n">1</td><td class="n">1</td><td class="n">23%</td><td class="n">6.28° / 15.35°</td><td>basic plutonic</td></tr>
+<tr><td>Nobile crater area</td><td>Karaman, central Türkiye <span class="tag warn">low confidence, likely ophiolite</span></td><td>37.135, 32.895</td><td class="n">2</td><td class="n">2</td><td class="n">1%</td><td class="n">6.41° / 21.33°</td><td>basic plutonic</td></tr>
+<tr><td>Nobile crater area</td><td>Mongolia</td><td>49.725, 93.209</td><td class="n">5</td><td class="n">3</td><td class="n">0%</td><td class="n">5.08° / 16.23°</td><td>basic plutonic</td></tr>
+<tr><td>Nobile crater area</td><td>Mongolia</td><td>48.225, 96.972</td><td class="n">8</td><td class="n">4</td><td class="n">0%</td><td class="n">7.86° / 14.52°</td><td>basic plutonic</td></tr>
+<tr><td>Nobile crater area</td><td>United States</td><td>44.635, -117.558</td><td class="n">11</td><td class="n">5</td><td class="n">0%</td><td class="n">9.28° / 16.93°</td><td>basic plutonic</td></tr>
     </tbody></table></div>
   <p class="small">Region names come from coarse boxes, not country borders. Full table: results/rock_analogs.csv.</p>
 </section>
@@ -127,6 +128,7 @@
   <p>Polar craters that never see sunlight hold water ice. These cold traps are the main reason for a polar base, and no place on Earth matches them. In our Artemis III windows, Diviner's thermal model finds that water ice would stay stable within 2.9 m of the surface under 7% to 60% of the ground. What Earth can offer is a dry, bare surface to bury ice in, or cold ground with real ice to drill. ISRU (in-situ resource utilization) means making water, oxygen or fuel from local material. The table groups Earth regions by what kind of water or ice test they suit.</p>
   <div><label class="inline">Lunar target <select id="water-target"></select></label></div>
   <div class="table-scroll"><table id="water-table" class="data"></table></div>
+  <p class="tnote">Up to four places per group, by best score for this target. Every value in a row belongs to the best window of that group in that place. Aridity index: rain divided by evaporation demand; below 0.05 is hyper-arid. Full table: results/water_ice.csv.</p>
   <p class="small">Group rules, applied to each window on its own values: dry-surface when aridity is below 0.05 and more than 80% of the ground is bare; ice-bearing when snow or ice covers more than 5% of the window, or the mean annual air temperature is below -2 °C (a common proxy for likely permafrost); terrain when the window passes the bare-surface mask. Regions marked well-studied are Atacama, Iceland, Hawaii and Antarctica.</p>
 </section>
 
@@ -179,6 +181,7 @@
     <li><strong>Zomer and Trabucco 2019</strong>: <a href="https://doi.org/10.6084/m9.figshare.7504448">Global Aridity Index and Potential Evapotranspiration (ET0) Database, Version 3.1</a>, CC BY 4.0. Used for dryness, sampled at our windows.</li>
     <li><strong>LROC, Arizona State University</strong>: <a href="https://quickmap.lroc.asu.edu/">QuickMap (Artemis III candidate regions and slopes)</a>. Used for Artemis III region centres and slope check.</li>
     <li><strong>ESA</strong>: CAFE analog site catalogue. Used for known analog sites (with our own literature checks).</li>
+    <li><strong>Natural Earth</strong>: <a href="https://www.naturalearthdata.com/">admin-0 countries, 1:10m</a> (public domain). Country of every window.</li>
     <li><strong>Macrostrat</strong>: <a href="https://macrostrat.org/">geologic map API</a>. Used for rock type check at known sites.</li>
     <li><strong>NASA Scientific Visualization Studio</strong>: <a href="https://svs.gsfc.nasa.gov/4720">CGI Moon Kit</a> (LRO LROC color map) and <a href="https://visibleearth.nasa.gov/images/73909/december-blue-marble-next-generation-w-topography-and-bathymetry">Blue Marble</a>. Used for the two globes on the homepage.</li>
     <li><strong>Esri</strong>: <a href="https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9">World Imagery</a>. Source: Esri, Vantor, Earthstar Geographics, and the GIS User Community. Used for the high-resolution map layer.</li>

@@ -57,13 +57,14 @@
 <section id="featured" class="wrap band" aria-labelledby="h-feat">
   <h2 id="h-feat">Featured analogs</h2>
   <p>For each target we keep windows that both of our scores put in the top 100 of the lesser-known pool, then take the best five at least 30 km apart. Each card says what matches, where the analogy breaks, and what a mission team could test there.</p>
+  <p class="shared"><b>Where every place breaks.</b> Earth has about six times the Moon's gravity, an atmosphere and a magnetic field, so dust, heat and radiation behave differently. No place on Earth has permanent shadow or the cold of a lunar polar crater. For the Artemis III targets the lunar rock type is not set, so rock is not compared. Each card adds only what is specific to that place.</p>
   <div><label class="inline">Lunar target <select id="feat-target"></select></label></div>
   <div id="cards" class="cards"></div>
 </section>
 
 <section id="rock" class="wrap" aria-labelledby="h-rock">
   <h2 id="h-rock">Rock analogs under farmland and grass</h2>
-  <p>The bare-surface mask keeps places where a rover could drive on exposed ground. Some places match the Moon on rock and terrain but are covered by fields or grass, so the mask hides them. They are useful for rock sampling and lab work, not for surface operations. The table lists the five best per target (at least 30 km apart) among windows that fail the mask, with their rank among all $n_valid windows. Karacadağ in Türkiye, a basalt plateau, ranks $kara_rank of $n_valid for the mare and $kara_rock_rank in this list; it is our first candidate for field sampling and XRF (X-ray fluorescence) analysis. The eastern and central Türkiye windows for Nobile and the highland fall on rock the global map calls basic plutonic, which there is most likely ophiolite, not anorthosite, so we mark them low confidence.</p>
+  <p>The bare-surface mask keeps places where a rover could drive on exposed ground. Some places match the Moon on rock and terrain but are covered by fields or grass, so the mask hides them. They are useful for rock sampling and lab work, not for surface operations. The table lists the five best per target (at least 30 km apart) among windows that fail the mask, with their rank among all $n_valid windows. Karacadağ lava field in southeastern Türkiye, a basalt plateau, ranks $kara_rank of $n_valid for the mare and $kara_rock_rank in this list; it is our first candidate for field sampling and XRF (X-ray fluorescence) analysis. Some windows sit on rock the global map calls basic plutonic: $oph_list. There the rock is most likely ophiolite, not anorthosite, so we mark them low confidence. Windows with less than 80% land are left out.</p>
   <div class="table-scroll"><table class="data">
     <thead><tr><th>Lunar target</th><th>Place</th><th>Window centre</th><th class="n">Rank, all windows</th><th class="n">Rank, this list</th><th class="n">Bare</th><th class="n">Slope median / 90th</th><th>Rock</th></tr></thead>
     <tbody>
@@ -108,6 +109,7 @@ $rock_rows
   <p>Polar craters that never see sunlight hold water ice. These cold traps are the main reason for a polar base, and no place on Earth matches them. In our Artemis III windows, Diviner's thermal model finds that water ice would stay stable within 2.9 m of the surface under $div_ice_lo to $div_ice_hi of the ground. What Earth can offer is a dry, bare surface to bury ice in, or cold ground with real ice to drill. ISRU (in-situ resource utilization) means making water, oxygen or fuel from local material. The table groups Earth regions by what kind of water or ice test they suit.</p>
   <div><label class="inline">Lunar target <select id="water-target"></select></label></div>
   <div class="table-scroll"><table id="water-table" class="data"></table></div>
+  <p class="tnote">Up to four places per group, by best score for this target. Every value in a row belongs to the best window of that group in that place. Aridity index: rain divided by evaporation demand; below 0.05 is hyper-arid. Full table: results/water_ice.csv.</p>
   <p class="small">Group rules, applied to each window on its own values: dry-surface when aridity is below 0.05 and more than 80% of the ground is bare; ice-bearing when snow or ice covers more than 5% of the window, or the mean annual air temperature is below -2 °C (a common proxy for likely permafrost); terrain when the window passes the bare-surface mask. Regions marked well-studied are Atacama, Iceland, Hawaii and Antarctica.</p>
 </section>
 
@@ -160,6 +162,7 @@ $rock_rows
     <li><strong>Zomer and Trabucco 2019</strong>: <a href="https://doi.org/10.6084/m9.figshare.7504448">Global Aridity Index and Potential Evapotranspiration (ET0) Database, Version 3.1</a>, CC BY 4.0. Used for dryness, sampled at our windows.</li>
     <li><strong>LROC, Arizona State University</strong>: <a href="https://quickmap.lroc.asu.edu/">QuickMap (Artemis III candidate regions and slopes)</a>. Used for Artemis III region centres and slope check.</li>
     <li><strong>ESA</strong>: CAFE analog site catalogue. Used for known analog sites (with our own literature checks).</li>
+    <li><strong>Natural Earth</strong>: <a href="https://www.naturalearthdata.com/">admin-0 countries, 1:10m</a> (public domain). Country of every window.</li>
     <li><strong>Macrostrat</strong>: <a href="https://macrostrat.org/">geologic map API</a>. Used for rock type check at known sites.</li>
     <li><strong>NASA Scientific Visualization Studio</strong>: <a href="https://svs.gsfc.nasa.gov/4720">CGI Moon Kit</a> (LRO LROC color map) and <a href="https://visibleearth.nasa.gov/images/73909/december-blue-marble-next-generation-w-topography-and-bathymetry">Blue Marble</a>. Used for the two globes on the homepage.</li>
     <li><strong>Esri</strong>: <a href="https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9">World Imagery</a>. Source: Esri, Vantor, Earthstar Geographics, and the GIS User Community. Used for the high-resolution map layer.</li>
