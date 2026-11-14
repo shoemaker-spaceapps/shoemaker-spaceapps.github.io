@@ -29,8 +29,9 @@ N14_NOTE = "ophiolite gabbro, not anorthosite; we first used this area as a hard
 LITO_EN = {"bazaltik": "basaltic", "plutonik_bazik": "basic plutonic", "sedimanter": "sedimentary",
            "kristalen": "crystalline", "volkanik_asidik": "acid volcanic", "piroklastik": "pyroclastic",
            "su": "water", "buz": "ice", "bilinmiyor": "unknown"}
-ROI_EN = {"anatolia_kula": "Kula, western Anatolia", "anatolia_karacadag": "Karacadag, SE Anatolia",
-          "anatolia_kapadokya": "Cappadocia, central Anatolia", "arizona_sfvf": "San Francisco volcanic field, Arizona",
+KARA = "Karacadağ lava field, southeastern Türkiye"
+ROI_EN = {"anatolia_kula": "Kula volcanic field, western Türkiye", "anatolia_karacadag": KARA,
+          "anatolia_kapadokya": "Cappadocia, central Türkiye", "arizona_sfvf": "San Francisco volcanic field, Arizona",
           "iceland_central": "Central Iceland", "devon_haughton": "Haughton crater, Devon Island",
           "labrador_mistastin": "Mistastin, Labrador", "lanzarote": "Lanzarote", "hawaii_maunakea": "Mauna Kea, Hawaii",
           "atacama": "Atacama", "chad_tibesti": "Tibesti, Chad", "namib": "Namib",
@@ -40,7 +41,7 @@ ROI_EN = {"anatolia_kula": "Kula, western Anatolia", "anatolia_karacadag": "Kara
 # coarse boxes for auto cells, first match wins; no country borders are used
 REGION_BOXES = [("Galapagos", -2, 1, -92, -89), ("Cape Verde", 14, 18, -26, -22), ("Hawaii", 18, 23, -161, -154), ("Iceland", 63, 67, -25, -13),
                 ("Afar and East Africa", -12, 18, 33, 52), ("Iran, Afghanistan and Pakistan", 24, 40, 47, 72),
-                ("Arabian Peninsula", 12, 34, 34, 60),
+                ("Arabia and the Levant", 12, 34, 34, 60),
                 ("Deccan (India)", 8, 28, 68, 88), ("Europe and Anatolia", 35.8, 42.2, 25.6, 45),
                 ("Sahara", 12, 37.5, -18, 34),
                 ("Central and West Africa", -12, 12, -20, 33), ("Southern Africa", -36, -12, 10, 42),
@@ -55,13 +56,38 @@ CLIMATE = ["sicaklik_yillik_ort_C", "sicaklik_en_soguk_ay_min_C", "sicaklik_en_s
            "yagis_mm_yil", "ruzgar_10m_ms", "bagil_nem_yuzde", "gunes_kWh_m2_gun"]
 
 
-def region_name(roi, lat, lon):
-    if roi in ROI_EN:
-        return ROI_EN[roi]
+# place names given by the team for single windows; everything else is the Natural Earth country
+OVERRIDE = {"E_005847": "northwestern Iran (Khoy ophiolite belt)", "E_000072": KARA, "E_006081": KARA,
+            "E_007356": "Harrat ash Shaam, Jordan", "E_005865": "Doğanşehir, Malatya, eastern Türkiye",
+            "E_006049": "Karaman, central Türkiye"}
+
+
+def area_name(lat, lon):
+    """Coarse area box, used only for counts such as 'mostly Andean'."""
     for name, la0, la1, lo0, lo1 in REGION_BOXES:
         if la0 <= lat <= la1 and lo0 <= lon <= lo1:
             return name
     return "Other"
+
+
+def region_name(roi, lat, lon, country="", window_id="", lito=""):
+    """One label per window, used in every table, card and text."""
+    if window_id in OVERRIDE:
+        return OVERRIDE[window_id]
+    if roi in ROI_EN:
+        return ROI_EN[roi]
+    area = area_name(lat, lon)
+    if not country:
+        return area
+    if area == "Arabia and the Levant" and lito == "bazaltik":
+        return f"harrat basalt field, {country}"
+    if area in ("Galapagos", "Hawaii", "Iceland") and area != country:
+        return f"{area}, {country}"
+    if lat >= 74 and country in ("Canada", "Russia", "Norway"):
+        return f"Arctic islands, {country}"
+    if country == "China" and 27 <= lat <= 39.5 and 73 <= lon <= 104:
+        return "Tibetan Plateau, China"
+    return country
 
 
 def well_studied(lat, lon):
@@ -106,6 +132,9 @@ def load(out_moon):
     neg["durum"] = neg.get("durum", pd.Series("", index=neg.index)).fillna("")
     ahp = pd.read_csv(os.path.join(DATA, "ahp_weights.csv")).set_index("kriter")["agirlik"].to_dict()
     sim = pd.read_csv(P("T4_scores.csv"), usecols=["target_id", "window_id", "sim"])
+    cpath = P("window_countries.csv")
+    t1["country"] = t1.window_id.map(pd.read_csv(cpath).fillna("").set_index("window_id").country) if os.path.exists(cpath) else ""
+    t1["country"] = t1.country.fillna("")
     clim_path = os.path.join(out_moon, "iklim_power.csv")
     if os.path.exists(clim_path):
         t1 = t1.merge(pd.read_csv(clim_path)[["window_id"] + CLIMATE], on="window_id", how="left")
@@ -194,7 +223,8 @@ def known_sites_table(t1, t3, t2, S):
 
 def window_frame(t1, t3, neg):
     w = t1.copy()
-    w["region"] = [region_name(r, a, o) for r, a, o in zip(w.roi, w.lat, w.lon)]
+    w["area"] = [area_name(a, o) for a, o in zip(w.lat, w.lon)]
+    w["region"] = [region_name(*x) for x in zip(w.roi, w.lat, w.lon, w.country, w.window_id, w.lito)]
     w["well_studied"] = well_studied(w.lat, w.lon).astype(int)
     active_neg = {f"neg_{s}" for s in neg[neg.durum == ""].site_id}
     w["hard_negative"] = w.roi.isin(active_neg).astype(int)
@@ -240,22 +270,24 @@ def profile(r, t, tid):
            f"{r.bare_frac * 100:.0f}% of the 10 km window is bare.")
     if not lito_known:
         why += " Rock is not compared for this target, because its lunar rock type is not set."
-    breaks = ["Earth has about six times the Moon's gravity, an atmosphere and a magnetic field, so dust, heat "
-              "and radiation behave differently."]
+    # shared limits (gravity, air, permanent shadow) are stated once above the cards; here only what is specific
+    breaks = []
     if t.relief > 0 and abs(r.relief - t.relief) / t.relief > 0.5:
-        breaks.append(f"Relief is {r.relief:.0f} m here and {t.relief:.0f} m on the target.")
+        breaks.append(f"{'Rougher' if r.relief > t.relief else 'Gentler'} relief: {r.relief:.0f} m here, {t.relief:.0f} m on the target.")
     if lito_known and r.lito != t.lito:
         breaks.append(f"The rock ({LITO_EN.get(r.lito, r.lito)}) does not match the target ({LITO_EN.get(t.lito, t.lito)}).")
     if r.bare_frac < 0.5:
-        breaks.append(f"Only {r.bare_frac * 100:.0f}% of the window is bare; the rest has some plant cover.")
+        breaks.append(f"Partly vegetated: only {r.bare_frac * 100:.0f}% of the window is bare.")
     if r.yagis_mm_yil == r.yagis_mm_yil and r.yagis_mm_yil > 250:
         breaks.append(f"It gets {r.yagis_mm_yil:.0f} mm of rain a year, so the surface weathers.")
-    if tid in POLAR:
-        cold = f"; the lowest hourly temperature here in 2001 to 2025 was {r.sicaklik_en_soguk_ay_min_C:.0f} °C" \
-            if r.sicaklik_en_soguk_ay_min_C == r.sicaklik_en_soguk_ay_min_C else ""
-        breaks.append("No place on Earth has permanent shadow or the cold of lunar polar craters" + cold + ".")
+    if tid in ("T_highland", "T_nobile") and r.lito == "plutonik_bazik":
+        breaks.append("Low confidence rock label: the global map's basic plutonic class may be gabbro or ophiolite, not anorthosite.")
     if r.n14_note:
         breaks.append(f"Note: {r.n14_note}.")
+    if not breaks and tid in POLAR and r.sicaklik_en_soguk_ay_min_C == r.sicaklik_en_soguk_ay_min_C:
+        breaks.append(f"Even its coldest hour in 2001 to 2025 ({r.sicaklik_en_soguk_ay_min_C:.0f} °C) is far warmer than a lunar cold trap.")
+    if not breaks:
+        breaks.append("Few differences beyond the shared limits: bare, dry and close in slope and relief.")
     climate = (f"Climate (NASA POWER, 2001 to 2025): lowest hourly temperature {r.sicaklik_en_soguk_ay_min_C:.1f} °C, "
                f"daily range {r.gunluk_fark_C:.1f} °C, {r.yagis_mm_yil:.0f} mm rain a year, wind {r.ruzgar_10m_ms:.1f} m/s."
                if r.sicaklik_en_soguk_ay_min_C == r.sicaklik_en_soguk_ay_min_C else "Climate: not available.")
@@ -268,7 +300,7 @@ def worldview(lat, lon):
             "&l=MODIS_Terra_CorrectedReflectance_TrueColor,Coastlines_15m&t=2024-06-15")
 
 
-CAND_COLS = ["target_id", "rank_ahp", "rank_pipeline", "window_id", "region", "roi", "lat", "lon", "genel_skor",
+CAND_COLS = ["target_id", "rank_ahp", "rank_pipeline", "window_id", "region", "country", "area", "roi", "lat", "lon", "genel_skor",
              "arazi_benzerligi", "kayac_eslesmesi", "sim", "slope_p50", "slope_p90", "relief", "lito", "bazalt_frac",
              "bazik_plutonik_frac", "bare_frac", "aridity_index"] + CLIMATE + [
              "inis_uygun", "rover_uygun", "n14_note", "confidence"]
@@ -304,17 +336,19 @@ def candidates(w, t2, S):
     return pd.concat(robust, ignore_index=True), pd.concat(top20, ignore_index=True), pd.concat(extremes, ignore_index=True)
 
 
-TURKIYE = (35.8, 42.2, 25.6, 44.9)   # rough box, used only for the place label and the ophiolite note
+TURKIYE = (35.8, 42.2, 25.6, 44.9)   # rough box for the ophiolite note (Anatolian and Khoy belts)
+LAND_MIN = 0.8   # rock analogs need at least 80% land in the window
 ROCK_TARGETS = ["T_mare", "T_imbrium", "T_highland", "T_nobile"]
 
 
 def place(roi, region, lat, lon):
-    if roi == "anatolia_karacadag":
-        return "Karacadağ, Türkiye"
-    la0, la1, lo0, lo1 = TURKIYE
-    if la0 <= lat <= la1 and lo0 <= lon <= lo1:
-        return "eastern Türkiye" if lon >= 36 else "central Türkiye" if lon >= 30 else "western Türkiye"
     return region
+
+
+def ophiolite(region, lat, lon):
+    """Basic plutonic windows in the Anatolian and Zagros belts: most likely ophiolite, not anorthosite."""
+    la0, la1, lo0, lo1 = TURKIYE
+    return la0 <= lat <= la1 and lo0 <= lon <= lo1 and region != KARA
 
 
 def rock_analogs(w, t2, S, k=5):
@@ -324,7 +358,7 @@ def rock_analogs(w, t2, S, k=5):
         t = t2.loc[tid]
         g = S[tid]["genel_skor"]
         pool = ((w.aday_maskesi.values == 0) & (w.lito.values == t.lito) & (w.hard_negative.values == 0)
-                & (w.in_known_site.values == 0))
+                & (w.in_known_site.values == 0) & (w.glim_kapsama.values >= LAND_MIN))
         d = w.copy()
         d["genel_skor"], d["target_id"] = g, tid
         d["rank_all"] = A.ranks(np.nan_to_num(g, nan=-1)).astype(float)
@@ -332,7 +366,7 @@ def rock_analogs(w, t2, S, k=5):
         d["rank_rock_pool"] = pool_rank(g, pool)
         top = spaced(d[d.rank_rock_pool.notna()].sort_values("rank_rock_pool"), k).copy()
         top["place"] = [place(*x) for x in zip(top.roi, top.region, top.lat, top.lon)]
-        tr = top.place.str.endswith("Türkiye") & (top.roi != "anatolia_karacadag")
+        tr = np.array([ophiolite(*x) for x in zip(top.region, top.lat, top.lon)], bool)
         note = np.where(tr & top.target_id.isin(["T_highland", "T_nobile"]), "low confidence, likely ophiolite", top.n14_note)
         top["note"] = [("; ".join(x for x in [n, f"window is partly sea (land {c:.0%})" if c < 0.75 else ""] if x)) for n, c in zip(note, top.glim_kapsama)]
         top["confidence"] = ["low confidence" if (tid in ("T_highland", "T_nobile") or n) else "tested against known sites"

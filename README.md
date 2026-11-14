@@ -15,7 +15,7 @@ We never used the known analog sites to build the score. We used them, and 16 lo
 
 - Mare target: AUC 0.92 (95% interval 0.77 to 1.00). AUC is the chance that a known analog scores higher than a look-alike; 0.5 is a coin flip. Terrain alone gives 0.43, rock alone 0.82. We picked the look-alikes for their different rock, so rock separating them is expected; the finding is that terrain alone fails. The step from 0.82 to 0.92 suggests that terrain adds to rock, but the intervals overlap.
 - No hard negative reaches the top 100 for its own target. The closest is Spitzkoppe-Erongo granites, at rank 629 of 22,147.
-- The best mare candidates are basalt fields in the Arabian Peninsula, the best Imbrium-rim candidates are in the Afar rift, and the rough Artemis III targets match terrain in the Andes. These lie outside the four well-studied regions and are less studied as lunar analogs.
+- The best mare candidates are Arabian basalt fields (harrats) in Jordan, Saudi Arabia and Syria, the best Imbrium-rim candidates are in the Afar rift, and the rough Artemis III targets match terrain in the Andes. These lie outside the four well-studied regions and are less studied as lunar analogs.
 - Diviner puts the coldest spots in our Artemis III windows at 40 to 96 K as a yearly mean. At the coldest Earth terrain match, the lowest hourly temperature in 2001 to 2025 was -47 °C (NASA POWER).
 
 Final tables are in `results/`. Candidate profiles with reasons are in `results/robust_candidates.csv`.
@@ -78,6 +78,7 @@ python src/pipeline/prepare_known_sites.py
 python src/pipeline/analog_pipeline.py --stage tables --auto-rois --workers 4
 python src/pipeline/power_climate.py
 python src/pipeline/diviner_targets.py
+NE_COUNTRIES=data/raw/ne_10m_admin_0_countries.shp python src/pipeline/countries.py
 python src/analysis/lithology_check.py
 ```
 
@@ -90,6 +91,7 @@ Then run the commands in the section above. The raw files are not in the reposit
 | GLiM rock map | [PANGAEA](https://doi.pangaea.de/10.1594/PANGAEA.788537) | LiMW_GIS 2015.gdb and the 0.5 degree grid in hartmann-moosdorf_2012.zip (unpack to data/raw/glim_0p5/) |
 | Global Aridity Index v3.1 | [figshare](https://doi.org/10.6084/m9.figshare.7504448) | ai_v31_yr.tif |
 | Copernicus GLO-30, ESA WorldCover | [AWS open data](https://registry.opendata.aws/copernicus-dem/), [WorldCover](https://esa-worldcover.org/en) | read online by the pipeline |
+| Natural Earth admin-0 countries | [naturalearthdata.com](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/) | ne_10m_admin_0_countries.shp (v5.1.1) |
 | NASA POWER, LRO Diviner | [POWER](https://power.larc.nasa.gov/), [PDS](https://pds-geosciences.wustl.edu/missions/lro/diviner.htm) | read online by the scripts |
 
 ## Column glossary
@@ -99,6 +101,7 @@ Column names come from our pipeline and are kept as they are; this is what they 
 | Column | Meaning |
 | --- | --- |
 | window_id, roi | window id (E_000000 ...) and the region it was cut from (auto_ = automatic cell, neg_ = hard negative) |
+| region, country, area | place label used everywhere on the site, Natural Earth country of the window centre, coarse area box used only for counts |
 | slope_p50, slope_p90 | median and 90th percentile slope in the window, degrees |
 | relief | highest minus lowest point in the window, metres |
 | bare_frac, snow_frac | share of bare ground and of snow or ice (ESA WorldCover) |
@@ -114,7 +117,7 @@ Column names come from our pipeline and are kept as they are; this is what they 
 
 ## Data and credits
 
-NASA: LRO LOLA ([PGDA](https://pgda.gsfc.nasa.gov/products/90)), LRO Diviner ([PDS](https://pds-geosciences.wustl.edu/missions/lro/diviner.htm)), [POWER](https://power.larc.nasa.gov/), [GIBS and Worldview](https://worldview.earthdata.nasa.gov/). NASA and JAXA: [SLDEM2015](https://pgda.gsfc.nasa.gov/products/54) (LOLA with the Kaguya Terrain Camera). ESA: CAFE analog catalogue. [LROC QuickMap](https://quickmap.lroc.asu.edu/) for the Artemis III regions. [Macrostrat](https://macrostrat.org/). Globes: NASA SVS [CGI Moon Kit](https://svs.gsfc.nasa.gov/4720) and [Blue Marble](https://visibleearth.nasa.gov/images/73909/december-blue-marble-next-generation-w-topography-and-bathymetry). Map: [Leaflet](https://leafletjs.com/), charts: [Plotly](https://plotly.com/javascript/), globes: [globe.gl](https://globe.gl/).
+NASA: LRO LOLA ([PGDA](https://pgda.gsfc.nasa.gov/products/90)), LRO Diviner ([PDS](https://pds-geosciences.wustl.edu/missions/lro/diviner.htm)), [POWER](https://power.larc.nasa.gov/), [GIBS and Worldview](https://worldview.earthdata.nasa.gov/). NASA and JAXA: [SLDEM2015](https://pgda.gsfc.nasa.gov/products/54) (LOLA with the Kaguya Terrain Camera). ESA: CAFE analog catalogue. [LROC QuickMap](https://quickmap.lroc.asu.edu/) for the Artemis III regions. [Macrostrat](https://macrostrat.org/). Country names: [Natural Earth](https://www.naturalearthdata.com/) admin-0, 1:10m (public domain). Globes: NASA SVS [CGI Moon Kit](https://svs.gsfc.nasa.gov/4720) and [Blue Marble](https://visibleearth.nasa.gov/images/73909/december-blue-marble-next-generation-w-topography-and-bathymetry). Map: [Leaflet](https://leafletjs.com/), charts: [Plotly](https://plotly.com/javascript/), globes: [globe.gl](https://globe.gl/).
 
 Attribution required by the data licences:
 
