@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Earth's Moon twins | Team Shoemaker demo</title>
+<link rel="stylesheet" href="demo.css">
+</head>
+<body>
+<main id="deck" aria-label="Seven-slide demo. Use the left and right arrow keys to move.">
+
+<section class="slide s-title" aria-label="Slide 1 of 7">
+  <p class="kicker">NASA Space Apps Challenge 2026 · Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars</p>
+  <h1>Earth's Moon twins</h1>
+  <p class="team">Team Shoemaker: Melike Kızılay, Tarık Tuna Taşaltı, Nagihan Koçcenk, Zeynep Naz Erkoç</p>
+  <p class="namesake">We named the team after Eugene Shoemaker, who founded USGS Astrogeology and trained Apollo astronauts in geology at analog sites like Meteor Crater.</p>
+</section>
+
+<section class="slide s-problem" aria-label="Slide 2 of 7">
+  <h2>Moon missions keep testing at the same four places.</h2>
+  <ol class="four"><li>Antarctica</li><li>Atacama</li><li>Iceland</li><li>Hawaii</li></ol>
+  <p class="aside">We asked which other places on Earth match the Moon, how closely, and where each match breaks.</p>
+</section>
+
+<section class="slide s-method" aria-label="Slide 3 of 7">
+  <h2>We compared 22,147 Earth windows with 13 places on the Moon.</h2>
+  <div class="flow" role="img" aria-label="Moon elevation and Earth data give slope, relief and rock, which give one score per window, checked against known sites and look-alikes">
+    <div class="node moon"><b>Moon</b><span>LRO LOLA, Kaguya</span></div>
+    <div class="arrow" aria-hidden="true"></div>
+    <div class="node mid"><b>Slope, relief, rock</b><span>10 km windows</span></div>
+    <div class="arrow" aria-hidden="true"></div>
+    <div class="node score"><b>One score</b><span>per window and target</span></div>
+    <div class="node earth"><b>Earth</b><span>Copernicus DEM, WorldCover, GLiM, NASA POWER</span></div>
+    <div class="node check"><b>Checked</b><span>15 known sites, 16 look-alikes</span></div>
+  </div>
+</section>
+
+<section class="slide s-pair" aria-label="Slide 4 of 7">
+  <h2>Terrain alone cannot tell a salt flat from a basalt field.</h2>
+  <div class="pair">
+    <figure><img src="img/salt.jpg" alt="NASA MODIS image of Salar de Atacama, a white salt flat"><figcaption>Salar de Atacama, salt flat. Terrain rank 518.</figcaption></figure>
+    <figure><img src="img/basalt.jpg" alt="NASA MODIS image of a dark basalt field in the Arabian Peninsula"><figcaption>Arabian Peninsula, basalt field. Combined rank 1.</figcaption></figure>
+  </div>
+  <p class="auc"><span>Terrain <b>0.43</b></span><span>Rock <b>0.82</b></span><span>Both <b>0.92</b></span><em>AUC, mare target</em></p>
+</section>
+
+<section class="slide s-map" aria-label="Slide 5 of 7">
+  <img class="bleed" src="img/map_mare.jpg" alt="Map of the best Earth windows for the lunar mare target, clustered in the Arabian Peninsula and the Afar rift">
+  <div class="overlay">
+    <h2>Beyond the usual sites, the best mare matches are Arabia's basalt fields.</h2>
+  </div>
+  <img class="card" src="img/card_mare.png" alt="Candidate card for a basalt field in the Arabian Peninsula, with why it is similar, where it breaks and what to test there">
+</section>
+
+<section class="slide s-number" aria-label="Slide 6 of 7">
+  <h2>No place on Earth is as cold as the Artemis III sites.</h2>
+  <div class="big">
+    <div><b>40 K</b><span>coldest spot in our Artemis III windows (NASA Diviner)</span></div>
+    <div><b>-47 °C</b><span>coldest Earth terrain match, Arctic islands (NASA POWER)</span></div>
+  </div>
+  <p class="aside">For water and ice tests, Earth offers dry ground to bury ice in, or frozen ground to drill.</p>
+</section>
+
+<section class="slide s-next" aria-label="Slide 7 of 7">
+  <h2>Next, we will test if NASA thermal data can tell basalt from look-alikes from orbit.</h2>
+  <p class="link">Open the map: <a href="https://shoemaker-spaceapps.github.io/">shoemaker-spaceapps.github.io</a></p>
+  <p class="data">Data: NASA LRO (LOLA, Diviner), POWER, GIBS · ESA Copernicus DEM, WorldCover · JAXA Kaguya · GLiM</p>
+</section>
+
+</main>
+<nav class="ctl" aria-label="Slide controls">
+  <button type="button" id="prev" aria-label="Previous slide">&larr;</button>
+  <span id="count" aria-live="polite">1 / 7</span>
+  <button type="button" id="next" aria-label="Next slide">&rarr;</button>
+</nav>
+<script src="demo.js"></script>
+</body>
+</html>
