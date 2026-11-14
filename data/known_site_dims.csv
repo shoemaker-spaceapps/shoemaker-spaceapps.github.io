@@ -1,0 +1,16 @@
+site_id,site_name,analog_to,eval_track,dims
+S01,"Rio Grande Gorge (Taos Plateau, New Mexico)",T_imbrium,yuzey,"arazi,kayac"
+S02,Merriam Crater (Arizona),T_mare,yuzey,kayac
+S03,Sudbury Impact Structure (Ontario),T_highland,surec,surec
+S04,Stillwater Complex (Montana),T_highland,malzeme,kayac
+S05,Peñas de Tao basalt outcrop / quarry,T_mare,yuzey,kayac
+S06,Teide National Park — Minas de San José,T_mare,yuzey,operasyon
+S07,Askja volcanic field,T_mare,yuzey,kayac
+S08,Kīlauea — Kaʻū Desert field area,T_mare,yuzey,kayac
+S09,Lonar Impact Crater,T_mare,malzeme,"arazi,kayac,surec"
+S10,Meteor Crater (Barringer Crater),T_highland,surec,surec
+S11,Ries Impact Crater,T_imbrium,surec,surec
+S12,Cinder Lake Crater Field,T_mare,yuzey,"operasyon,kayac"
+S13,Black Point Lava Flow,T_mare,yuzey,"arazi,kayac"
+S14,Haughton Impact Structure,T_nobile,yuzey,"surec,operasyon"
+S15,Mistastin Lake Crater,T_highland,malzeme,"kayac,surec"

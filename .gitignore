@@ -1,0 +1,27 @@
+# environment and caches
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+
+# credentials
+.netrc
+*.netrc
+.urs_cookies
+
+# raw data (download links in README)
+data/raw/
+*.tif
+*.TIF
+*.IMG
+*.img
+*.h5
+*.gdb/
+*.zip
+
+# large or regenerated outputs
+results/pipeline/T4_scores.csv
+results/pipeline/v4_analog_profili.csv
+results/pipeline/analog_tables.xlsx
+*.log
