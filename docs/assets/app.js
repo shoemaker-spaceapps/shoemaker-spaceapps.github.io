@@ -80,7 +80,7 @@
     const t = tgById[tid], g = SC[tid].g[i], a = SC[tid].a ? SC[tid].a[i] : g;
     const lito = W.lito[W.li[i]], rockMatch = t.lito !== "bilinmiyor" ? (lito === t.lito ? "matches" : "differs") : "not compared";
     const clim = W.tmin[i] === null ? "<p>Climate: not available.</p>" :
-      `<p>Climate (NASA POWER): coldest-month minimum ${num(W.tmin[i] / 10)} °C, daily swing ${num(W.dr[i] / 10)} °C, ${intf(W.rain[i])} mm rain a year.</p>`;
+      `<p>Climate (NASA POWER, 2001 to 2025): lowest hourly temperature ${num(W.tmin[i] / 10)} °C, mean daily swing ${num(W.dr[i] / 10)} °C, ${intf(W.rain[i])} mm rain a year.</p>`;
     const n14 = (W.fl[i] & FL.n14) ? `<p><strong>Note:</strong> ${N14_NOTE}.</p>` : "";
     return `<div class="pop-title">${esc(W.regions[W.reg[i]])}</div>
       <div>${wid(i)} · ${W.lat[i].toFixed(3)}, ${W.lon[i].toFixed(3)}${rank ? ` · rank ${rank} in ${poolName}` : ""}</div>
@@ -247,7 +247,7 @@
       <th class="n">Coldest spot (K)</th><th class="n">Mean yearly max (K)</th><th class="n">Ice-stable ground</th></tr></thead><tbody>` +
       div.map((t) => `<tr><td>${esc(t.name)}</td><td class="n">${num(t.div_avg, 0)}</td><td class="n">${num(t.div_cold, 0)}</td><td class="n">${num(t.div_max, 0)}</td>
         <td class="n">${Math.round(t.div_ice * 100)}%</td></tr>`).join("") +
-      `</tbody></table></div><p class="small">Diviner Polar Resource Product (LRO). Annual mean is 2 cm below the surface, averaged over the 10 km window. "Coldest spot" is the coldest 0.5 km cell in the window. "Ice-stable ground" is the share of the window where the model finds a depth at which buried water ice would stay stable. The product has no yearly minimum.</p>`
+      `</tbody></table></div><p class="small">Diviner Polar Resource Product (LRO). Annual mean is 2 cm below the surface, averaged over the 10 km window. "Coldest spot" is the coldest 0.5 km cell in the window. "Ice-stable ground" is the share of the window where water ice would stay stable (losing less than 1 kg per square metre per billion years) within 2.9 m of the surface, the depth limit of the product. The product has no yearly minimum.</p>`
       : "<p>Diviner values were not available.</p>";
     Plotly.react("qm-chart", [
       { type: "scatter", mode: "markers+text", x: art.map((t) => t.qm), y: art.map((t) => t.s50), text: art.map((t) => t.name), textposition: "top center",
@@ -260,8 +260,8 @@
     const firsts = [];
     for (const t of TG.filter((t) => t.kind !== "mare" && t.kind !== "imbrium" && t.kind !== "highland"))
       for (const c of ["coldest", "largest_daily_range"]) { const r = ex.find((e) => e.target_id === t.id && e.criterion === c); if (r) firsts.push(r); }
-    $("#ext-table").innerHTML = `<thead><tr><th>Target</th><th>Kind</th><th>Region</th><th>Lat, lon</th><th class="n">Coldest month min</th>
-      <th class="n">Daily swing</th><th class="n">Rain</th><th class="n">Terrain rank</th></tr></thead><tbody>` +
+    $("#ext-table").innerHTML = `<thead><tr><th>Target</th><th>Kind</th><th>Region</th><th>Lat, lon</th><th class="n">Lowest hourly temp.</th>
+      <th class="n">Mean daily swing</th><th class="n">Rain</th><th class="n">Terrain rank</th></tr></thead><tbody>` +
       firsts.map((e) => `<tr><td>${tgById[e.target_id].name}</td><td>${e.criterion === "coldest" ? "coldest" : "largest swing"}</td>
         <td>${esc(e.region)}${e.n14_note ? ' <span class="tag warn">ophiolite, former negative</span>' : ""}</td><td>${e.lat.toFixed(3)}, ${e.lon.toFixed(3)}</td>
         <td class="n">${num(e.sicaklik_en_soguk_ay_min_C)} °C</td><td class="n">${num(e.gunluk_fark_C)} °C</td><td class="n">${intf(e.yagis_mm_yil)} mm</td>
@@ -272,7 +272,7 @@
     const tid = $("#water-target").value;
     const rows = EV.water.filter((r) => r.target_id === tid).slice(0, 18);
     $("#water-table").innerHTML = `<thead><tr><th>Region</th><th>Group</th><th class="n">Best score</th><th class="n">Aridity</th><th class="n">Bare</th>
-      <th class="n">Snow</th><th class="n">Coldest month min</th><th class="n">Rain</th><th>Reading</th><th>ISRU test use</th></tr></thead><tbody>` +
+      <th class="n">Snow</th><th class="n">Lowest hourly temp.</th><th class="n">Rain</th><th>Reading</th><th>ISRU test use</th></tr></thead><tbody>` +
       rows.map((r) => `<tr class="${r.lesser_known ? "hl" : ""}"><td>${esc(r.region)}${r.well_studied ? ' <span class="tag">well-studied</span>' : ""}${r.lesser_known ? ' <span class="tag good">lesser-known</span>' : ""}</td>
         <td>${esc(r.group)}</td><td class="n">${num(r.best_score, 3)}</td><td class="n">${num(r.aridity, 2)}</td><td class="n">${Math.round(r.bare * 100)}%</td>
         <td class="n">${Math.round(r.snow * 100)}%</td><td class="n">${num(r.coldest_min_C)} °C</td><td class="n">${intf(r.rain_mm)} mm</td>
@@ -292,7 +292,8 @@
 
   async function init() {
     setupTheme();
-    const get = (n) => fetch("data/" + n + ".json").then((r) => { if (!r.ok) throw new Error(n + " " + r.status); return r.json(); });
+    const base = document.body.dataset.base || "";
+    const get = (n) => fetch(base + "data/" + n + ".json").then((r) => { if (!r.ok) throw new Error(n + " " + r.status); return r.json(); });
     [W, SC, TG, CAND, BOX, EV] = await Promise.all(["windows", "scores", "targets", "candidates", "boxes", "eval"].map(get));
     TG.forEach((t) => (tgById[t.id] = t));
     const q = new URLSearchParams(location.search);
@@ -305,14 +306,15 @@
     map = L.map("map", { worldCopyJump: true, minZoom: 2, zoomControl: true }).setView([18, 20], 2);
     const gibs = "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/";
     const modis = L.tileLayer(gibs + "MODIS_Terra_CorrectedReflectance_TrueColor/default/2024-06-15/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg",
-      { maxNativeZoom: 9, maxZoom: 13, attribution: 'Imagery: <a href="https://earthdata.nasa.gov/gibs">NASA GIBS</a>, MODIS Terra' }).addTo(map);
+      { maxNativeZoom: 9, maxZoom: 13, attribution: 'Imagery: <a href="https://earthdata.nasa.gov/gibs">NASA GIBS</a>, MODIS Terra' });
     const marble = L.tileLayer(gibs + "BlueMarble_ShadedRelief_Bathymetry/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg",
-      { maxNativeZoom: 8, maxZoom: 13, attribution: 'Imagery: <a href="https://earthdata.nasa.gov/gibs">NASA GIBS</a>, Blue Marble' });
+      { maxNativeZoom: 8, maxZoom: 13, attribution: 'Imagery: <a href="https://earthdata.nasa.gov/gibs">NASA GIBS</a>, Blue Marble' }).addTo(map);
     const esri = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-      { maxZoom: 17, attribution: "Imagery: Esri, Maxar, Earthstar Geographics" });
+      { maxZoom: 17, attribution: "Source: Esri, Vantor, Earthstar Geographics, and the GIS User Community" });
     const bases = { modis, marble, esri };
-    if (bases[q.get("base")] && q.get("base") !== "modis") { map.removeLayer(modis); bases[q.get("base")].addTo(map); }
-    L.control.layers({ "NASA MODIS true color": modis, "NASA Blue Marble": marble, "Esri high resolution": esri }, null, { collapsed: true }).addTo(map);
+    if (bases[q.get("base")] && q.get("base") !== "marble") { map.removeLayer(marble); bases[q.get("base")].addTo(map); }
+    L.control.layers({ "NASA Blue Marble": marble, "NASA MODIS true color (single day, may show gaps and clouds)": modis,
+      "Esri high resolution": esri }, null, { collapsed: true }).addTo(map);
     L.control.scale({ imperial: false }).addTo(map);
     knownLayer = L.layerGroup().addTo(map); negLayer = L.layerGroup().addTo(map); pointLayer = L.layerGroup().addTo(map);
 
@@ -322,6 +324,8 @@
     const v = (q.get("view") || "").split(",").map(Number);
     if (v.length === 3 && v.every(Number.isFinite)) map.setView([v[0], v[1]], v[2]);
     render(); drawCards(); drawAuc(); drawTables(); drawWater();
+    const win = q.get("win");
+    if (win && /^E_\d{6}$/.test(win) && idxOf(win) < W.n) openWindow(idxOf(win));
   }
 
   init().catch((e) => {
