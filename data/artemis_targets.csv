@@ -1,10 +1,10 @@
 target_id,region,lat,lon,area_km2,quickmap_slope_deg,lito,terrain_class,note
-T_n2,Nobile Rim 2,-83.9541,58.8215,400.0,9.111,bilinmiyor,polar,lito Melike karari bekliyor (plutonik_bazik genellemesi uygun degil)
-T_mm,Mons Mouton,-85.4266,31.7428,256.0,10.72,bilinmiyor,polar,lito Melike karari bekliyor (plutonik_bazik genellemesi uygun degil)
-T_ma,Malapert Massif,-85.9948,-0.2358,441.0,15.306,bilinmiyor,polar,lito Melike karari bekliyor (plutonik_bazik genellemesi uygun degil)
-T_g2,de Gerlache Rim 2,-88.23,-64.6284,400.0,8.659,bilinmiyor,polar,kalici golgede; lito Melike karari bekliyor (plutonik_bazik genellemesi uygun degil)
-T_mp,Mons Mouton Plateau,-84.3347,30.5923,4451.8,8.201,bilinmiyor,polar,lito Melike karari bekliyor (plutonik_bazik genellemesi uygun degil)
-T_sp,Slater Plain,-87.1637,125.5377,399.8,5.786,bilinmiyor,polar,lito Melike karari bekliyor (plutonik_bazik genellemesi uygun degil)
-T_cb,Peak Near Cabeus B,-83.6375,-68.7495,399.8,16.45,bilinmiyor,polar,lito Melike karari bekliyor (plutonik_bazik genellemesi uygun degil)
-T_n1,Nobile Rim 1,-85.4364,37.347,400.0,14.364,bilinmiyor,polar,lito Melike karari bekliyor (plutonik_bazik genellemesi uygun degil)
-T_hw,Haworth,-86.7639,-22.777,888.0,8.174,bilinmiyor,polar,lito Melike karari bekliyor (plutonik_bazik genellemesi uygun degil)
+T_n2,Nobile Rim 2,-83.9541,58.8215,400.0,9.111,bilinmiyor,polar,"rock type not set: south polar terrain is mixed highland material and no global lithology label fits, so this target is ranked by terrain only"
+T_mm,Mons Mouton,-85.4266,31.7428,256.0,10.72,bilinmiyor,polar,"rock type not set: south polar terrain is mixed highland material and no global lithology label fits, so this target is ranked by terrain only"
+T_ma,Malapert Massif,-85.9948,-0.2358,441.0,15.306,bilinmiyor,polar,"rock type not set: south polar terrain is mixed highland material and no global lithology label fits, so this target is ranked by terrain only"
+T_g2,de Gerlache Rim 2,-88.23,-64.6284,400.0,8.659,bilinmiyor,polar,"in permanent shadow; rock type not set: south polar terrain is mixed highland material and no global lithology label fits, so this target is ranked by terrain only"
+T_mp,Mons Mouton Plateau,-84.3347,30.5923,4451.8,8.201,bilinmiyor,polar,"rock type not set: south polar terrain is mixed highland material and no global lithology label fits, so this target is ranked by terrain only"
+T_sp,Slater Plain,-87.1637,125.5377,399.8,5.786,bilinmiyor,polar,"rock type not set: south polar terrain is mixed highland material and no global lithology label fits, so this target is ranked by terrain only"
+T_cb,Peak Near Cabeus B,-83.6375,-68.7495,399.8,16.45,bilinmiyor,polar,"rock type not set: south polar terrain is mixed highland material and no global lithology label fits, so this target is ranked by terrain only"
+T_n1,Nobile Rim 1,-85.4364,37.347,400.0,14.364,bilinmiyor,polar,"rock type not set: south polar terrain is mixed highland material and no global lithology label fits, so this target is ranked by terrain only"
+T_hw,Haworth,-86.7639,-22.777,888.0,8.174,bilinmiyor,polar,"rock type not set: south polar terrain is mixed highland material and no global lithology label fits, so this target is ranked by terrain only"

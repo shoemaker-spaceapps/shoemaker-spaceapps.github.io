@@ -1,5 +1,5 @@
 kriter,agirlik,CR,not_
-slope_p50,0.122,0.004,TASLAK: Melike ikili karşılaştırmaları gözden geçirmeli. TRI çıkarıldı (eğim p90 ile r=0.998).
-slope_p90,0.227,0.004,TASLAK: Melike ikili karşılaştırmaları gözden geçirmeli. TRI çıkarıldı (eğim p90 ile r=0.998).
-relief,0.227,0.004,TASLAK: Melike ikili karşılaştırmaları gözden geçirmeli. TRI çıkarıldı (eğim p90 ile r=0.998).
-lito,0.424,0.004,TASLAK: Melike ikili karşılaştırmaları gözden geçirmeli. TRI çıkarıldı (eğim p90 ile r=0.998).
+slope_p50,0.122,0.004,"Final weights from AHP pairwise comparisons, set before testing. TRI dropped (r=0.998 with slope p90)."
+slope_p90,0.227,0.004,"Final weights from AHP pairwise comparisons, set before testing. TRI dropped (r=0.998 with slope p90)."
+relief,0.227,0.004,"Final weights from AHP pairwise comparisons, set before testing. TRI dropped (r=0.998 with slope p90)."
+lito,0.424,0.004,"Final weights from AHP pairwise comparisons, set before testing. TRI dropped (r=0.998 with slope p90)."

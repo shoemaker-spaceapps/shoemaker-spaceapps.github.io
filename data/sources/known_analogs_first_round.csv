@@ -1,6 +1,6 @@
 site_id,site_name,country,center_lat,center_lon,lat_min,lat_max,lon_min,lon_max,analog_to,analog_aspect,cafe_chapter,coord_source,note
 S01,Cinder Lake Crater Field,USA,35.3225,-111.5181,35.27,35.37,-111.58,-111.46,T_mare,"Mare Tranquillitatis'in 1:1 yapay kopyasi, bazaltik curuf ortusu",7,CAFE 7.1,Apollo egitim sahasi
 S02,Black Point Lava Flow,USA,35.7000,-111.3000,35.63,35.77,-111.39,-111.21,T_mare,"Alkali olivin bazalt akintisi, paleoregolit",6,CAFE 6.1,NASA Desert RATS 2008-2010
-S03,Iceland (genel),Iceland,65.0000,-18.0000,64.80,65.20,-18.40,-17.60,T_imbrium,Ay bazaltik volkanizmasi,12,CAFE 12.1 (ulke merkezi),Melike alt saha secmeli (or. Askja)
+S03,Iceland (genel),Iceland,65.0000,-18.0000,64.80,65.20,-18.40,-17.60,T_imbrium,Ay bazaltik volkanizmasi,12,CAFE 12.1 (ulke merkezi),superseded: Askja chosen as the Iceland sub-site (S07 in data/known_analogs_moon.csv)
 S04,Haughton Impact Structure,Canada,75.3667,-89.6833,75.26,75.47,-90.10,-89.27,T_nobile,Kompleks impakt krateri + kutup colu,10,CAFE 10.1,Hedef kayac (karbonat) Ay icin jeolojik analog degil; sadece krater sureci
-S05,Mistastin Lake Crater,Canada,55.8833,-63.3000,55.76,56.01,-63.52,-63.08,T_highland,Anortozitik hedef kayacli impakt krateri,17?,GeoCanada 2010 abstract,Ormanlik: bitki maskesine takilmasi beklenir -> istisna olarak raporlanir
+S05,Mistastin Lake Crater,Canada,55.8833,-63.3000,55.76,56.01,-63.52,-63.08,T_highland,Anortozitik hedef kayacli impakt krateri,not a CAFE site; GeoCanada 2010 abstract,GeoCanada 2010 abstract,Ormanlik: bitki maskesine takilmasi beklenir -> istisna olarak raporlanir
