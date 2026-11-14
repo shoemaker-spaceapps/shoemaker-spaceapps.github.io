@@ -103,7 +103,7 @@ def find_rows(t2, robust, rock, targets, art_rb, F):
     first = robust[robust.target_id.isin(F.ARTEMIS)].sort_values("rank_sum").iloc[0]
     out.append(f'<tr><th scope="row"><button type="button" class="rowbtn" data-target="{first.target_id}" data-mode="bare" '
                f'data-lat="{first.lat:.3f}" data-lon="{first.lon:.3f}">Artemis III (9 regions)</button></th>'
-               f'<td data-l="Bare rock">Andes</td><td data-l="Rock analog">rock not known</td>'
+               f'<td data-l="Bare rock">Andes</td><td data-l="Rock analog">none: lunar rock type not set</td>'
                f'<td data-l="Why">rough terrain</td><td data-l="Confidence">terrain only</td></tr>')
     return "\n".join(out)
 
