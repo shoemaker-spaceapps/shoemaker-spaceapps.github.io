@@ -70,7 +70,7 @@
     <tbody>
 $rock_rows
     </tbody></table></div>
-  <p class="small">Region names come from coarse boxes, not country borders. Full table: results/rock_analogs.csv.</p>
+  <p class="small">Place names: the Natural Earth country of the window centre; a few windows carry a local name (Karacadağ, Harrat ash Shaam, Khoy, Doğanşehir, Karaman). Full table: results/rock_analogs.csv.</p>
 </section>
 
 <section id="checked" class="wrap" aria-labelledby="h-check">
@@ -110,7 +110,7 @@ $rock_rows
   <div><label class="inline">Lunar target <select id="water-target"></select></label></div>
   <div class="table-scroll"><table id="water-table" class="data"></table></div>
   <p class="tnote">Up to four places per group, by best score for this target. Every value in a row belongs to the best window of that group in that place. Aridity index: rain divided by evaporation demand; below 0.05 is hyper-arid. Full table: results/water_ice.csv.</p>
-  <p class="small">Group rules, applied to each window on its own values: dry-surface when aridity is below 0.05 and more than 80% of the ground is bare; ice-bearing when snow or ice covers more than 5% of the window, or the mean annual air temperature is below -2 °C (a common proxy for likely permafrost); terrain when the window passes the bare-surface mask. Regions marked well-studied are Atacama, Iceland, Hawaii and Antarctica.</p>
+  <p class="small">Group rules, applied to each window on its own values. Dry-surface: aridity below 0.05 and more than 80% of the ground bare. Ice-bearing: passes the bare-surface mask, and snow or ice covers more than 5% of the window or the mean annual air temperature is below -2 °C (a common proxy for likely permafrost). Terrain: passes the mask but is neither of these. Cold windows that fail the mask stay "not a surface analog", with a note that they suit drilling trials only. Places marked well-studied are in Atacama, Iceland, Hawaii or Antarctica; places marked known site hold one of our known analog sites.</p>
 </section>
 
 <section id="more" class="wrap band" aria-labelledby="h-more">

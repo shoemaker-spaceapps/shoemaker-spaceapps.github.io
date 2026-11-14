@@ -42,7 +42,8 @@ def comment(g, r):
         s = (f"Cold, bare ground (mean annual air temperature {maat:.1f} °C) with {cover}. Useful for ice drilling "
              "and melting trials, but liquid water has no lunar counterpart.")
     elif g == "Rock-closest (fails bare-surface mask)":
-        s = (f"Closest on rock, but only {bare:.0%} bare with aridity {a:.2f}, so it fails the bare-surface mask. "
+        cover = f"only {bare:.0%} bare" if bare >= 0.01 else "almost no bare ground"
+        s = (f"Closest on rock, but {cover} with aridity {a:.2f}, so it fails the bare-surface mask. "
              "Poor water analog, valuable as a rock analog.")
     elif g == "Terrain analog":
         s = f"Relevant for terrain and surface operations, not for water (aridity {a:.2f}, {rain:.0f} mm rain a year)."

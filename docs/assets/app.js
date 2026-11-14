@@ -145,7 +145,7 @@
     const t = tgById[state.tid];
     $("#top-title").textContent = `Top 20 for ${t.name}, ${poolName(state.pool)}${state.spaced ? ", at least 30 km apart" : ""}`;
     const rankOf = new Map(state.list.map((i, k) => [i, k + 1]));
-    let h = `<thead><tr><th class="n">Rank</th><th>Region</th><th>Lat, lon</th><th class="n">Score</th><th>Rock</th>
+    let h = `<thead><tr><th class="n">Rank</th><th>Place</th><th>Lat, lon</th><th class="n">Score</th><th>Rock</th>
       <th class="n">Median slope</th><th class="n">Steep slope</th><th class="n">Relief (m)</th><th class="n">Bare</th></tr></thead><tbody>`;
     for (const i of state.top) {
       h += `<tr class="go" tabindex="0" data-i="${i}" aria-label="Show ${esc(W.regions[W.reg[i]])} on the map">
@@ -235,11 +235,11 @@
   }
 
   function drawTables() {
-    const nw = W.n.toLocaleString("en-US");
+    const nw = SC.T_mare.g.filter((v) => v != null).length.toLocaleString("en-US");
     $("#neg-table").innerHTML = `<thead><tr><th>Negative</th><th>Target</th><th class="n">Best rank</th><th class="n">Terrain only</th></tr></thead><tbody>` +
       EV.negatives.map((n) => `<tr><td>${esc(n.name)} <span class="tag">${esc(n.kind)}</span>${n.status !== "used" ? ' <span class="tag warn">removed: ophiolite gabbro</span>' : ""}</td>
         <td>${tgById[n.target_id].name.split(" (")[0]}</td><td class="n">${intf(n.best_rank_ahp)}</td><td class="n">${intf(n.best_rank_terrain)}</td></tr>`).join("") +
-      `</tbody><caption class="small" style="caption-side:bottom">Rank among ${nw} windows. Lower is more similar.</caption>`;
+      `</tbody><caption class="small" style="caption-side:bottom">Rank among the ${nw} windows with a score. Lower is more similar.</caption>`;
     $("#known-table").innerHTML = `<thead><tr><th>Known site</th><th>Target</th><th class="n">Best rank</th><th class="n">Terrain only</th><th class="n">Rock label right</th></tr></thead><tbody>` +
       EV.known.map((k) => `<tr><td>${esc(k.site_name)}</td><td>${tgById[k.target_id].name.split(" (")[0]}</td><td class="n">${intf(k.best_rank_ahp)}</td>
         <td class="n">${intf(k.best_rank_terrain)}</td><td class="n">${k.glim_label_correct === null ? "n/a" : Math.round(k.glim_label_correct * 100) + "%"}</td></tr>`).join("") + "</tbody>";
@@ -262,12 +262,15 @@
     const firsts = [];
     for (const t of TG.filter((t) => t.kind !== "mare" && t.kind !== "imbrium" && t.kind !== "highland"))
       for (const c of ["coldest", "largest_daily_range"]) { const r = ex.find((e) => e.target_id === t.id && e.criterion === c); if (r) firsts.push(r); }
-    // one row per window, with the targets and criteria it comes up for
+    // one row per place: windows less than 30 km apart are merged, with the targets and criteria they come up for
     const uniq = new Map();
     for (const e of firsts) {
-      const u = uniq.get(e.window_id) || Object.assign({ hits: [] }, e);
-      u.hits.push(`${tgById[e.target_id].name.replace(/ \(.*\)$/, "")} (${e.criterion === "coldest" ? "coldest" : "largest swing"})`);
-      uniq.set(e.window_id, u);
+      let key = e.window_id;
+      for (const [k, u] of uniq) if (haversine(u.lat, u.lon, e.lat, e.lon) < 30) { key = k; break; }
+      const u = uniq.get(key) || Object.assign({ hits: [] }, e);
+      const hit = `${tgById[e.target_id].name.replace(/ \(.*\)$/, "")} (${e.criterion === "coldest" ? "coldest" : "largest swing"})`;
+      if (!u.hits.includes(hit)) u.hits.push(hit);
+      uniq.set(key, u);
     }
     $("#ext-table").innerHTML = `<thead><tr><th>Place</th><th>Lat, lon</th><th class="n">Lowest hourly temp.</th>
       <th class="n">Mean daily swing</th><th class="n">Rain</th><th>Comes up for</th></tr></thead><tbody>` +
@@ -281,7 +284,7 @@
     const all = EV.water.filter((r) => r.target_id === tid && !r.control);
     const rows = order.flatMap((g) => all.filter((r) => r.group === g).sort((a, b) => b.best_score - a.best_score).slice(0, 4));
     const turk = (r) => r.best_lat > 35.8 && r.best_lat < 42.2 && r.best_lon > 25.6 && r.best_lon < 44.9 && r.group.startsWith("Rock-closest");
-    $("#water-table").innerHTML = `<thead><tr><th>Region</th><th>Group</th><th class="n">Best score</th><th>Window</th><th class="n">Aridity</th><th class="n">Bare</th>
+    $("#water-table").innerHTML = `<thead><tr><th>Place</th><th>Group</th><th class="n">Best score</th><th>Window</th><th class="n">Aridity</th><th class="n">Bare</th>
       <th class="n">Snow</th><th class="n">Mean annual temp.</th><th class="n">Lowest hourly temp.</th><th class="n">Rain</th><th>Reading</th><th>ISRU test use</th></tr></thead><tbody>` +
       rows.map((r) => `<tr class="${r.lesser_known ? "hl" : ""}"><td>${esc(r.region)}${r.well_studied ? ' <span class="tag">well-studied</span>' : ""}${r.known_site ? ' <span class="tag">known site</span>' : ""}${r.lesser_known ? ' <span class="tag good">lesser-known</span>' : ""}${turk(r) ? ' <span class="tag warn">low confidence, likely ophiolite</span>' : ""}</td>
         <td>${esc(r.group)}</td><td class="n">${num(r.best_score, 3)}</td><td>${r.best_lat.toFixed(3)}, ${r.best_lon.toFixed(3)}</td><td class="n">${num(r.aridity, 2)}</td><td class="n">${Math.round(r.bare * 100)}%</td>

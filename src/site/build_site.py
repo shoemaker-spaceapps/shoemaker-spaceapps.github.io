@@ -21,7 +21,7 @@ TARGET_NAMES = {
     "T_g2": ("de Gerlache Rim 2", "artemis"), "T_mp": ("Mons Mouton Plateau", "artemis"), "T_sp": ("Slater Plain", "artemis"),
     "T_cb": ("Peak Near Cabeus B", "artemis"), "T_n1": ("Nobile Rim 1", "artemis"), "T_hw": ("Haworth", "artemis")}
 NEG_EN = {"Salar de Uyuni (orta)": "Salar de Uyuni (central)", "Spitzkoppe-Erongo granitleri": "Spitzkoppe-Erongo granites",
-          "Tassili n'Ajjer kumtaşı platosu": "Tassili n'Ajjer sandstone plateau"}
+          "Tassili n'Ajjer kumtaşı platosu": "Tassili n'Ajjer"}
 NEG_KIND = {"N01": "salt flat", "N02": "salt flat", "N03": "salt flat", "N04": "sand sea", "N05": "limestone plain",
             "N06": "granite", "N07": "sandstone plateau", "N08": "gypsum dunes", "N09": "salt pan", "N10": "salt pan",
             "N11": "salt lake", "N12": "salt and clay desert", "N13": "sandstone", "N14": "ophiolite",
