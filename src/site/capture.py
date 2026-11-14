@@ -56,8 +56,6 @@ def main():
         h.wait_for_timeout(1500)
         h.locator("#globes").screenshot(path=os.path.join(a.docs, "assets", "globes_static.jpg"), type="jpeg", quality=80)
         h.locator("#globes").screenshot(path=os.path.join(img, "globes_mare.jpg"), type="jpeg", quality=84)  # no popup over the globe
-        open_best_card(h)
-        h.wait_for_timeout(600)
         h.locator("#globes").screenshot(path=os.path.join(sub, "globes.png"))
         pg = b.new_page(viewport=dict(width=1600, height=900), device_scale_factor=1)
         pg.add_init_script("document.addEventListener('DOMContentLoaded', () => { const s = document.createElement('style');"

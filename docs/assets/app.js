@@ -209,6 +209,10 @@
       margin: { l: 56, r: 16, t: 10, b: 50 }, xaxis: { gridcolor: line, zerolinecolor: line }, yaxis: { gridcolor: line, zerolinecolor: line } }, extra);
   }
 
+  // label positions that keep the Artemis III names apart on the slope chart
+  const LABEL_POS = { "Haworth": "bottom center", "Mons Mouton Plateau": "top center", "Nobile Rim 1": "middle left",
+    "Peak Near Cabeus B": "bottom left", "Malapert Massif": "top center", "Slater Plain": "top right" };
+
   function drawAuc() {
     const order = ["arazi_benzerligi", "kayac_eslesmesi", "genel_skor", "sim"], tg = ["T_mare", "T_imbrium", "T_highland"];
     let h = `<thead><tr><th>Target</th>${order.map((s) => `<th class="n">${SCORE[s]}</th>`).join("")}</tr></thead><tbody>`;
@@ -228,7 +232,7 @@
         error_y: { type: "data", symmetric: false, array: rs.map((r) => (r.ci_high === null ? 0 : r.ci_high - r.auc)),
           arrayminus: rs.map((r) => (r.ci_low === null ? 0 : r.auc - r.ci_low)), color: colors[t], thickness: 1.5, width: 4 } };
     });
-    Plotly.react("auc-chart", traces, plotLayout({ scattermode: "group", yaxis: { range: [0, 1.02], title: "AUC", gridcolor: css("--line") },
+    Plotly.react("auc-chart", traces, plotLayout({ scattermode: "group", yaxis: { range: [0, 1.02], title: { text: "AUC" }, gridcolor: css("--line") },
       shapes: [{ type: "line", xref: "paper", x0: 0, x1: 1, y0: 0.5, y1: 0.5, line: { dash: "dot", color: css("--muted"), width: 1 } }],
       annotations: [{ xref: "paper", x: 1, y: 0.5, text: "coin flip", showarrow: false, xanchor: "right", yanchor: "bottom", font: { size: 11, color: css("--muted") } }],
       legend: { orientation: "h", y: -0.2 } }), { displayModeBar: false, responsive: true });
@@ -252,12 +256,12 @@
       `</tbody></table></div><p class="small">Diviner Polar Resource Product (LRO). Annual mean is 2 cm below the surface, averaged over the 10 km window. "Coldest spot" is the coldest 0.5 km cell in the window. "Ice-stable ground" is the share of the window where water ice would stay stable (losing less than 1 kg per square metre per billion years) within 2.9 m of the surface, the depth limit of the product. The product has no yearly minimum.</p>`
       : "<p>Diviner values were not available.</p>";
     Plotly.react("qm-chart", [
-      { type: "scatter", mode: "markers+text", x: art.map((t) => t.qm), y: art.map((t) => t.s50), text: art.map((t) => t.name), textposition: "top center",
+      { type: "scatter", mode: "markers+text", x: art.map((t) => t.qm), y: art.map((t) => t.s50), text: art.map((t) => t.name), textposition: art.map((t) => LABEL_POS[t.name] || "top center"),
         textfont: { size: 11, color: css("--muted") }, marker: { size: 10, color: css("--accent") }, name: "Artemis III regions",
         hovertemplate: "%{text}<br>QuickMap %{x:.1f}°, ours %{y:.1f}°<extra></extra>" },
       { type: "scatter", mode: "lines", x: [4, 18], y: [4, 18], line: { dash: "dot", color: css("--muted"), width: 1 }, name: "equal", hoverinfo: "skip" }],
-      plotLayout({ showlegend: false, xaxis: { title: "LROC QuickMap region slope (°)", gridcolor: css("--line"), range: [4, 18] },
-        yaxis: { title: "Our 10 km median slope (°)", gridcolor: css("--line"), range: [4, 19] } }), { displayModeBar: false, responsive: true });
+      plotLayout({ showlegend: false, xaxis: { title: { text: "LROC QuickMap region slope (°)" }, gridcolor: css("--line"), range: [4, 18] },
+        yaxis: { title: { text: "Our 10 km median slope (°)" }, gridcolor: css("--line"), range: [4, 19] } }), { displayModeBar: false, responsive: true });
     const ex = EV.extremes.filter((e) => tgById[e.target_id].kind === "artemis" || e.target_id === "T_nobile");
     const firsts = [];
     for (const t of TG.filter((t) => t.kind !== "mare" && t.kind !== "imbrium" && t.kind !== "highland"))

@@ -21,9 +21,12 @@ def robust_lines(rb):
     for tid, label in NAMES.items():
         g = rb[rb.target_id == tid].sort_values("rank_sum").head(3)
         out.append(f"  - {label}: " + "; ".join(f"{r.region} ({r.lat:.3f}, {r.lon:.3f})" for r in g.itertuples()))
-    art = rb[rb.target_id.isin(ARTEMIS)].region.value_counts()
-    out.append(f"  - Artemis III regions, terrain only: {art.index[0]} ({art.iloc[0]} of {art.sum()} candidates), "
-               "then " + "; ".join(art.index[1:5]))
+    a = rb[rb.target_id.isin(ARTEMIS)]
+    top = a.area.value_counts().index[0]
+    inside = a[a.area == top]
+    rest = a[a.area != top].apply(lambda r: f"{r.area}, {r.region}" if r.region in set(inside.region) else r.region, axis=1).value_counts()
+    out.append(f"  - Artemis III regions, terrain only: {top} ({len(inside)} of {len(a)} candidates, in "
+               f"{' and '.join(inside.region.value_counts().index)}), then " + "; ".join(rest.index[:4]))
     return "\n".join(out)
 
 

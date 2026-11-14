@@ -277,7 +277,8 @@ def profile(r, t, tid):
     if lito_known and r.lito != t.lito:
         breaks.append(f"The rock ({LITO_EN.get(r.lito, r.lito)}) does not match the target ({LITO_EN.get(t.lito, t.lito)}).")
     if r.bare_frac < 0.5:
-        breaks.append(f"Partly vegetated: only {r.bare_frac * 100:.0f}% of the window is bare.")
+        breaks.append("Covered by vegetation: almost no bare ground." if r.bare_frac < 0.01 else
+                      f"Partly vegetated: only {r.bare_frac * 100:.0f}% of the window is bare.")
     if r.yagis_mm_yil == r.yagis_mm_yil and r.yagis_mm_yil > 250:
         breaks.append(f"It gets {r.yagis_mm_yil:.0f} mm of rain a year, so the surface weathers.")
     if tid in ("T_highland", "T_nobile") and r.lito == "plutonik_bazik":

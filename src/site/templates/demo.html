@@ -39,7 +39,7 @@
   <h2>Terrain alone cannot tell a salt desert from a basalt field.</h2>
   <div class="pair">
     <figure><img src="img/salt.jpg" alt="NASA MODIS image of $best_salt_name, a $best_salt_kind"><figcaption>$best_salt_name: terrain rank $best_salt_rank</figcaption></figure>
-    <figure><img src="img/basalt.jpg" alt="NASA MODIS image of a dark basalt field in the $mare1_region"><figcaption>$mare1_region: rank 1</figcaption></figure>
+    <figure><img src="img/basalt.jpg" alt="NASA MODIS image of a dark basalt field in the $mare1_region"><figcaption>$mare1_region: rank $mare1_all with rock and terrain</figcaption></figure>
   </div>
   <p class="auc"><span>Terrain <b>$terrain_auc</b></span><span>Rock <b>$rock_auc</b></span><span>Both <b>$mare_auc</b></span><em>AUC, mare target</em></p>
   <p class="note">We picked the look-alikes for their rock, so terrain failing is the finding.</p>
@@ -51,7 +51,7 @@
     <p>Karacadağ lava field in southeastern Türkiye matches on rock too (rank $kara_rank of $n_valid) but lies under farmland: a place to sample, not to drive.</p>
   </div>
   <img class="shot" src="img/globes_mare.jpg" alt="Our homepage: the Moon with Mare Tranquillitatis selected, and the Earth turned to the Arabian basalt fields (harrats)">
-  <p class="cap">Earth globe: the best mare match, $mare1_region (rank 1 among lesser-known places).</p>
+  <p class="cap">Earth globe: our top robust mare candidate, $mare1_region (rank $mare1_ahp on our score and $mare1_pipe on the pipeline score among lesser-known places).</p>
 </section>
 
 <section class="slide s-number" aria-label="Slide 6 of 7">

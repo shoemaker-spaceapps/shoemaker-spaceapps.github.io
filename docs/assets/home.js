@@ -114,7 +114,7 @@
 
   function showCard(t, p) {
     const m = t.moon, card = $("#card");
-    const moonCold = m.cold != null ? `${m.cold} K yearly mean, coldest spot (Diviner)` : "n/a";
+    const moonCold = m.cold != null ? `${m.cold} K yearly mean, coldest spot (Diviner)` : "not in our data (Diviner polar product only)";
     const link = `explore/?target=${t.id}&pool=${mode === "any" ? "all" : "lesser"}&view=${p.lat},${p.lon},9&win=${p.w}`;
     card.innerHTML = `<button type="button" class="close" aria-label="Close comparison">×</button>
       <h3>${esc(p.reg)}</h3>

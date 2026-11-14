@@ -10,7 +10,7 @@ We tested it on 15 known analog sites and 16 hard negatives (look-alikes with th
 No. The weights come from AHP (expert pairwise judgments) and were set before testing. The known sites are used only to test the score.
 
 **Why is terrain alone below 0.5 for the mare?**
-The mare is flat and bare. So are salt flats, playas and sand seas. On terrain alone, the best salt flat or playa window (Dasht-e Kavir) ranks 245 of 22,147, ahead of 5 of our 7 known mare sites.
+The mare is flat and bare. So are salt flats, playas and sand seas. On terrain alone, the best salt flat or playa window (Dasht-e Kavir) ranks 245 of 22,030, ahead of 5 of our 7 known mare sites.
 
 **So rock does all the work?**
 Partly by design. We picked the look-alikes because their rock differs, so the rock term is expected to separate them. The finding is that terrain alone fails. The step from rock alone (0.82) to rock plus terrain (0.92) suggests terrain helps, but the intervals overlap, so we do not claim it is proven.
@@ -27,7 +27,7 @@ They lie outside the four well-studied regions (Antarctica, Atacama, Iceland, Ha
   - Imbrium rim (Apollo 15): Ethiopia (11.995, 41.638); Djibouti (11.495, 42.546); harrat basalt field, Saudi Arabia (25.315, 37.649)
   - Highlands (Apollo 16), low confidence: Iran (32.725, 59.481); Tibetan Plateau, China (35.495, 89.887); Pakistan (26.635, 66.352)
   - Nobile crater area: Mongolia (47.315, 93.199); Iran (36.225, 58.167); Iran (32.635, 59.481)
-  - Artemis III regions, terrain only: Argentina (16 of 45 candidates), then Chile; Chad; Iran; Galapagos, Ecuador
+  - Artemis III regions, terrain only: Andes (22 of 45 candidates, in Chile and Argentina), then Patagonia, Argentina; Chad; Iran; Galapagos, Ecuador
 
 **Why is Karacadağ not on your main list?**
 Our main list keeps only bare or dry ground, where a rover could work. Karacadağ lava field, a basalt plateau in southeastern Türkiye, matches the mare on rock and terrain (rank 11 of 22,030 windows, median slope 1.30° against 1.27°) but only 1% is bare; most of it is farmland. So we list it as a rock analog: a first candidate for field sampling and XRF analysis, not for surface operations. Some windows sit on rock the global map calls basic plutonic: Doğanşehir, Malatya, eastern Türkiye for the highland (rank 7 of all windows); northwestern Iran (Khoy ophiolite belt) and Karaman, central Türkiye for Nobile (ranks 1 and 2 of all windows). There the rock is most likely ophiolite, not anorthosite, so we mark them low confidence.
@@ -36,7 +36,7 @@ Our main list keeps only bare or dry ground, where a rover could work. Karacada�
 Everywhere for gravity, vacuum and radiation. On top of that, each candidate card lists its own breaks: rain, plant cover, relief or rock that does not match. For the polar targets, no Earth site has permanent shadow: Diviner puts the coldest spots in our Artemis III windows at 40 to 96 K as a yearly mean, while at the coldest Earth terrain match the lowest hourly temperature in 2001 to 2025 was -47 °C.
 
 **What about water and ice?**
-We sort Earth windows into dry-surface analogs (aridity below 0.05 and more than 80% bare; to bury ice and test extraction), ice-bearing analogs (snow or ice on more than 5% of the window, or mean annual air temperature below -2 °C, a common proxy for likely permafrost; to drill and melt real ice) and terrain analogs (to plan rover routes for moving ice). Each window is grouped on its own values. For Nobile the best dry-surface test region is Peru and the best ice-bearing one Tibetan Plateau, China. Diviner's model finds that water ice would stay stable within 2.9 m of the surface (losing less than 1 kg per square metre per billion years) under 7% to 60% of the ground in our Artemis III windows.
+We sort Earth windows into dry-surface analogs (aridity below 0.05 and more than 80% bare; to bury ice and test extraction), ice-bearing analogs (bare ground with snow or ice on more than 5% of the window, or mean annual air temperature below -2 °C, a common proxy for likely permafrost; to drill and melt real ice) and terrain analogs (to plan rover routes for moving ice). Each window is grouped on its own values. For Nobile the best dry-surface test region is Peru and the best ice-bearing one Tibetan Plateau, China. Diviner's model finds that water ice would stay stable within 2.9 m of the surface (losing less than 1 kg per square metre per billion years) under 7% to 60% of the ground in our Artemis III windows.
 
 **What NASA data did you use?**
 LRO LOLA and SLDEM2015 for lunar elevation, LRO Diviner for polar temperatures, NASA POWER for Earth climate, GIBS and Worldview for imagery, and LROC QuickMap for the Artemis III regions.

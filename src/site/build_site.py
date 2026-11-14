@@ -45,7 +45,7 @@ def short_break(r, t, tid):
     if r.yagis_mm_yil > 250:
         return f"It rains {r.yagis_mm_yil:.0f} mm a year, so the ground weathers."
     if r.bare_frac < 0.5:
-        return f"Only {r.bare_frac:.0%} of the ground is bare."
+        return "Covered by vegetation: almost no bare ground." if r.bare_frac < 0.01 else f"Only {r.bare_frac:.0%} of the ground is bare."
     return "Earth gravity, air and weather; no vacuum or space radiation."
 
 
@@ -224,7 +224,8 @@ def main():
     sb = neg.set_index("site_id").loc[best_salt.negative_id]
     sidx = np.where(F.A.in_window(t1, sb))[0]
     salt_i = sidx[np.argmin(ter[sidx])]
-    m1 = robust[robust.target_id == "T_mare"].iloc[0]
+    m1 = robust[robust.target_id == "T_mare"].sort_values("rank_sum").iloc[0]
+    m1_all = int(F.pool_rank(S["T_mare"]["genel_skor"], np.ones(len(w), bool))[int(w.index[w.window_id == m1.window_id][0])])
     ex_art = extremes[extremes.target_id.isin(F.ARTEMIS) & (extremes.criterion == "coldest")]
     cold = ex_art.loc[ex_art.sicaklik_en_soguk_ay_min_C.idxmin()] if len(ex_art) and ex_art.sicaklik_en_soguk_ay_min_C.notna().any() else None
     n_auto = int(w.roi.str.startswith("auto_").sum())
@@ -248,6 +249,7 @@ def main():
         andes=f"{art_rb.get('Andes', 0)} of {art_rb.sum()}",
         nob_dry=nob[nob.group == "Dry-surface analog"].region.iloc[0], nob_ice=nob[nob.group == "Ice-bearing analog"].region.iloc[0],
         find_rows=find_rows(t2, robust, rock, targets, art_rb, F), rock_rows=rock_rows(rock), oph_list=oph_list,
+        oph_sentence=f"Some windows sit on rock the global map calls basic plutonic: {oph_list}. There the rock is most likely ophiolite, not anorthosite, so we mark them low confidence.",
         n_windows=f"{len(w):,}", n_targets=len(t2), n_artemis=int(t2.index.isin(F.ARTEMIS).sum()),
         n_named=int(w.loc[~w.roi.str.startswith(("auto_", "neg_")), "roi"].nunique()),
         n_auto_windows=f"{n_auto:,}", n_auto_cells=int(w[w.roi.str.startswith('auto_')].roi.nunique()),
@@ -270,7 +272,7 @@ def main():
         div_ice_lo=f"{art.diviner_buz_pay.min():.0%}", div_ice_hi=f"{art.diviner_buz_pay.max():.0%}",
         div_mean_lo=f"{art.diviner_ort_K.min():.0f}", div_mean_hi=f"{art.diviner_ort_K.max():.0f}",
         salt_lat=f"{t1.lat[salt_i]:.3f}", salt_lon=f"{t1.lon[salt_i]:.3f}",
-        mare1_lat=f"{m1.lat:.3f}", mare1_lon=f"{m1.lon:.3f}", mare1_region=m1.region,
+        mare1_lat=f"{m1.lat:.3f}", mare1_lon=f"{m1.lon:.3f}", mare1_region=m1.region, mare1_all=m1_all, mare1_ahp=int(m1.rank_ahp), mare1_pipe=int(m1.rank_pipeline),
         earth_cold_C=f"{cold.sicaklik_en_soguk_ay_min_C:.0f}" if cold is not None else "n/a",
         earth_cold_region=cold.region if cold is not None else "n/a",
         site_url=team["site_url"], demo_url=team["demo_url"], repo_url=team["repo_url"], org_url=team["org_url"],
