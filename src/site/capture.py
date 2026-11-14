@@ -19,6 +19,8 @@ GL_ARGS = ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-g
 
 def open_best_card(page):
     """Click the best Earth candidate of the selected target and wait for the comparison card."""
+    page.evaluate("window.scrollTo({top: 0, behavior: 'instant'})")
+    page.wait_for_timeout(200)
     xy = page.evaluate("""() => { const g = window.__globes, t = g.data().find(d => d.id === document.querySelector('#earth-globe').dataset.target);
         const b = t.best[0], c = g.earth.getScreenCoords(b.lat, b.lon, 0.06), r = document.querySelector('#earth-globe').getBoundingClientRect();
         return [r.left + c.x, r.top + c.y]; }""")

@@ -61,6 +61,17 @@
   <div id="cards" class="cards"></div>
 </section>
 
+<section id="rock" class="wrap" aria-labelledby="h-rock">
+  <h2 id="h-rock">Rock analogs under farmland and grass</h2>
+  <p>The bare-surface mask keeps places where a rover could drive on exposed ground. Some places match the Moon on rock and terrain but are covered by fields or grass, so the mask hides them. They are useful for rock sampling and lab work, not for surface operations. The table lists the five best per target (at least 30 km apart) among windows that fail the mask, with their rank among all $n_valid windows. Karacadağ in Türkiye, a basalt plateau, ranks $kara_rank of $n_valid for the mare and $kara_rock_rank in this list; it is our first candidate for field sampling and XRF (X-ray fluorescence) analysis. The eastern and central Türkiye windows for Nobile and the highland fall on rock the global map calls basic plutonic, which there is most likely ophiolite, not anorthosite, so we mark them low confidence.</p>
+  <div class="table-scroll"><table class="data">
+    <thead><tr><th>Lunar target</th><th>Place</th><th>Window centre</th><th class="n">Rank, all windows</th><th class="n">Rank, this list</th><th class="n">Bare</th><th class="n">Slope median / 90th</th><th>Rock</th></tr></thead>
+    <tbody>
+$rock_rows
+    </tbody></table></div>
+  <p class="small">Region names come from coarse boxes, not country borders. Full table: results/rock_analogs.csv.</p>
+</section>
+
 <section id="checked" class="wrap" aria-labelledby="h-check">
   <h2 id="h-check">How we checked it</h2>
   <p>We never used the known sites to build the score. We used them only to test it. For each target we compare windows from known analog sites with windows from hard negatives (look-alikes with the wrong rock). The interval comes from a bootstrap that resamples whole sites and whole negative regions 2,000 times.</p>
@@ -97,7 +108,7 @@
   <p>Polar craters that never see sunlight hold water ice. These cold traps are the main reason for a polar base, and no place on Earth matches them. In our Artemis III windows, Diviner's thermal model finds that water ice would stay stable within 2.9 m of the surface under $div_ice_lo to $div_ice_hi of the ground. What Earth can offer is a dry, bare surface to bury ice in, or cold ground with real ice to drill. ISRU (in-situ resource utilization) means making water, oxygen or fuel from local material. The table groups Earth regions by what kind of water or ice test they suit.</p>
   <div><label class="inline">Lunar target <select id="water-target"></select></label></div>
   <div class="table-scroll"><table id="water-table" class="data"></table></div>
-  <p class="small">Group rules: dry-surface when aridity is below 0.05 and more than 80% of the ground is bare; ice-bearing when snow covers more than 5% or the lowest hourly temperature in 2001 to 2025 is below -15 °C (a rough stand-in for permafrost). Regions marked well-studied are Atacama, Iceland, Hawaii and Antarctica.</p>
+  <p class="small">Group rules, applied to each window on its own values: dry-surface when aridity is below 0.05 and more than 80% of the ground is bare; ice-bearing when snow or ice covers more than 5% of the window, or the mean annual air temperature is below -2 °C (a common proxy for likely permafrost); terrain when the window passes the bare-surface mask. Regions marked well-studied are Atacama, Iceland, Hawaii and Antarctica.</p>
 </section>
 
 <section id="more" class="wrap band" aria-labelledby="h-more">

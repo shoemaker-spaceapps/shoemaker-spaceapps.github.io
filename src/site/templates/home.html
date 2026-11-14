@@ -41,24 +41,44 @@
     <p>Your browser cannot show the 3D globes. <a href="explore/">Open the map instead</a>.</p>
   </div>
   <div class="wrap">
+    <div id="surface" class="surface" role="group" aria-label="Earth surface"><span class="tlabel">Surface</span><button type="button" data-mode="bare" aria-pressed="true">Bare rock (field-test ready)</button><button type="button" data-mode="any" aria-pressed="false">Any surface (rock analogs)</button></div>
     <div id="targets" class="targets" role="group" aria-label="Lunar targets"></div>
   </div>
 </section>
 
 <section class="wrap lines" aria-labelledby="h-found">
   <h2 id="h-found">What we found</h2>
+  <h3 class="tt">Best Earth match for each lunar target</h3>
+  <div class="table-scroll"><table id="found-table" class="found">
+    <thead><tr><th>Lunar target</th><th>Best bare-rock match</th><th>Best rock analog (any surface)</th><th>Why</th><th>Confidence</th></tr></thead>
+    <tbody>
+$find_rows
+    </tbody></table></div>
+  <p class="small">Click a name to turn the globes.</p>
   <div class="line">
     <p class="big">$terrain_auc → $rock_auc → $mare_auc</p>
-    <p>Shape alone misleads: on terrain, a salt desert ($best_salt_name) ranks above $n_mare_known_below of our $n_mare_known known mare sites. With rock type, the right places come first.
-    <span class="note">AUC; 0.5 is chance. We picked the look-alikes for their rock, so terrain failing alone is the finding; the gain from adding terrain is suggestive, not proven.</span></p>
+    <p>Mare AUC (0.5 is chance): terrain alone, rock alone, both.
+    <span class="note">We picked look-alikes for their rock, so terrain failing alone is the finding; the gain from terrain is suggestive. <a href="explore/#checked">Details</a></span></p>
   </div>
   <div class="line">
-    <p class="big">$n_neg / 0</p>
-    <p>None of $n_neg look-alike places with the wrong rock reaches the top 100 for its lunar target.</p>
+    <p class="big">0 of $n_neg</p>
+    <p>look-alikes with the wrong rock reach a top 100; closest is $best_neg_name at $best_neg_rank. On terrain alone, $best_salt_name ($best_salt_rank) beats $n_mare_known_below of $n_mare_known mare sites. <a class="more" href="explore/#checked">Details</a></p>
   </div>
   <div class="line">
-    <p class="big">Arabia, Afar</p>
-    <p>The best mare analogs are basalt fields in the Arabian Peninsula; the best Imbrium analogs lie in the Afar rift. Both sit outside the four well-studied regions and are less studied as lunar analogs.</p>
+    <p class="big">$n_robust_out of $n_robust</p>
+    <p>robust candidates lie outside Antarctica, Atacama, Iceland and Hawaii, led by Arabia's basalt fields and the Afar rift. <a class="more" href="explore/#featured">Details</a></p>
+  </div>
+  <div class="line">
+    <p class="big">Karacadağ</p>
+    <p>A Turkish basalt plateau hidden under farmland: rank $kara_rank of $n_valid for the mare, only $kara_bare bare. First candidate for field sampling and XRF. <a class="more" href="explore/#rock">Details</a></p>
+  </div>
+  <div class="line">
+    <p class="big">$qm_lo to $qm_hi</p>
+    <p>Our Artemis III slopes over LROC QuickMap's. Terrain matches are mostly Andean ($andes). <a class="more" href="explore/#artemis">Details</a></p>
+  </div>
+  <div class="line">
+    <p class="big">$div_ice_lo to $div_ice_hi</p>
+    <p>of Artemis III ground keeps ice within 2.9 m (Diviner); Earth's coldest match is far warmer. Nobile tests: dry ground in $nob_dry, ice in $nob_ice. <a class="more" href="explore/#water">Details</a></p>
   </div>
 </section>
 
@@ -66,8 +86,6 @@
   <h2 id="h-break">Where it breaks</h2>
   <p>Every Earth analog fails somewhere.</p>
   <ul class="tags"><li>Gravity</li><li>Vacuum</li><li>Radiation</li><li>Permanent shadow</li></ul>
-  <p class="cold"><span><b>$div_cold_lo K</b> coldest spot in our Artemis III windows, yearly mean (NASA Diviner)</span>
-  <span><b>$earth_cold_C °C</b> lowest hourly temperature at the coldest Earth match, 2001 to 2025 (NASA POWER)</span></p>
 </section>
 
 <section id="team" class="wrap" aria-labelledby="h-team">

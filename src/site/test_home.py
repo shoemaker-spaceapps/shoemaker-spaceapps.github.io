@@ -53,6 +53,29 @@ def main():
         href = card.locator("a", has_text="See on detailed map").get_attribute("href")
         print(f"card opens on click: {has}; link: {href}")
         ok &= has
+        # Surface switch: any surface shows rock analogs, Karacadag among them for the mare
+        pg.click("#surface button[data-mode=any]")
+        pg.wait_for_timeout(300)
+        pts = pg.evaluate("window.__globes.points().map(p => [p.reg, p.lat, p.lon, p.best])")
+        kara = any("Karacada" in r[0] and r[3] for r in pts)
+        mode_ok = pg.evaluate("window.__globes.mode()") == "any"
+        print(f"surface switch to any surface: {mode_ok}; Karacadag shown for the mare: {kara} ({len(pts)} points)")
+        ok &= mode_ok and kara
+        pg.click("#surface button[data-mode=bare]")
+        pg.wait_for_timeout(300)
+        bare_ok = not any("Karacada" in r[0] for r in pg.evaluate("window.__globes.points().map(p => [p.reg])"))
+        print(f"surface switch back to bare rock hides Karacadag: {bare_ok}")
+        ok &= bare_ok
+        # findings table: each row button turns the globes to its place
+        for btn in pg.locator("#found-table .rowbtn").all():
+            tid, lat, lon, md = (btn.get_attribute(k) for k in ("data-target", "data-lat", "data-lon", "data-mode"))
+            pg.evaluate("document.querySelector('#earth-globe').dataset.view = ''")
+            btn.click()
+            pg.wait_for_function(f"document.querySelector('#earth-globe').dataset.view === '{float(lat)},{float(lon)}'", timeout=10000)
+            pov = pg.evaluate("window.__globes.earth.pointOfView()")
+            good = abs(pov["lat"] - float(lat)) < 1 and pg.evaluate("window.__globes.mode()") == md
+            print(f"row {btn.inner_text()!r} -> {tid} {lat},{lon} ({md}): {good}")
+            ok &= good
         ex = b.new_page(viewport=dict(width=1440, height=900))
         ex.goto(base + "/" + href, wait_until="networkidle")
         ex.wait_for_selector(".leaflet-popup-content", timeout=15000)

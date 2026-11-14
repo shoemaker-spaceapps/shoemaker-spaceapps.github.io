@@ -35,7 +35,7 @@ def water_line(w):
         regs = w[w.group == grp].sort_values("best_score", ascending=False).region.head(2).tolist()
         if regs:
             part.append(f"{what} such as {' and '.join(regs)}")
-    return "; ".join(part) + ". Each region comes with a one-line reading and a concrete ISRU test."
+    return "For Nobile: " + "; ".join(part) + ". Each row comes with a one-line reading and a concrete ISRU test."
 
 
 def main():

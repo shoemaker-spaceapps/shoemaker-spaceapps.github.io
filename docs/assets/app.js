@@ -70,6 +70,8 @@
   function tags(i) {
     const f = W.fl[i], out = [];
     if (f & FL.n14) out.push('<span class="tag warn">ophiolite, former negative</span>');
+    const tr = W.lat[i] > 35.8 && W.lat[i] < 42.2 && W.lon[i] > 25.6 && W.lon[i] < 44.9 && !/Karacada/.test(W.regions[W.reg[i]]);
+    if (tr && (state.tid === "T_highland" || state.tid === "T_nobile")) out.push('<span class="tag warn">low confidence, likely ophiolite</span>');
     if (f & FL.neg) out.push('<span class="tag warn">hard negative</span>');
     if (f & FL.well) out.push('<span class="tag">well-studied area</span>');
     if (f & FL.known) out.push('<span class="tag good">inside a known site</span>');
@@ -269,15 +271,17 @@
   }
 
   function drawWater() {
-    const tid = $("#water-target").value;
-    const rows = EV.water.filter((r) => r.target_id === tid).slice(0, 18);
-    $("#water-table").innerHTML = `<thead><tr><th>Region</th><th>Group</th><th class="n">Best score</th><th class="n">Aridity</th><th class="n">Bare</th>
-      <th class="n">Snow</th><th class="n">Lowest hourly temp.</th><th class="n">Rain</th><th>Reading</th><th>ISRU test use</th></tr></thead><tbody>` +
-      rows.map((r) => `<tr class="${r.lesser_known ? "hl" : ""}"><td>${esc(r.region)}${r.well_studied ? ' <span class="tag">well-studied</span>' : ""}${r.lesser_known ? ' <span class="tag good">lesser-known</span>' : ""}</td>
-        <td>${esc(r.group)}</td><td class="n">${num(r.best_score, 3)}</td><td class="n">${num(r.aridity, 2)}</td><td class="n">${Math.round(r.bare * 100)}%</td>
-        <td class="n">${Math.round(r.snow * 100)}%</td><td class="n">${num(r.coldest_min_C)} °C</td><td class="n">${intf(r.rain_mm)} mm</td>
+    const tid = $("#water-target").value, order = ["Dry-surface analog", "Ice-bearing analog", "Terrain analog", "Rock-closest (fails bare-surface mask)", "Not a surface analog"];
+    const all = EV.water.filter((r) => r.target_id === tid && !r.control);
+    const rows = order.flatMap((g) => all.filter((r) => r.group === g).sort((a, b) => b.best_score - a.best_score).slice(0, 4));
+    const turk = (r) => r.best_lat > 35.8 && r.best_lat < 42.2 && r.best_lon > 25.6 && r.best_lon < 44.9 && (tid === "T_nobile" || tid === "T_highland");
+    $("#water-table").innerHTML = `<thead><tr><th>Region</th><th>Group</th><th class="n">Best score</th><th>Window</th><th class="n">Aridity</th><th class="n">Bare</th>
+      <th class="n">Snow</th><th class="n">Mean annual temp.</th><th class="n">Lowest hourly temp.</th><th class="n">Rain</th><th>Reading</th><th>ISRU test use</th></tr></thead><tbody>` +
+      rows.map((r) => `<tr class="${r.lesser_known ? "hl" : ""}"><td>${esc(r.region)}${r.well_studied ? ' <span class="tag">well-studied</span>' : ""}${r.lesser_known ? ' <span class="tag good">lesser-known</span>' : ""}${turk(r) ? ' <span class="tag warn">low confidence, likely ophiolite</span>' : ""}</td>
+        <td>${esc(r.group)}</td><td class="n">${num(r.best_score, 3)}</td><td>${r.best_lat.toFixed(3)}, ${r.best_lon.toFixed(3)}</td><td class="n">${num(r.aridity, 2)}</td><td class="n">${Math.round(r.bare * 100)}%</td>
+        <td class="n">${Math.round(r.snow * 100)}%</td><td class="n">${num(r.mean_annual_C)} °C</td><td class="n">${num(r.coldest_min_C)} °C</td><td class="n">${intf(r.rain_mm)} mm</td>
         <td>${esc(r.reading)}</td><td>${esc(r.isru_test_use)}</td></tr>`).join("") +
-      `</tbody><caption class="small" style="caption-side:bottom">Top 18 regions by best score for this target. Aridity index: rain divided by evaporation demand; below 0.05 is hyper-arid.</caption>`;
+      `</tbody><caption class="small" style="caption-side:bottom">Up to four regions per group, by best score for this target. Every value in a row belongs to the best window of that group in that region. Aridity index: rain divided by evaporation demand; below 0.05 is hyper-arid. Full table: results/water_ice.csv.</caption>`;
   }
 
   function fillSelect(sel, list, value) {

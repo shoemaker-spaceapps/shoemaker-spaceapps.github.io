@@ -49,7 +49,7 @@ def short_break(r, t, tid):
     return "Earth gravity, air and weather; no vacuum or space radiation."
 
 
-def home_data(w, t2, S, targets, robust, F):
+def home_data(w, t2, S, targets, robust, rock, F):
     """Per target: Moon values, the 5 robust candidates and the top 100 lesser-known windows."""
     pool = w.lesser_known.values == 1
     tg = targets.set_index("target_id")
@@ -59,12 +59,19 @@ def home_data(w, t2, S, targets, robust, F):
         rank = F.pool_rank(S[tid]["genel_skor"], pool)
         top = np.where(rank <= 100)[0]
         top = top[np.argsort(rank[top])]
+        rank_all = F.pool_rank(S[tid]["genel_skor"], np.ones(len(w), bool))
+        anyt = np.where(rank_all <= 100)[0]
+        anyt = anyt[np.argsort(rank_all[anyt])]
+        rock_ix = [int(x[2:]) for x in rock[rock.target_id == tid].sort_values("rank_rock_pool").window_id]
         best = [int(x[2:]) for x in robust[robust.target_id == tid].sort_values("rank_sum").window_id]
 
-        def item(ix):
+        def item(ix, rk=rank):
             r = w.iloc[ix]
-            return dict(w=r.window_id, lat=round(float(r.lat), 3), lon=round(float(r.lon), 3), reg=r.region,
-                        g=round(float(S[tid]["genel_skor"][ix]), 3), r=int(rank[ix]) if rank[ix] == rank[ix] else None,
+            pl = F.place(r.roi, r.region, r.lat, r.lon)
+            oph = pl.endswith("Türkiye") and r.roi != "anatolia_karacadag" and tid in ("T_highland", "T_nobile")
+            return dict(w=r.window_id, lat=round(float(r.lat), 3), lon=round(float(r.lon), 3), reg=pl,
+                        g=round(float(S[tid]["genel_skor"][ix]), 3), r=int(rk[ix]) if rk[ix] == rk[ix] else None,
+                        mask=int(r.aday_maskesi), note="low confidence, likely ophiolite" if oph else "",
                         s50=round(float(r.slope_p50), 1), s90=round(float(r.slope_p90), 1), rel=int(round(r.relief)),
                         lito=LITO_EN.get(r.lito, r.lito), tmin=round(float(r.sicaklik_en_soguk_ay_min_C), 1),
                         bare=int(round(r.bare_frac * 100)), br=short_break(r, t, tid),
@@ -74,8 +81,42 @@ def home_data(w, t2, S, targets, robust, F):
         out.append(dict(id=tid, name=name, kind=kind, lat=float(t.lat), lon=float(t.lon), badge=F.badge(tid, False),
                         moon=dict(s50=round(float(t.slope_p50), 1), s90=round(float(t.slope_p90), 1), rel=int(round(t.relief)),
                                   lito=LITO_EN.get(t.lito, t.lito), **div),
-                        best=[item(ix) for ix in best], top=[item(ix) for ix in top if ix not in best]))
+                        best=[item(ix) for ix in best], top=[item(ix) for ix in top if ix not in best],
+                        rock=[item(ix, rank_all) for ix in rock_ix],
+                        any=[item(ix, rank_all) for ix in anyt if ix not in rock_ix]))
     return out
+
+
+def find_rows(t2, robust, rock, targets, art_rb, F):
+    """Rows of the homepage table: best bare-rock match and best rock analog for each lunar target."""
+    conf = {"T_mare": "tested", "T_imbrium": "tested", "T_highland": "low confidence", "T_nobile": "low confidence"}
+    out = []
+    for tid in ["T_mare", "T_imbrium", "T_highland", "T_nobile"]:
+        t = t2.loc[tid]
+        b = robust[robust.target_id == tid].sort_values("rank_sum").iloc[0]
+        k = rock[rock.target_id == tid].sort_values("rank_rock_pool").iloc[0]
+        why = f"{LITO_EN[b.lito]}; slope {b.slope_p50:.1f}°/{b.slope_p90:.0f}° vs {t.slope_p50:.1f}°/{t.slope_p90:.0f}°"
+        out.append(f'<tr><th scope="row"><button type="button" class="rowbtn" data-target="{tid}" data-mode="bare" '
+                   f'data-lat="{b.lat:.3f}" data-lon="{b.lon:.3f}">{TARGET_NAMES[tid][0].split(" (")[0]}</button></th>'
+                   f'<td data-l="Bare rock">{b.region}</td><td data-l="Rock analog"><button type="button" class="rowbtn sub" data-target="{tid}" data-mode="any" '
+                   f'data-lat="{k.lat:.3f}" data-lon="{k.lon:.3f}">{k.place}</button></td><td data-l="Why">{why}</td><td data-l="Confidence">{conf[tid]}</td></tr>')
+    first = robust[robust.target_id.isin(F.ARTEMIS)].sort_values("rank_sum").iloc[0]
+    out.append(f'<tr><th scope="row"><button type="button" class="rowbtn" data-target="{first.target_id}" data-mode="bare" '
+               f'data-lat="{first.lat:.3f}" data-lon="{first.lon:.3f}">Artemis III (9 regions)</button></th>'
+               f'<td data-l="Bare rock">Andes</td><td data-l="Rock analog">rock not known</td>'
+               f'<td data-l="Why">rough terrain</td><td data-l="Confidence">terrain only</td></tr>')
+    return "\n".join(out)
+
+
+def rock_rows(rock):
+    """Explore page table of rock analogs (windows that fail the bare-surface mask but match on rock)."""
+    out = []
+    for r in rock.sort_values(["target_id", "rank_rock_pool"], key=lambda c: c.map({"T_mare": 0, "T_imbrium": 1, "T_highland": 2, "T_nobile": 3}) if c.name == "target_id" else c).itertuples():
+        note = r.note if isinstance(r.note, str) else ""
+        out.append(f'<tr><td>{TARGET_NAMES[r.target_id][0].split(" (")[0]}</td><td>{r.place}{" <span class=\"tag warn\">" + note + "</span>" if note else ""}</td>'
+                   f'<td>{r.lat:.3f}, {r.lon:.3f}</td><td class="n">{r.rank_all}</td><td class="n">{r.rank_rock_pool}</td>'
+                   f'<td class="n">{r.bare_frac:.0%}</td><td class="n">{r.slope_p50:.2f}° / {r.slope_p90:.2f}°</td><td>{LITO_EN.get(r.lito, r.lito)}</td></tr>')
+    return "\n".join(out)
 
 
 def i(x, k=1):
@@ -103,6 +144,7 @@ def main():
     R = lambda n: pd.read_csv(os.path.join(a.final_dir, n))
     auc, negs, known, targets = R("auc_ci.csv"), R("negatives.csv"), R("known_sites.csv"), R("targets.csv")
     robust, top20, extremes, water = R("robust_candidates.csv"), R("lesser_known_top20.csv"), R("climate_extremes.csv"), R("water_ice.csv")
+    rock = R("rock_analogs.csv")
     team = json.load(open(a.team, encoding="utf-8"))
     out = os.path.join(a.docs, "data")
     os.makedirs(out, exist_ok=True)
@@ -139,7 +181,7 @@ def main():
             div_cold=float(r.get("diviner_ort_K_en_soguk", np.nan)), div_ice=float(r.get("diviner_buz_pay", np.nan)),
             badge=F.badge(tid, False)).items()})
     json.dump(tg, open(os.path.join(out, "targets.json"), "w"), separators=(",", ":"))
-    json.dump(home_data(w, t2, S, targets, robust, F), open(os.path.join(out, "home.json"), "w"),
+    json.dump(home_data(w, t2, S, targets, robust, rock, F), open(os.path.join(out, "home.json"), "w"),
               separators=(",", ":"), ensure_ascii=False)
 
     def cand_rows(df):
@@ -165,7 +207,8 @@ def main():
                                               kind=negs.negative_id.map(NEG_KIND)).to_json(orient="records")),
           "known": json.loads(known.to_json(orient="records")),
           "extremes": json.loads(extremes.round(2).to_json(orient="records")),
-          "water": json.loads(water.to_json(orient="records"))}
+          "water": json.loads(water.to_json(orient="records")),
+          "rock": json.loads(rock.round(4).to_json(orient="records"))}
     json.dump(ev, open(os.path.join(out, "eval.json"), "w"), separators=(",", ":"))
     json.dump(team, open(os.path.join(out, "team.json"), "w"), separators=(",", ":"), ensure_ascii=False)
 
@@ -185,7 +228,22 @@ def main():
     ex_art = extremes[extremes.target_id.isin(F.ARTEMIS) & (extremes.criterion == "coldest")]
     cold = ex_art.loc[ex_art.sicaklik_en_soguk_ay_min_C.idxmin()] if len(ex_art) and ex_art.sicaklik_en_soguk_ay_min_C.notna().any() else None
     n_auto = int(w.roi.str.startswith("auto_").sum())
+    valid = int(np.isfinite(S["T_mare"]["genel_skor"]).sum())
+    bare_pool = (w.aday_maskesi.values == 1) & (w.hard_negative.values == 0)
+    tops = [np.where(F.pool_rank(S[t]["genel_skor"], bare_pool) <= 100)[0] for t in t2.index]
+    n_top = sum(len(x) for x in tops)
+    n_out = sum(int((w.well_studied.values[x] == 0).sum()) for x in tops)
+    kara = rock[rock.window_id.isin(w[w.roi == "anatolia_karacadag"].window_id) & (rock.target_id == "T_mare")].iloc[0]
+    art_rb = robust[robust.target_id.isin(F.ARTEMIS)].region.value_counts()
+    nob = water[(water.target_id == "T_nobile") & (water.lesser_known == 1)].sort_values("best_score", ascending=False)
     vals = dict(
+        n_valid=f"{valid:,}", n_top_bare=f"{n_top:,}", n_top_out=f"{n_out:,}", pct_top_out=f"{n_out / n_top:.0%}",
+        n_robust=len(robust), n_robust_out=int((F.well_studied(robust.lat, robust.lon) == 0).sum()),
+        kara_rank=int(kara.rank_all), kara_rock_rank=int(kara.rank_rock_pool), kara_s50=f"{kara.slope_p50:.2f}",
+        kara_bare=f"{kara.bare_frac:.0%}", mare_s50=f"{t2.loc['T_mare'].slope_p50:.2f}",
+        andes=f"{art_rb.get('Andes', 0)} of {art_rb.sum()}",
+        nob_dry=nob[nob.group == "Dry-surface analog"].region.iloc[0], nob_ice=nob[nob.group == "Ice-bearing analog"].region.iloc[0],
+        find_rows=find_rows(t2, robust, rock, targets, art_rb, F), rock_rows=rock_rows(rock),
         n_windows=f"{len(w):,}", n_targets=len(t2), n_artemis=int(t2.index.isin(F.ARTEMIS).sum()),
         n_named=int(w.loc[~w.roi.str.startswith(("auto_", "neg_")), "roi"].nunique()),
         n_auto_windows=f"{n_auto:,}", n_auto_cells=int(w[w.roi.str.startswith('auto_')].roi.nunique()),

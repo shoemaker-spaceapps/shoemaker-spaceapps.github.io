@@ -41,24 +41,48 @@
     <p>Your browser cannot show the 3D globes. <a href="explore/">Open the map instead</a>.</p>
   </div>
   <div class="wrap">
+    <div id="surface" class="surface" role="group" aria-label="Earth surface"><span class="tlabel">Surface</span><button type="button" data-mode="bare" aria-pressed="true">Bare rock (field-test ready)</button><button type="button" data-mode="any" aria-pressed="false">Any surface (rock analogs)</button></div>
     <div id="targets" class="targets" role="group" aria-label="Lunar targets"></div>
   </div>
 </section>
 
 <section class="wrap lines" aria-labelledby="h-found">
   <h2 id="h-found">What we found</h2>
+  <h3 class="tt">Best Earth match for each lunar target</h3>
+  <div class="table-scroll"><table id="found-table" class="found">
+    <thead><tr><th>Lunar target</th><th>Best bare-rock match</th><th>Best rock analog (any surface)</th><th>Why</th><th>Confidence</th></tr></thead>
+    <tbody>
+<tr><th scope="row"><button type="button" class="rowbtn" data-target="T_mare" data-mode="bare" data-lat="32.225" data-lon="37.553">Mare Tranquillitatis</button></th><td data-l="Bare rock">Arabian Peninsula</td><td data-l="Rock analog"><button type="button" class="rowbtn sub" data-target="T_mare" data-mode="any" data-lat="45.545" data-lon="114.564">East Asia</button></td><td data-l="Why">basalt; slope 1.4°/3° vs 1.3°/3°</td><td data-l="Confidence">tested</td></tr>
+<tr><th scope="row"><button type="button" class="rowbtn" data-target="T_imbrium" data-mode="bare" data-lat="11.995" data-lon="41.638">Hadley Rille, Imbrium rim</button></th><td data-l="Bare rock">Afar and East Africa</td><td data-l="Rock analog"><button type="button" class="rowbtn sub" data-target="T_imbrium" data-mode="any" data-lat="20.315" data-lon="74.240">Deccan (India)</button></td><td data-l="Why">basalt; slope 1.2°/20° vs 1.3°/19°</td><td data-l="Confidence">tested</td></tr>
+<tr><th scope="row"><button type="button" class="rowbtn" data-target="T_highland" data-mode="bare" data-lat="32.725" data-lon="59.481">Descartes highlands</button></th><td data-l="Bare rock">Iran, Afghanistan and Pakistan</td><td data-l="Rock analog"><button type="button" class="rowbtn sub" data-target="T_highland" data-mode="any" data-lat="49.545" data-lon="96.069">Central Asia and Tibet</button></td><td data-l="Why">basic plutonic; slope 2.9°/11° vs 3.2°/12°</td><td data-l="Confidence">low confidence</td></tr>
+<tr><th scope="row"><button type="button" class="rowbtn" data-target="T_nobile" data-mode="bare" data-lat="47.315" data-lon="93.199">Nobile crater area</button></th><td data-l="Bare rock">Central Asia and Tibet</td><td data-l="Rock analog"><button type="button" class="rowbtn sub" data-target="T_nobile" data-mode="any" data-lat="38.725" data-lon="44.673">eastern Türkiye</button></td><td data-l="Why">basic plutonic; slope 7.0°/15° vs 7.9°/15°</td><td data-l="Confidence">low confidence</td></tr>
+<tr><th scope="row"><button type="button" class="rowbtn" data-target="T_n2" data-mode="bare" data-lat="-27.185" data-lon="-68.747">Artemis III (9 regions)</button></th><td data-l="Bare rock">Andes</td><td data-l="Rock analog">rock not known</td><td data-l="Why">rough terrain</td><td data-l="Confidence">terrain only</td></tr>
+    </tbody></table></div>
+  <p class="small">Click a name to turn the globes.</p>
   <div class="line">
     <p class="big">0.43 → 0.82 → 0.92</p>
-    <p>Shape alone misleads: on terrain, a salt desert (Dasht-e Kavir) ranks above 5 of our 7 known mare sites. With rock type, the right places come first.
-    <span class="note">AUC; 0.5 is chance. We picked the look-alikes for their rock, so terrain failing alone is the finding; the gain from adding terrain is suggestive, not proven.</span></p>
+    <p>Mare AUC (0.5 is chance): terrain alone, rock alone, both.
+    <span class="note">We picked look-alikes for their rock, so terrain failing alone is the finding; the gain from terrain is suggestive. <a href="explore/#checked">Details</a></span></p>
   </div>
   <div class="line">
-    <p class="big">16 / 0</p>
-    <p>None of 16 look-alike places with the wrong rock reaches the top 100 for its lunar target.</p>
+    <p class="big">0 of 16</p>
+    <p>look-alikes with the wrong rock reach a top 100; closest is Spitzkoppe-Erongo granites at 629. On terrain alone, Dasht-e Kavir (245) beats 5 of 7 mare sites. <a class="more" href="explore/#checked">Details</a></p>
   </div>
   <div class="line">
-    <p class="big">Arabia, Afar</p>
-    <p>The best mare analogs are basalt fields in the Arabian Peninsula; the best Imbrium analogs lie in the Afar rift. Both sit outside the four well-studied regions and are less studied as lunar analogs.</p>
+    <p class="big">65 of 65</p>
+    <p>robust candidates lie outside Antarctica, Atacama, Iceland and Hawaii, led by Arabia's basalt fields and the Afar rift. <a class="more" href="explore/#featured">Details</a></p>
+  </div>
+  <div class="line">
+    <p class="big">Karacadağ</p>
+    <p>A Turkish basalt plateau hidden under farmland: rank 11 of 22,030 for the mare, only 1% bare. First candidate for field sampling and XRF. <a class="more" href="explore/#rock">Details</a></p>
+  </div>
+  <div class="line">
+    <p class="big">0.87 to 1.45</p>
+    <p>Our Artemis III slopes over LROC QuickMap's. Terrain matches are mostly Andean (22 of 45). <a class="more" href="explore/#artemis">Details</a></p>
+  </div>
+  <div class="line">
+    <p class="big">7% to 60%</p>
+    <p>of Artemis III ground keeps ice within 2.9 m (Diviner); Earth's coldest match is far warmer. Nobile tests: dry ground in Andes, ice in Central Asia and Tibet. <a class="more" href="explore/#water">Details</a></p>
   </div>
 </section>
 
@@ -66,8 +90,6 @@
   <h2 id="h-break">Where it breaks</h2>
   <p>Every Earth analog fails somewhere.</p>
   <ul class="tags"><li>Gravity</li><li>Vacuum</li><li>Radiation</li><li>Permanent shadow</li></ul>
-  <p class="cold"><span><b>40 K</b> coldest spot in our Artemis III windows, yearly mean (NASA Diviner)</span>
-  <span><b>-47 °C</b> lowest hourly temperature at the coldest Earth match, 2001 to 2025 (NASA POWER)</span></p>
 </section>
 
 <section id="team" class="wrap" aria-labelledby="h-team">
