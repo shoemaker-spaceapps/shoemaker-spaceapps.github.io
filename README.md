@@ -23,15 +23,19 @@ We never used the known analog sites to build the score. We used them, and 16 lo
 
 ## What we found
 
-- Which test, where (our most reliable results):
-  - **Rover driving and landing tests on flat basalt**, like Mare Tranquillitatis (Apollo 11): Jordan, Saudi Arabia and Ethiopia. AUC 0.92 (95% interval 0.77 to 1.00). All 5 candidates are bare basalt and pass our landing and rover slope limits (median slope 1.3 to 1.4°).
-  - **Rough-ground driving and hazard detection**, like Hadley Rille, Imbrium rim (Apollo 15): Ethiopia, Djibouti, Saudi Arabia and Kenya. AUC 0.90, from one known site, so no interval. All 5 are basalt a rover can drive, but too steep to land on (steep-end slope 17 to 20°).
-  - **Rehearse several Artemis III regions at one site**, like Artemis III candidate regions (south pole): Iran and Galapagos, Ecuador. Iran (33.995, 58.488) and Galapagos, Ecuador (-0.185, -90.775) each match 3 regions at once: Mons Mouton Plateau, Slater Plain and Haworth; 9 sites match two or more. Terrain only, since the lunar rock is not set; our slopes agree with LROC QuickMap within 0.87 to 1.45 times.
-- Mare target: AUC 0.92 (95% interval 0.77 to 1.00). AUC is the chance that a known analog scores higher than a look-alike; 0.5 is a coin flip. Terrain alone gives 0.43, rock alone 0.82. We picked the look-alikes for their different rock, so rock separating them is expected; the finding is that terrain alone fails. The step from 0.82 to 0.92 suggests that terrain adds to rock, but the intervals overlap.
+- **New test sites.** Away from the four usual regions (Antarctica, Atacama, Iceland, Hawaii) and from every known analog site, the places most like the Moon, for the two targets where we could check our score (mare and Imbrium rim), are basalt fields (harrats) in Jordan and Saudi Arabia (5 sites) and the Afar and East African rift in Ethiopia, Djibouti and Kenya (5 sites). None of them is in our catalogue of known lunar analog sites.
+- **Shape alone misleads.** Judged on slope and relief only, salt flats and sand seas look as lunar as basalt: AUC 0.43, worse than a coin flip. Adding rock type lifts it to 0.92, and none of our 16 look-alikes reaches a top 100.
+- **The poles stay out of reach.** For the Artemis III regions the closest Earth terrain is in the Andes (22 of 45 candidates), but no place on Earth is as cold: the coldest lunar spots average -233 °C over a year. For ice work at Nobile we point to dry ground in Peru and frozen bare ground on the Tibetan Plateau (China).
+
+Which test, where (our most reliable results):
+  - **Rover driving and landing tests on flat basalt**, like Mare Tranquillitatis (Apollo 11): Jordan, Saudi Arabia and Ethiopia (new sites; score checked on 7 known sites). AUC 0.92 (95% interval 0.77 to 1.00). All 5 candidates are bare basalt and pass our landing and rover slope limits (median slope 1.3 to 1.4°).
+  - **Rough-ground driving and hazard detection**, like Hadley Rille, Imbrium rim (Apollo 15): Ethiopia, Djibouti, Saudi Arabia and Kenya (new sites; score checked on 1 known site). AUC 0.90, from one known site, so no interval. All 5 are basalt a rover can drive, but too steep to land on (steep-end slope 17 to 20°).
+  - **Rehearse several Artemis III regions at one site**, like Artemis III candidate regions (south pole): Iran and Galapagos, Ecuador (new sites; terrain only). Iran (33.995, 58.488) and Galapagos, Ecuador (-0.185, -90.775) each match 3 regions at once: Mons Mouton Plateau, Slater Plain and Haworth; 9 sites match two or more. Terrain only, since the lunar rock is not set; our slopes agree with LROC QuickMap within 0.87 to 1.45 times.
+
+- Mare target: AUC 0.92 (95% interval 0.77 to 1.00); terrain alone 0.43, rock alone 0.82. We picked the look-alikes for their different rock, so rock separating them is expected; the finding is that terrain alone fails. The step from 0.82 to 0.92 suggests that terrain adds to rock, but the intervals overlap.
 - No hard negative reaches the top 100 for its own target. The closest is Spitzkoppe-Erongo granites, at rank 629 of the 22,030 windows with a score.
-- The best mare candidates are Arabian basalt fields (harrats) in Jordan and Saudi Arabia, the best Imbrium-rim candidates are in the Afar rift, and the rough Artemis III targets match terrain in the Andes. These lie outside the four well-studied regions and are less studied as lunar analogs.
-- Some places match on rock and terrain but lie under farmland, so our bare-surface mask hides them. We list them as rock analogs, for sampling rather than surface tests.
-- Diviner puts the coldest spots in our Artemis III windows at -233 to -177 °C (40 to 96 K) as a yearly mean. At the coldest Earth terrain match, the lowest hourly temperature in 2001 to 2025 was -47 °C (NASA POWER).
+- Some places match on rock and terrain but lie under farmland, so our bare-surface mask hides them. We list them as rock analogs, for sampling rather than surface tests (`results/rock_analogs.csv`).
+- At the coldest Earth terrain match, the lowest hourly temperature in 2001 to 2025 was -47 °C (NASA POWER); Diviner puts the coldest Artemis III spots at -233 to -177 °C (40 to 96 K) as a yearly mean.
 
 Final tables are in `results/`. Candidate profiles with reasons are in `results/robust_candidates.csv`.
 

@@ -128,15 +128,15 @@ def tasks(robust, v, F):
     regs = and_list([TARGET_NAMES[x][0] for x in best.tids.iloc[0]])
     rows = [
         dict(task="Rover driving and landing tests on flat basalt", like="Mare Tranquillitatis (Apollo 11)", tid="T_mare", r=m.iloc[0],
-             where=and_list(m.country), conf="tested",
+             where=and_list(m.country), conf=f"new sites; score checked on {v['mare_pos_n']} known sites",
              why=f"AUC {v['mare_auc']} (95% interval {v['mare_lo']} to {v['mare_hi']}). All {len(m)} candidates are bare basalt and pass our landing "
                  f"and rover slope limits (median slope {m.slope_p50.min():.1f} to {m.slope_p50.max():.1f}°)."),
         dict(task="Rough-ground driving and hazard detection", like="Hadley Rille, Imbrium rim (Apollo 15)", tid="T_imbrium", r=im.iloc[0],
-             where=and_list(im.country), conf="tested, one known site",
+             where=and_list(im.country), conf="new sites; score checked on 1 known site",
              why=f"AUC {v['imb_auc']}, from one known site, so no interval. All {len(im)} are basalt a rover can drive, "
                  f"but too steep to land on (steep-end slope {im.slope_p90.min():.0f} to {im.slope_p90.max():.0f}°)."),
         dict(task="Rehearse several Artemis III regions at one site", like="Artemis III candidate regions (south pole)", tid=best.tids.iloc[0][0],
-             r=best.iloc[0], where=and_list(best.region), conf="terrain only",
+             r=best.iloc[0], where=and_list(best.region), conf="new sites; terrain only",
              why=f"{and_list([f'{r.region} ({r.lat:.3f}, {r.lon:.3f})' for r in best.itertuples()])} each match {top_n} regions at once: {regs}; "
                  f"{int((multi.n >= 2).sum())} sites match two or more. Terrain only, since the lunar rock is not set; our slopes agree with "
                  f"LROC QuickMap within {v['qm_lo']} to {v['qm_hi']} times."),
@@ -146,7 +146,7 @@ def tasks(robust, v, F):
                      f'<td data-l="Confidence">{x["conf"]}</td></tr>' for x in rows)
     link = lambda x: f'<a href="?target={x["tid"]}&amp;pool=lesser&amp;view={x["r"].lat:.3f},{x["r"].lon:.3f},8#explorer">{x["task"]}</a>'
     html_x = "\n".join(f'<tr><td>{link(x)}</td><td>{x["like"]}</td><td>{x["where"]}</td><td>{x["why"]}</td><td>{x["conf"]}</td></tr>' for x in rows)
-    md = "\n".join(f'  - **{x["task"]}**, like {x["like"]}: {x["where"]}. {x["why"]}' for x in rows)
+    md = "\n".join(f'  - **{x["task"]}**, like {x["like"]}: {x["where"]} ({x["conf"]}). {x["why"]}' for x in rows)
     short = "".join(f'<li><b>{x["task"]}</b>{x["where"]}</li>' for x in rows)
     return dict(task_rows=html, task_rows_x=html_x, task_md=md, task_short=short)
 
@@ -280,7 +280,7 @@ def main():
     r1 = rock[(rock.target_id == "T_mare") & (rock.rank_rock_pool == 1)].iloc[0]
     tr = robust[robust.target_id.isin(["T_mare", "T_imbrium"])]
     tr_name = {"Arabia and the Levant": "basalt fields (harrats)", "Afar and East Africa": "the Afar and East African rift"}
-    trusted = " and ".join(f"{tr_name.get(a, a)} in {' and '.join(', '.join(g.country.unique()).rsplit(', ', 1))} ({len(g)})"
+    trusted = " and ".join(f"{tr_name.get(a, a)} in {' and '.join(', '.join(g.country.unique()).rsplit(', ', 1))} ({len(g)} sites)"
                            for a, g in tr.groupby("area", sort=False))
     am = auc[(auc.target_id == "T_mare") & (auc.score == "genel_skor")].iloc[0]
     art_rb = robust[robust.target_id.isin(F.ARTEMIS)].area.value_counts()
@@ -327,6 +327,15 @@ def main():
         challenge=team["challenge"], team=team["team"],
         team_items="\n".join(f'<li><strong>{m["name"]}</strong>: {m["role"]}</li>' for m in team["members"]))
     vals.update(tasks(robust, vals, F))
+    summ = [("New test sites.", f"Away from the four usual regions (Antarctica, Atacama, Iceland, Hawaii) and from every known analog site, "
+             f"the places most like the Moon, for the two targets where we could check our score (mare and Imbrium rim), are {vals['trusted']}. None of them is in our catalogue of known lunar analog sites."),
+            ("Shape alone misleads.", f"Judged on slope and relief only, salt flats and sand seas look as lunar as basalt: AUC {vals['terrain_auc']}, "
+             f"worse than a coin flip. Adding rock type lifts it to {vals['mare_auc']}, and none of our {vals['n_neg']} look-alikes reaches a top 100."),
+            ("The poles stay out of reach.", f"For the Artemis III regions the closest Earth terrain is in the Andes ({vals['andes']} candidates), "
+             f"but no place on Earth is as cold: the coldest lunar spots average {vals['div_cold_lo_c']} °C over a year. "
+             f"For ice work at Nobile we point to dry ground in {vals['nob_dry']} and frozen bare ground on the {vals['nob_ice'].replace(', China', '')} (China).")]
+    vals["summary_html"] = "".join(f"<li><b>{h}</b> {s}</li>" for h, s in summ)
+    vals["summary_md"] = "\n".join(f"- **{h}** {s}" for h, s in summ)
     tdir = os.path.join(os.path.dirname(__file__), "templates")
     for src, dst in [("home.html", "index.html"), ("explore.html", os.path.join("explore", "index.html"))]:
         os.makedirs(os.path.dirname(os.path.join(a.docs, dst)) or a.docs, exist_ok=True)

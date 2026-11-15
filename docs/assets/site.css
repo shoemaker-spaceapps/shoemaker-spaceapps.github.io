@@ -240,3 +240,7 @@ table.data td.txt { min-width: 15rem; max-width: 24rem; white-space: normal; }
 .tnote { font-size: .86rem; color: var(--muted); margin-top: 6px; }
 .shared { border-left: 3px solid var(--accent); padding-left: 12px; }
 @media (max-width: 760px) { .split { grid-template-columns: minmax(0, 1fr); } }
+
+.summary { list-style: none; padding: 0; margin: 0 0 2rem; display: grid; gap: 1rem; }
+.summary li { font-size: 1.12rem; line-height: 1.55; padding-left: 1rem; border-left: 3px solid var(--accent, #9a3f22); max-width: 75ch; }
+.summary b { font-family: var(--serif, Georgia, serif); }

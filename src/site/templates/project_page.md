@@ -33,6 +33,7 @@ We built a map that ranks $n_windows places on Earth, each 10 km wide, by how mu
 6. To find new places, we leave out the famous ones (Antarctica, Atacama, Iceland, Hawaii), the known sites and the look-alikes, and keep only bare or dry ground. A place counts as a robust candidate only if it is in the top 100 on two separate scores: ours, and the score from the first version of our pipeline, built with different settings. We keep the five best per Moon target, at least 30 km apart.
 
 **What we found.**
+$summary_md
 - Which test, where (our most reliable results):
 $task_md
 - Look-alikes do not reach the top. None of our $n_neg hard negatives gets into the top 100 for its own target; the closest is $best_neg_name at rank $best_neg_rank.

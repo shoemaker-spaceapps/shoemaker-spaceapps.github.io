@@ -48,14 +48,9 @@
 
 <section class="wrap lines" aria-labelledby="h-found">
   <h2 id="h-found">What we found</h2>
-  <h3 class="tt">Best Earth match for each lunar target</h3>
-  <div class="table-scroll"><table id="found-table" class="found">
-    <thead><tr><th>Lunar target</th><th>Best bare-rock match</th><th>Best rock analog (any surface)</th><th>Why</th><th>Confidence</th></tr></thead>
-    <tbody>
-$find_rows
-    </tbody></table></div>
-  <p class="small">Click a name to turn the globes.</p>
-  <h3 class="tt">Which test, where: our most reliable results</h3>
+  <ul class="summary">$summary_html</ul>
+  <h3 class="tt">Which test, where</h3>
+  <p class="small">Our most reliable results, by the kind of test a mission team might run. Every place listed is a new suggestion: outside the usual regions and away from the known analog sites in our catalogue. Click a test to turn the globes.</p>
   <div class="table-scroll"><table id="task-table" class="found">
     <thead><tr><th>Test</th><th>Like on the Moon</th><th>Where on Earth</th><th>Why we trust it</th><th>Confidence</th></tr></thead>
     <tbody>
@@ -71,22 +66,7 @@ $task_rows
     <p class="big">0 of $n_neg</p>
     <p>look-alikes with the wrong rock reach a top 100; closest is $best_neg_name at $best_neg_rank. On terrain alone, $best_salt_name ($best_salt_rank) beats $n_mare_known_below of $n_mare_known mare sites. <a class="more" href="explore/#checked">Details</a></p>
   </div>
-  <div class="line">
-    <p class="big">$n_trusted sites we trust most</p>
-    <p>Lesser-known bare basalt, top on both scores for the mare and Imbrium, the targets our known sites test: $trusted. <a class="more" href="explore/#featured">Details</a></p>
-  </div>
-  <div class="line">
-    <p class="big">Rock analogs</p>
-    <p>Some strong matches lie under farmland or grass, hidden by our bare-surface mask. The best for the mare, in $rock1_region, ranks $rock1_rank of $n_valid. Good for sampling, not for driving. <a class="more" href="explore/#rock">Details</a></p>
-  </div>
-  <div class="line">
-    <p class="big">$qm_lo to $qm_hi</p>
-    <p>is the ratio of our Artemis III slopes to LROC QuickMap's, so the two agree in size. The Andes hold the largest share of terrain matches ($andes). <a class="more" href="explore/#artemis">Details</a></p>
-  </div>
-  <div class="line">
-    <p class="big">$div_ice_lo to $div_ice_hi</p>
-    <p>of Artemis III ground keeps ice within 2.9 m (Diviner); Earth's coldest match is far warmer. Nobile tests: dry ground in $nob_dry, ice in $nob_ice. <a class="more" href="explore/#water">Details</a></p>
-  </div>
+  <p class="small">Best match for every lunar target, rock analogs under farmland, the Artemis III slope check and the water and ice table are on the <a href="explore/">explore page</a>.</p>
 </section>
 
 <section class="wrap breaks" aria-labelledby="h-break">
