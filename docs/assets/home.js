@@ -74,6 +74,14 @@
     ctl.autoRotate = !reduce; ctl.autoRotateSpeed = 0.25; ctl.enableZoom = true;
     ctl.addEventListener("start", () => { ctl.autoRotate = false; });
     sunlight(g, ambient);
+    // anisotropic filtering keeps the texture sharp near the poles, where it is squeezed along longitude
+    const sharpen = () => {
+      const map = g.globeMaterial().map;
+      if (!map) return setTimeout(sharpen, 300);
+      map.anisotropy = g.renderer().capabilities.getMaxAnisotropy();
+      map.needsUpdate = true;
+    };
+    sharpen();
     return g;
   }
 
@@ -188,7 +196,7 @@
       select("T_mare");
       return;
     }
-    moon = makeGlobe($("#moon-globe"), "assets/moon_2k.jpg", false, 1.1);
+    moon = makeGlobe($("#moon-globe"), "assets/moon_relief.jpg", false, 1.1);
     earth = makeGlobe($("#earth-globe"), "assets/earth_2k.jpg", true, 0.9);
     followCamera(earth);
     moon.pointOfView({ lat: 0.7, lng: 23.5, altitude: 1.9 }, 0);

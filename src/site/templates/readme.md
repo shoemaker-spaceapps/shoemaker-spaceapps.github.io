@@ -95,6 +95,7 @@ python src/pipeline/power_climate.py
 python src/pipeline/diviner_targets.py
 NE_COUNTRIES=data/raw/ne_10m_admin_0_countries.shp python src/pipeline/countries.py
 python src/analysis/lithology_check.py
+CGI_LDEM=data/raw/ldem_4.tif python src/site/make_moon_texture.py
 ```
 
 Then run the commands in the section above. The raw files are not in the repository because they are several gigabytes and have their own licences:
@@ -107,6 +108,7 @@ Then run the commands in the section above. The raw files are not in the reposit
 | Global Aridity Index v3.1 | [figshare](https://doi.org/10.6084/m9.figshare.7504448) | ai_v31_yr.tif |
 | Copernicus GLO-30, ESA WorldCover | [AWS open data](https://registry.opendata.aws/copernicus-dem/), [WorldCover](https://esa-worldcover.org/en) | read online by the pipeline |
 | Natural Earth admin-0 countries | [naturalearthdata.com](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/) | ne_10m_admin_0_countries.shp (v5.1.1) |
+| NASA SVS CGI Moon Kit elevation | [SVS 4720](https://svs.gsfc.nasa.gov/4720) | ldem_4.tif (shaded relief of the Moon globe) |
 | NASA POWER, LRO Diviner | [POWER](https://power.larc.nasa.gov/), [PDS](https://pds-geosciences.wustl.edu/missions/lro/diviner.htm) | read online by the scripts |
 
 ## Column glossary
