@@ -35,10 +35,10 @@ We built a map that ranks 22,147 places on Earth, each 10 km wide, by how much t
 - Look-alikes do not reach the top. None of our 16 hard negatives gets into the top 100 for its own target; the closest is Spitzkoppe-Erongo granites at rank 629.
 - Shape alone is misleading. For the mare target, terrain alone scores an AUC of 0.43, worse than chance. Rock alone gives 0.82, and both together 0.92. The best salt flat or playa window, Dasht-e Kavir, ranks 245 of 22,030 on terrain, ahead of 5 of our 7 known mare sites. We picked the look-alikes for their different rock, so it is expected that rock separates them; the real finding is that terrain alone fails. The step from 0.82 to 0.92 suggests that terrain adds to rock, but the intervals overlap.
 - Candidates outside the four well-studied regions (Antarctica, Atacama, Iceland, Hawaii) and less studied as lunar analogs:
-  - Mare (Apollo 11): Harrat ash Shaam, Jordan (32.225, 37.553); harrat basalt field, Saudi Arabia (22.495, 40.243); Ethiopia (13.135, 40.731)
-  - Imbrium rim (Apollo 15): Ethiopia (11.995, 41.638); Djibouti (11.495, 42.546); harrat basalt field, Saudi Arabia (25.315, 37.649)
+  - Mare (Apollo 11), tested against known sites (our most trusted): Harrat ash Shaam, Jordan (32.225, 37.553); harrat basalt field, Saudi Arabia (22.495, 40.243); Ethiopia (13.135, 40.731)
+  - Imbrium rim (Apollo 15), tested against known sites (our most trusted): Ethiopia (11.995, 41.638); Djibouti (11.495, 42.546); harrat basalt field, Saudi Arabia (25.315, 37.649)
   - Highlands (Apollo 16), low confidence: Iran (32.725, 59.481); Tibetan Plateau, China (35.495, 89.887); Pakistan (26.635, 66.352)
-  - Nobile crater area: Mongolia (47.315, 93.199); Iran (36.225, 58.167); Iran (32.635, 59.481)
+  - Nobile crater area, not tested against known sites: Mongolia (47.315, 93.199); Iran (36.225, 58.167); Iran (32.635, 59.481)
   - Artemis III regions, terrain only: Andes (22 of 45 candidates, in Chile and Argentina), then Patagonia, Argentina; Chad; Iran; Galapagos, Ecuador
 - Bare rock and rock analogs are two different lists. Our bare-surface mask keeps places where a rover could work on exposed ground. Some places match on rock and terrain but lie under fields or grass, so the mask hides them; we list them separately as rock analogs, useful for sampling, not for surface operations. The best for the mare, in Mongolia, ranks 6 of 22,030 windows but is only 0% bare.
 - Our 10 km median slope for the Artemis III regions is 0.87 to 1.45 times the LROC QuickMap region slope, so the two agree in size.

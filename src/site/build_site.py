@@ -235,6 +235,10 @@ def main():
     n_top = sum(len(x) for x in tops)
     n_out = sum(int((w.well_studied.values[x] == 0).sum()) for x in tops)
     r1 = rock[(rock.target_id == "T_mare") & (rock.rank_rock_pool == 1)].iloc[0]
+    tr = robust[robust.target_id.isin(["T_mare", "T_imbrium"])]
+    tr_name = {"Arabia and the Levant": "basalt fields (harrats)", "Afar and East Africa": "the Afar and East African rift"}
+    trusted = " and ".join(f"{tr_name.get(a, a)} in {' and '.join(', '.join(g.country.unique()).rsplit(', ', 1))} ({len(g)})"
+                           for a, g in tr.groupby("area", sort=False))
     art_rb = robust[robust.target_id.isin(F.ARTEMIS)].area.value_counts()
     oph = rock[rock.note.fillna("").str.contains("ophiolite")]
     tname = {"T_nobile": "Nobile", "T_highland": "the highland"}
@@ -244,7 +248,7 @@ def main():
     vals = dict(
         n_valid=f"{valid:,}", n_top_bare=f"{n_top:,}", n_top_out=f"{n_out:,}", pct_top_out=f"{n_out / n_top:.0%}",
         n_robust=len(robust), n_robust_out=int((F.well_studied(robust.lat, robust.lon) == 0).sum()),
-        rock1_region=r1.region, rock1_rank=int(r1.rank_all), rock1_bare=f"{r1.bare_frac:.0%}", mare_s50=f"{t2.loc['T_mare'].slope_p50:.2f}",
+        n_trusted=len(tr), trusted=trusted, rock1_region=r1.region, rock1_rank=int(r1.rank_all), rock1_bare=f"{r1.bare_frac:.0%}", mare_s50=f"{t2.loc['T_mare'].slope_p50:.2f}",
         andes=f"{art_rb.get('Andes', 0)} of {art_rb.sum()}",
         nob_dry=nob[nob.group == "Dry-surface analog"].region.iloc[0], nob_ice=nob[nob.group == "Ice-bearing analog"].region.iloc[0],
         find_rows=find_rows(t2, robust, rock, targets, art_rb, F), rock_rows=rock_rows(rock), oph_list=oph_list,

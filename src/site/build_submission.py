@@ -12,7 +12,7 @@ import pandas as pd
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 TPL = os.path.join(os.path.dirname(__file__), "templates")
 NAMES = {"T_mare": "Mare (Apollo 11)", "T_imbrium": "Imbrium rim (Apollo 15)", "T_highland": "Highlands (Apollo 16), low confidence",
-         "T_nobile": "Nobile crater area"}
+         "T_nobile": "Nobile crater area, not tested against known sites"}
 ARTEMIS = ["T_n2", "T_mm", "T_ma", "T_g2", "T_mp", "T_sp", "T_cb", "T_n1", "T_hw"]
 
 
@@ -20,6 +20,8 @@ def robust_lines(rb):
     out = []
     for tid, label in NAMES.items():
         g = rb[rb.target_id == tid].sort_values("rank_sum").head(3)
+        if tid in ("T_mare", "T_imbrium"):
+            label += ", tested against known sites (our most trusted)"
         out.append(f"  - {label}: " + "; ".join(f"{r.region} ({r.lat:.3f}, {r.lon:.3f})" for r in g.itertuples()))
     a = rb[rb.target_id.isin(ARTEMIS)]
     top = a.area.value_counts().index[0]

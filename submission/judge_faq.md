@@ -23,10 +23,10 @@ For the Artemis III regions our 10 km median slope is 0.87 to 1.45 times the LRO
 
 **Are these candidates new?**
 They lie outside the four well-studied regions (Antarctica, Atacama, Iceland, Hawaii) and are less studied as lunar analogs. We do not claim they are unknown. The Afar region, including the Danakil Depression, is already studied as a Mars and astrobiology analog; what we add is a ranked, checked case for it as a lunar terrain analog. The Arabian basalt fields (harrats) are less studied as lunar mare analogs.
-  - Mare (Apollo 11): Harrat ash Shaam, Jordan (32.225, 37.553); harrat basalt field, Saudi Arabia (22.495, 40.243); Ethiopia (13.135, 40.731)
-  - Imbrium rim (Apollo 15): Ethiopia (11.995, 41.638); Djibouti (11.495, 42.546); harrat basalt field, Saudi Arabia (25.315, 37.649)
+  - Mare (Apollo 11), tested against known sites (our most trusted): Harrat ash Shaam, Jordan (32.225, 37.553); harrat basalt field, Saudi Arabia (22.495, 40.243); Ethiopia (13.135, 40.731)
+  - Imbrium rim (Apollo 15), tested against known sites (our most trusted): Ethiopia (11.995, 41.638); Djibouti (11.495, 42.546); harrat basalt field, Saudi Arabia (25.315, 37.649)
   - Highlands (Apollo 16), low confidence: Iran (32.725, 59.481); Tibetan Plateau, China (35.495, 89.887); Pakistan (26.635, 66.352)
-  - Nobile crater area: Mongolia (47.315, 93.199); Iran (36.225, 58.167); Iran (32.635, 59.481)
+  - Nobile crater area, not tested against known sites: Mongolia (47.315, 93.199); Iran (36.225, 58.167); Iran (32.635, 59.481)
   - Artemis III regions, terrain only: Andes (22 of 45 candidates, in Chile and Argentina), then Patagonia, Argentina; Chad; Iran; Galapagos, Ecuador
 
 **Why are some strong matches not on your main list?**

@@ -5,6 +5,8 @@
  "pct_top_out": "83%",
  "n_robust": 65,
  "n_robust_out": 65,
+ "n_trusted": 10,
+ "trusted": "basalt fields (harrats) in Jordan and Saudi Arabia (5) and the Afar and East African rift in Ethiopia, Djibouti and Kenya (5)",
  "rock1_region": "Mongolia",
  "rock1_rank": 6,
  "rock1_bare": "0%",
