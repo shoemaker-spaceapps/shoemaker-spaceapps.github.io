@@ -253,7 +253,7 @@
       <th class="n">Coldest spot (K)</th><th class="n">Mean yearly max (K)</th><th class="n">Ice-stable ground</th></tr></thead><tbody>` +
       div.map((t) => `<tr><td>${esc(t.name)}</td><td class="n">${num(t.div_avg, 0)}</td><td class="n">${num(t.div_cold, 0)}</td><td class="n">${num(t.div_max, 0)}</td>
         <td class="n">${Math.round(t.div_ice * 100)}%</td></tr>`).join("") +
-      `</tbody></table></div><p class="small">Diviner Polar Resource Product (LRO). Annual mean is 2 cm below the surface, averaged over the 10 km window. "Coldest spot" is the coldest 0.5 km cell in the window. "Ice-stable ground" is the share of the window where water ice would stay stable (losing less than 1 kg per square metre per billion years) within 2.9 m of the surface, the depth limit of the product. The product has no yearly minimum.</p>`
+      `</tbody></table></div><p class="small">Diviner Polar Resource Product (LRO). Annual mean is 2 cm below the surface, averaged over the 10 km window. "Coldest spot" is the coldest 0.5 km cell in the window. "Ice-stable ground" is the share of the window where water ice would stay stable (losing less than 1 kg per square metre per billion years) within 2.9 m of the surface, the depth limit of the product. The product has no yearly minimum. Kelvin: 0 °C is 273 K, so 40 K is about -233 °C.</p>`
       : "<p>Diviner values were not available.</p>";
     Plotly.react("qm-chart", [
       { type: "scatter", mode: "markers+text", x: art.map((t) => t.qm), y: art.map((t) => t.s50), text: art.map((t) => t.name), textposition: art.map((t) => LABEL_POS[t.name] || "top center"),

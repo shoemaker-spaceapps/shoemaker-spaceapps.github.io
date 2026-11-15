@@ -47,7 +47,7 @@
     <figure><img src="img/basalt.jpg" alt="NASA MODIS image of a dark basalt field in the $mare1_region"><figcaption>$mare1_region: rank $mare1_all with rock and terrain</figcaption></figure>
   </div>
   <p class="auc"><span>Terrain <b>$terrain_auc</b></span><span>Rock <b>$rock_auc</b></span><span>Both <b>$mare_auc</b></span><em>AUC, mare target</em></p>
-  <p class="note">We picked the look-alikes for their rock, so terrain failing is the finding.</p>
+  <p class="note">None of our $n_neg look-alikes reaches a top 100. We picked them for their rock, so terrain failing alone is the finding.</p>
 </section>
 
 <section class="slide s-map" aria-label="Slide 5 of 7">
@@ -60,10 +60,10 @@
 </section>
 
 <section class="slide s-number" aria-label="Slide 6 of 7">
-  <h2>No place on Earth is as cold as Artemis III, so we match each ice test to a place.</h2>
+  <h2>Artemis III terrain matches lie in the Andes, but nothing on Earth is as cold.</h2>
   <div class="big">
-    <div><b>$div_cold_lo K</b><span>coldest spot in our Artemis III windows (NASA Diviner)</span></div>
-    <div><b>$earth_cold_C °C</b><span>lowest hourly temperature at the coldest Earth match, $earth_cold_region, 2001 to 2025 (NASA POWER)</span></div>
+    <div><b>$andes</b><span>robust terrain matches for the $n_artemis Artemis III regions lie in the Andes. Our slopes agree with LROC QuickMap within $qm_lo to $qm_hi times.</span></div>
+    <div><b>$div_cold_lo_c °C</b><span>coldest spot in our Artemis III windows, yearly mean ($div_cold_lo K, NASA Diviner). The coldest Earth match, $earth_cold_region, reached $earth_cold_C °C (NASA POWER).</span></div>
   </div>
   <p class="rule">Nobile crater area: where to rehearse ice extraction on Earth</p>
   <div class="pair">
@@ -75,7 +75,7 @@
 <section class="slide s-next" aria-label="Slide 7 of 7">
   <h2>Next, we will test if NASA thermal data can tell basalt from look-alikes from orbit.</h2>
   <div class="cols">
-    <div><p class="use">Pick a lunar target and get ranked Earth sites, each with its reasons and limits.</p><p class="link"><a href="$site_url">$site_host</a></p></div>
+    <div><p class="use">Pick a lunar target and get ranked Earth sites, each with why it matches, where it breaks and what to test there.</p><p class="link"><a href="$site_url">$site_host</a></p></div>
     <div class="ready"><p class="lbl">Ready for field tests now</p><p>$trusted</p></div>
   </div>
   <p class="data">Data: NASA LRO (LOLA, Diviner), POWER, GIBS · ESA Copernicus DEM, WorldCover · JAXA Kaguya · GLiM</p>

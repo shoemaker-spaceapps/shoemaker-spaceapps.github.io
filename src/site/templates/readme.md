@@ -17,7 +17,7 @@ We never used the known analog sites to build the score. We used them, and $n_ne
 - No hard negative reaches the top 100 for its own target. The closest is $best_neg_name, at rank $best_neg_rank of the $n_valid windows with a score.
 - The best mare candidates are Arabian basalt fields (harrats) in Jordan and Saudi Arabia, the best Imbrium-rim candidates are in the Afar rift, and the rough Artemis III targets match terrain in the Andes. These lie outside the four well-studied regions and are less studied as lunar analogs.
 - Some places match on rock and terrain but lie under farmland, so our bare-surface mask hides them. We list them as rock analogs, for sampling rather than surface tests.
-- Diviner puts the coldest spots in our Artemis III windows at $div_cold_lo to $div_cold_hi K as a yearly mean. At the coldest Earth terrain match, the lowest hourly temperature in 2001 to 2025 was $earth_cold_C °C (NASA POWER).
+- Diviner puts the coldest spots in our Artemis III windows at $div_cold_lo_c to $div_cold_hi_c °C ($div_cold_lo to $div_cold_hi K) as a yearly mean. At the coldest Earth terrain match, the lowest hourly temperature in 2001 to 2025 was $earth_cold_C °C (NASA POWER).
 
 Final tables are in `results/`. Candidate profiles with reasons are in `results/robust_candidates.csv`.
 

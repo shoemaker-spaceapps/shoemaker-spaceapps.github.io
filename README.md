@@ -17,7 +17,7 @@ We never used the known analog sites to build the score. We used them, and 16 lo
 - No hard negative reaches the top 100 for its own target. The closest is Spitzkoppe-Erongo granites, at rank 629 of the 22,030 windows with a score.
 - The best mare candidates are Arabian basalt fields (harrats) in Jordan and Saudi Arabia, the best Imbrium-rim candidates are in the Afar rift, and the rough Artemis III targets match terrain in the Andes. These lie outside the four well-studied regions and are less studied as lunar analogs.
 - Some places match on rock and terrain but lie under farmland, so our bare-surface mask hides them. We list them as rock analogs, for sampling rather than surface tests.
-- Diviner puts the coldest spots in our Artemis III windows at 40 to 96 K as a yearly mean. At the coldest Earth terrain match, the lowest hourly temperature in 2001 to 2025 was -47 °C (NASA POWER).
+- Diviner puts the coldest spots in our Artemis III windows at -233 to -177 °C (40 to 96 K) as a yearly mean. At the coldest Earth terrain match, the lowest hourly temperature in 2001 to 2025 was -47 °C (NASA POWER).
 
 Final tables are in `results/`. Candidate profiles with reasons are in `results/robust_candidates.csv`.
 

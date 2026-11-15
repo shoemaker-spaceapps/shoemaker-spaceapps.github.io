@@ -125,3 +125,6 @@ h2 { max-width: 34ch; }
 .s-title { background: #070707; }
 .s-title .bg { right: -2vmin; height: 100%; width: 52%; aspect-ratio: auto; object-fit: contain; object-position: center; }
 .s-next .use { font-size: 3vmin; line-height: 1.4; margin-bottom: 2vmin; max-width: 32ch; }
+.s-number .big div:last-child b { color: var(--ink); }
+.s-number .big b { font-size: 13vmin; white-space: nowrap; }
+.s-number .big span { max-width: 40ch; }
