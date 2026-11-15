@@ -28,16 +28,12 @@
 </section>
 
 <section class="slide s-method" aria-label="Slide 3 of 7">
-  <h2>We compared $n_windows Earth windows with $n_targets places on the Moon.</h2>
-  <div class="flow" role="img" aria-label="Moon elevation and Earth data give slope, relief and rock, which give one score per window, checked against known sites and look-alikes">
-    <div class="node moon"><b>Moon</b><span>LRO LOLA, Kaguya</span></div>
-    <div class="arrow" aria-hidden="true"></div>
-    <div class="node mid"><b>Slope, relief, rock</b><span>10 km windows</span></div>
-    <div class="arrow" aria-hidden="true"></div>
-    <div class="node score"><b>One score</b><span>per window and target</span></div>
-    <div class="node earth"><b>Earth</b><span>Copernicus DEM, WorldCover, GLiM, NASA POWER</span></div>
-    <div class="node check"><b>Checked</b><span>$n_sites known sites, $n_neg look-alikes</span></div>
-  </div>
+  <h2>We scored $n_windows pieces of Earth, 10 km each, against $n_targets places on the Moon.</h2>
+  <ol class="steps3">
+    <li><b>Score</b><p>Same ground shape? Same rock? Rock counts 42%, shape 58%. A score of 1 is a perfect twin.</p><span>Moon: NASA LRO, Kaguya. Earth: Copernicus DEM, GLiM rock map.</span></li>
+    <li><b>Test</b><p>Pair known Moon analogs with look-alikes that have the wrong rock. The AUC is how often the analog scores higher. 0.5 is a coin flip.</p><span>$n_sites known sites, $n_neg look-alikes</span></li>
+    <li><b>Pick</b><p>Skip the famous sites. A new place must be in the top 100 on two separate scores.</p><span>$n_robust robust candidates, at least 30 km apart</span></li>
+  </ol>
 </section>
 
 <section class="slide s-pair" aria-label="Slide 4 of 7">
@@ -46,7 +42,7 @@
     <figure><img src="img/salt.jpg" alt="NASA MODIS image of $best_salt_name, a $best_salt_kind"><figcaption>$best_salt_name: terrain rank $best_salt_rank</figcaption></figure>
     <figure><img src="img/basalt.jpg" alt="NASA MODIS image of a dark basalt field in the $mare1_region"><figcaption>$mare1_region: rank $mare1_all with rock and terrain</figcaption></figure>
   </div>
-  <p class="auc"><span>Terrain <b>$terrain_auc</b></span><span>Rock <b>$rock_auc</b></span><span>Both <b>$mare_auc</b></span><em>AUC, mare target</em></p>
+  <p class="auc"><span>Terrain <b>$terrain_auc</b></span><span>Rock <b>$rock_auc</b></span><span>Both <b>$mare_auc</b></span><em>AUC for the mare: how often a known analog outscores a look-alike</em></p>
   <p class="note">None of our $n_neg look-alikes reaches a top 100. We picked them for their rock, so terrain failing alone is the finding.</p>
 </section>
 

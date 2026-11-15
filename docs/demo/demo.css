@@ -128,3 +128,9 @@ h2 { max-width: 34ch; }
 .s-number .big div:last-child b { color: var(--ink); }
 .s-number .big b { font-size: 13vmin; white-space: nowrap; }
 .s-number .big span { max-width: 40ch; }
+.steps3 { list-style: none; counter-reset: s; padding: 0; margin: 6vmin 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4vmin; flex: 1; }
+.steps3 li { counter-increment: s; border-top: 4px solid var(--accent); padding-top: 2.5vmin; display: flex; flex-direction: column; }
+.steps3 li::before { content: counter(s); font-family: var(--serif); font-size: 9vmin; line-height: 1; color: var(--accent); }
+.steps3 b { font-family: var(--serif); font-size: 4.4vmin; margin-top: 1vmin; }
+.steps3 p { font-size: 3vmin; line-height: 1.4; margin-top: 1.5vmin; }
+.steps3 span { margin-top: auto; font-size: 2.1vmin; color: var(--muted); line-height: 1.4; }

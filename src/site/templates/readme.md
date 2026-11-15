@@ -11,6 +11,16 @@ We cut Earth into $n_windows windows, each 10 km wide, and scored how much each 
 
 We never used the known analog sites to build the score. We used them, and $n_neg look-alikes with the wrong rock, only to test it.
 
+## How it works, in plain words
+
+**The score.** For each 10 km piece of Earth (a window) and each place on the Moon, we ask two questions. Is the ground shaped the same: similar slopes and height differences? Is it the same kind of rock? Rock counts for 42% of the score and ground shape for 58%. A score of 1 would be a perfect twin.
+
+**The check (AUC).** We test the score like an exam. We take places scientists already use as Moon analogs, and look-alikes: places that seem similar from orbit but have the wrong rock. We pair every analog window with every look-alike window (for the mare, $mare_pos_w x $mare_neg_w = $mare_pairs pairs) and count how often the analog gets the higher score. That share is the AUC: 1.0 means always, 0.5 means no better than a coin flip. The known analogs are only used for this test, never to build the score.
+
+**New candidates.** To find new places, we leave out the famous ones (Antarctica, Atacama, Iceland, Hawaii), the known sites and the look-alikes, and keep only bare or dry ground. A place counts as a robust candidate only if it is in the top 100 on two separate scores: ours, and the score from the first version of our pipeline, built with different settings. We keep the five best per Moon target, at least 30 km apart.
+
+**Technical detail.** Terrain similarity is exp(-d), where d adds the Earth to Moon gaps in median slope, steep-end slope (90th percentile) and relief, each divided by its interquartile range across Earth windows and weighted by the AHP weights rescaled to sum to 1 (0.12, 0.23, 0.23). Rock match is 1 when the window's main rock class by area equals the target's, else 0. Score = 0.42 x rock match + 0.58 x terrain similarity; for the Artemis III targets, terrain similarity alone. AUC counts ties as half. The 95% interval redraws whole sites and whole look-alike regions with replacement 2,000 times (fixed seed). The pipeline score uses rock 0.40 and terrain weights 0.25 / 0.35 / 0.40 on median slope, steep-end slope and roughness (TRI). Robust candidates are sorted by the sum of the two ranks. Code: `src/analysis/final_analysis.py` (scores, AUC, candidates) and `src/analysis/evaluate.py`.
+
 ## What we found
 
 - Mare target: AUC $mare_auc (95% interval $mare_lo to $mare_hi). AUC is the chance that a known analog scores higher than a look-alike; 0.5 is a coin flip. Terrain alone gives $terrain_auc, rock alone $rock_auc. We picked the look-alikes for their different rock, so rock separating them is expected; the finding is that terrain alone fails. The step from $rock_auc to $mare_auc suggests that terrain adds to rock, but the intervals overlap.
