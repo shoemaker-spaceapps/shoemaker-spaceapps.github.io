@@ -10,16 +10,21 @@
 <main id="deck" aria-label="Seven-slide demo. Use the left and right arrow keys to move.">
 
 <section class="slide s-title" aria-label="Slide 1 of 7">
-  <p class="kicker">NASA Space Apps Challenge 2026 · $challenge</p>
-  <h1>Earth's Moon twins</h1>
-  <p class="team">Team $team: $member_names</p>
-  <p class="namesake">We named the team after Eugene Shoemaker, who founded USGS Astrogeology and trained Apollo astronauts in geology at analog sites like Meteor Crater.</p>
+  <img class="bg" src="img/earth.jpg" alt="">
+  <div class="txt">
+    <p class="kicker">NASA Space Apps Challenge 2026 · $challenge</p>
+    <h1>Earth's Moon twins</h1>
+    <p class="team">Team $team: $member_names</p>
+    <p class="namesake">We named the team after Eugene Shoemaker, who founded USGS Astrogeology and trained Apollo astronauts in geology at analog sites like Meteor Crater.</p>
+  </div>
 </section>
 
 <section class="slide s-problem" aria-label="Slide 2 of 7">
-  <h2>Moon missions keep testing at the same four places.</h2>
-  <ol class="four"><li>Antarctica</li><li>Atacama</li><li>Iceland</li><li>Hawaii</li></ol>
-  <p class="aside">We asked which other places on Earth match the Moon, how closely, and where each match breaks.</p>
+  <h2>Moon analog tests keep returning to the same four places.</h2>
+  <div class="vs">
+    <div><p class="lbl">The usual analog sites</p><ol class="four"><li>Antarctica</li><li>Atacama</li><li>Iceland</li><li>Hawaii</li></ol></div>
+    <div class="rest"><p class="lbl">What we checked</p><b>$n_windows</b><p>windows of 10 km across Earth. Which match the Moon, how closely, and where does each match break?</p></div>
+  </div>
 </section>
 
 <section class="slide s-method" aria-label="Slide 3 of 7">
@@ -48,27 +53,31 @@
 <section class="slide s-map" aria-label="Slide 5 of 7">
   <div class="band">
     <h2>Beyond the usual sites, the best mare matches are Arabian basalt fields (harrats).</h2>
-    <p>With the Afar rift for Imbrium, these are the lesser-known sites we trust most: bare basalt, on targets our known sites could test.</p>
+    <p>With the Afar rift, these are the lesser-known sites we trust most: bare basalt, on targets our known sites could test.</p>
   </div>
-  <img class="shot" src="img/globes_mare.jpg" alt="Our homepage: the Moon with Mare Tranquillitatis selected, and the Earth turned to the Arabian basalt fields (harrats)">
-  <p class="cap">Earth globe: our top robust mare candidate, $mare1_region (rank $mare1_ahp on our score and $mare1_pipe on the pipeline score among lesser-known places).</p>
+  <img class="shot" src="img/map_mare.jpg" alt="Our map of lesser-known windows for the mare target, over Arabia and the Afar rift">
+  <p class="cap">Lesser-known windows for the mare. Top: $mare1_region, rank $mare1_ahp on our score, $mare1_pipe on the pipeline score. Each dot opens why it matches, where it breaks, and what to test there.</p>
 </section>
 
 <section class="slide s-number" aria-label="Slide 6 of 7">
-  <h2>No place on Earth is as cold as the Artemis III sites.</h2>
+  <h2>No place on Earth is as cold as Artemis III, so we match each ice test to a place.</h2>
   <div class="big">
     <div><b>$div_cold_lo K</b><span>coldest spot in our Artemis III windows (NASA Diviner)</span></div>
     <div><b>$earth_cold_C °C</b><span>lowest hourly temperature at the coldest Earth match, $earth_cold_region, 2001 to 2025 (NASA POWER)</span></div>
   </div>
+  <p class="rule">Nobile crater area: where to rehearse ice extraction on Earth</p>
   <div class="pair">
-    <p><b>For Nobile: dry ground to bury ice in</b>$nob_dry</p>
-    <p><b>For Nobile: frozen bare ground to drill</b>$nob_ice</p>
+    <p><b>Dry ground to bury ice in</b>$nob_dry</p>
+    <p><b>Frozen bare ground to drill</b>$nob_ice</p>
   </div>
 </section>
 
 <section class="slide s-next" aria-label="Slide 7 of 7">
   <h2>Next, we will test if NASA thermal data can tell basalt from look-alikes from orbit.</h2>
-  <p class="link">Open the map: <a href="$site_url">$site_host</a></p>
+  <div class="cols">
+    <div><p class="use">Pick a lunar target and get ranked Earth sites, each with its reasons and limits.</p><p class="link"><a href="$site_url">$site_host</a></p></div>
+    <div class="ready"><p class="lbl">Ready for field tests now</p><p>$trusted</p></div>
+  </div>
   <p class="data">Data: NASA LRO (LOLA, Diviner), POWER, GIBS · ESA Copernicus DEM, WorldCover · JAXA Kaguya · GLiM</p>
 </section>
 

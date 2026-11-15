@@ -57,11 +57,13 @@ def main():
         h.locator("#globes").screenshot(path=os.path.join(a.docs, "assets", "globes_static.jpg"), type="jpeg", quality=80)
         h.locator("#globes").screenshot(path=os.path.join(img, "globes_mare.jpg"), type="jpeg", quality=84)  # no popup over the globe
         h.locator("#globes").screenshot(path=os.path.join(sub, "globes.png"))
+        h.locator("#earth-globe").screenshot(path=os.path.join(img, "earth.jpg"), type="jpeg", quality=84)
         pg = b.new_page(viewport=dict(width=1600, height=900), device_scale_factor=1)
         pg.add_init_script("document.addEventListener('DOMContentLoaded', () => { const s = document.createElement('style');"
                            f" s.textContent = '{HIDE_HEADER} #map {{ height: 900px !important; }}'; document.head.appendChild(s); }});")
         pg.goto(f"{base}/explore/?target=T_mare&pool=lesser&view=21.5,42,5", wait_until="networkidle")
         pg.wait_for_timeout(4000)
+        pg.locator("#map").screenshot(path=os.path.join(img, "map_mare.jpg"), type="jpeg", quality=84)
         hi = b.new_page(viewport=dict(width=1440, height=900), device_scale_factor=2)
         hi.add_init_script(f"document.addEventListener('DOMContentLoaded', () => {{ const s = document.createElement('style'); s.textContent = '{HIDE_HEADER}'; document.head.appendChild(s); }});")
         hi.goto(f"{base}/explore/?target=T_mare", wait_until="networkidle")
