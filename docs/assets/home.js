@@ -158,7 +158,7 @@
   }
 
   function findTable() {
-    document.querySelectorAll("#found-table .rowbtn").forEach((b) => b.addEventListener("click", () => {
+    document.querySelectorAll("#found-table .rowbtn, #task-table .rowbtn").forEach((b) => b.addEventListener("click", () => {
       const lat = +b.dataset.lat, lon = +b.dataset.lon;
       mode = b.dataset.mode;
       document.querySelectorAll("#surface button").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.mode === mode)));

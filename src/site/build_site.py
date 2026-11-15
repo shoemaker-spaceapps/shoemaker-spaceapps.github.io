@@ -108,6 +108,49 @@ def find_rows(t2, robust, rock, targets, art_rb, F):
     return "\n".join(out)
 
 
+def and_list(xs):
+    xs = list(dict.fromkeys(xs))
+    return xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " and " + xs[-1]
+
+
+def tasks(robust, v, F):
+    """Test-by-task table from the results we trust most: tested lunar targets, and Earth sites that match several Artemis III regions."""
+    def btn(tid, r, label):
+        return (f'<button type="button" class="rowbtn" data-target="{tid}" data-mode="bare" '
+                f'data-lat="{r.lat:.3f}" data-lon="{r.lon:.3f}">{label}</button>')
+    m = robust[robust.target_id == "T_mare"].sort_values("rank_sum")
+    im = robust[robust.target_id == "T_imbrium"].sort_values("rank_sum")
+    a = robust[robust.target_id.isin(F.ARTEMIS)]
+    multi = a.groupby("window_id").agg(n=("target_id", "nunique"), tids=("target_id", list), region=("region", "first"),
+                                       lat=("lat", "first"), lon=("lon", "first")).sort_values("n", ascending=False)
+    top_n = int(multi.n.max())
+    best = multi[multi.n == top_n]
+    regs = and_list([TARGET_NAMES[x][0] for x in best.tids.iloc[0]])
+    rows = [
+        dict(task="Rover driving and landing tests on flat basalt", like="Mare Tranquillitatis (Apollo 11)", tid="T_mare", r=m.iloc[0],
+             where=and_list(m.country), conf="tested",
+             why=f"AUC {v['mare_auc']} (95% interval {v['mare_lo']} to {v['mare_hi']}). All {len(m)} candidates are bare basalt and pass our landing "
+                 f"and rover slope limits (median slope {m.slope_p50.min():.1f} to {m.slope_p50.max():.1f}°)."),
+        dict(task="Rough-ground driving and hazard detection", like="Hadley Rille, Imbrium rim (Apollo 15)", tid="T_imbrium", r=im.iloc[0],
+             where=and_list(im.country), conf="tested, one known site",
+             why=f"AUC {v['imb_auc']}, from one known site, so no interval. All {len(im)} are basalt a rover can drive, "
+                 f"but too steep to land on (steep-end slope {im.slope_p90.min():.0f} to {im.slope_p90.max():.0f}°)."),
+        dict(task="Rehearse several Artemis III regions at one site", like="Artemis III candidate regions (south pole)", tid=best.tids.iloc[0][0],
+             r=best.iloc[0], where=and_list(best.region), conf="terrain only",
+             why=f"{and_list([f'{r.region} ({r.lat:.3f}, {r.lon:.3f})' for r in best.itertuples()])} each match {top_n} regions at once: {regs}; "
+                 f"{int((multi.n >= 2).sum())} sites match two or more. Terrain only, since the lunar rock is not set; our slopes agree with "
+                 f"LROC QuickMap within {v['qm_lo']} to {v['qm_hi']} times."),
+    ]
+    html = "\n".join(f'<tr><th scope="row">{btn(x["tid"], x["r"], x["task"])}</th><td data-l="Like">{x["like"]}</td>'
+                     f'<td data-l="Where">{x["where"]}</td><td data-l="Why we trust it">{x["why"]}</td>'
+                     f'<td data-l="Confidence">{x["conf"]}</td></tr>' for x in rows)
+    link = lambda x: f'<a href="?target={x["tid"]}&amp;pool=lesser&amp;view={x["r"].lat:.3f},{x["r"].lon:.3f},8#explorer">{x["task"]}</a>'
+    html_x = "\n".join(f'<tr><td>{link(x)}</td><td>{x["like"]}</td><td>{x["where"]}</td><td>{x["why"]}</td><td>{x["conf"]}</td></tr>' for x in rows)
+    md = "\n".join(f'  - **{x["task"]}**, like {x["like"]}: {x["where"]}. {x["why"]}' for x in rows)
+    short = "".join(f'<li><b>{x["task"]}</b>{x["where"]}</li>' for x in rows)
+    return dict(task_rows=html, task_rows_x=html_x, task_md=md, task_short=short)
+
+
 def rock_rows(rock):
     """Explore page table of rock analogs (windows that fail the bare-surface mask but match on rock)."""
     out = []
@@ -283,6 +326,7 @@ def main():
         site_url=team["site_url"], demo_url=team["demo_url"], repo_url=team["repo_url"], org_url=team["org_url"],
         challenge=team["challenge"], team=team["team"],
         team_items="\n".join(f'<li><strong>{m["name"]}</strong>: {m["role"]}</li>' for m in team["members"]))
+    vals.update(tasks(robust, vals, F))
     tdir = os.path.join(os.path.dirname(__file__), "templates")
     for src, dst in [("home.html", "index.html"), ("explore.html", os.path.join("explore", "index.html"))]:
         os.makedirs(os.path.dirname(os.path.join(a.docs, dst)) or a.docs, exist_ok=True)

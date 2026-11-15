@@ -67,7 +67,7 @@ def main():
         print(f"surface switch back to bare rock hides Karacadag: {bare_ok}")
         ok &= bare_ok
         # findings table: each row button turns the globes to its place
-        for btn in pg.locator("#found-table .rowbtn").all():
+        for btn in pg.locator("#found-table .rowbtn, #task-table .rowbtn").all():
             tid, lat, lon, md = (btn.get_attribute(k) for k in ("data-target", "data-lat", "data-lon", "data-mode"))
             pg.evaluate("document.querySelector('#earth-globe').dataset.view = ''")
             btn.click()

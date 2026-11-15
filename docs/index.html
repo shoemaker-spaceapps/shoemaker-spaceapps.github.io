@@ -59,6 +59,15 @@
 <tr><th scope="row"><button type="button" class="rowbtn" data-target="T_n2" data-mode="bare" data-lat="-27.185" data-lon="-68.747">Artemis III (9 regions)</button></th><td data-l="Bare rock">Andes</td><td data-l="Rock analog">none: lunar rock type not set</td><td data-l="Why">rough terrain</td><td data-l="Confidence">terrain only</td></tr>
     </tbody></table></div>
   <p class="small">Click a name to turn the globes.</p>
+  <h3 class="tt">Which test, where: our most reliable results</h3>
+  <div class="table-scroll"><table id="task-table" class="found">
+    <thead><tr><th>Test</th><th>Like on the Moon</th><th>Where on Earth</th><th>Why we trust it</th><th>Confidence</th></tr></thead>
+    <tbody>
+<tr><th scope="row"><button type="button" class="rowbtn" data-target="T_mare" data-mode="bare" data-lat="32.225" data-lon="37.553">Rover driving and landing tests on flat basalt</button></th><td data-l="Like">Mare Tranquillitatis (Apollo 11)</td><td data-l="Where">Jordan, Saudi Arabia and Ethiopia</td><td data-l="Why we trust it">AUC 0.92 (95% interval 0.77 to 1.00). All 5 candidates are bare basalt and pass our landing and rover slope limits (median slope 1.3 to 1.4°).</td><td data-l="Confidence">tested</td></tr>
+<tr><th scope="row"><button type="button" class="rowbtn" data-target="T_imbrium" data-mode="bare" data-lat="11.995" data-lon="41.638">Rough-ground driving and hazard detection</button></th><td data-l="Like">Hadley Rille, Imbrium rim (Apollo 15)</td><td data-l="Where">Ethiopia, Djibouti, Saudi Arabia and Kenya</td><td data-l="Why we trust it">AUC 0.90, from one known site, so no interval. All 5 are basalt a rover can drive, but too steep to land on (steep-end slope 17 to 20°).</td><td data-l="Confidence">tested, one known site</td></tr>
+<tr><th scope="row"><button type="button" class="rowbtn" data-target="T_mp" data-mode="bare" data-lat="33.995" data-lon="58.488">Rehearse several Artemis III regions at one site</button></th><td data-l="Like">Artemis III candidate regions (south pole)</td><td data-l="Where">Iran and Galapagos, Ecuador</td><td data-l="Why we trust it">Iran (33.995, 58.488) and Galapagos, Ecuador (-0.185, -90.775) each match 3 regions at once: Mons Mouton Plateau, Slater Plain and Haworth; 9 sites match two or more. Terrain only, since the lunar rock is not set; our slopes agree with LROC QuickMap within 0.87 to 1.45 times.</td><td data-l="Confidence">terrain only</td></tr>
+    </tbody></table></div>
+
   <div class="line">
     <p class="big">0.43 → 0.82 → 0.92</p>
     <p>How often a known mare analog beats a look-alike (AUC; 0.5 is a coin flip): terrain alone, rock alone, both.

@@ -6,6 +6,18 @@ It ranks $n_windows Earth windows, each 10 km wide, by how much they look like $
 **How do you know the ranking means anything?**
 We tested it on $n_sites known analog sites and $n_neg hard negatives (look-alikes with the wrong rock). For the mare target the AUC is $mare_auc, with a 95% interval of $mare_lo to $mare_hi. A random ranking would give 0.5. None of the hard negatives reaches the top 100 for its own target.
 
+**How is the score calculated, in plain words?**
+For each 10 km window and each lunar place we ask: is the ground shaped the same (similar slopes and height differences), and is it the same kind of rock? Rock counts for 42% of the score and ground shape for 58%. A score of 1 would be a perfect twin.
+
+**How is the AUC calculated?**
+Like an exam. For the mare we pair each of $mare_pos_w windows from $mare_pos_n known analog sites with each of $mare_neg_w windows from $mare_neg_n look-alike regions ($mare_pairs pairs) and count how often the known-site window scores higher; a tie counts half. That share is the AUC: 1 means always, 0.5 means a coin flip. The 95% interval comes from redrawing whole sites and whole look-alike regions 2,000 times.
+
+**How do you pick new candidates?**
+We leave out the famous regions, the known sites and the look-alikes, and keep only bare or dry ground. A window counts only if it is in the top 100 on our score and also on a second, independent score from the first version of our pipeline. We keep the best five per target, at least 30 km apart.
+
+**Which results do you trust most?**
+$task_md
+
 **Did you tune the score on the known sites?**
 No. The weights come from AHP (expert pairwise judgments) and were set before testing. The known sites are used only to test the score.
 

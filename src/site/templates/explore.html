@@ -54,6 +54,16 @@
   </div>
 </section>
 
+<section id="tasks" class="wrap" aria-labelledby="h-tasks">
+  <h2 id="h-tasks">Which test, where</h2>
+  <p>Our most reliable results, sorted by the kind of test a mission team might run. The first two rows come from lunar targets we could test against known analog sites. The third uses ground shape only, because the rock at the Artemis III regions is not set.</p>
+  <div class="table-scroll"><table class="data">
+    <thead><tr><th>Test</th><th>Like on the Moon</th><th>Where on Earth</th><th>Why we trust it</th><th>Confidence</th></tr></thead>
+    <tbody>
+$task_rows_x
+    </tbody></table></div>
+</section>
+
 <section id="featured" class="wrap band" aria-labelledby="h-feat">
   <h2 id="h-feat">Featured analogs</h2>
   <p>For each target we keep windows that both of our scores put in the top 100 of the lesser-known pool, then take the best five at least 30 km apart. Each card says what matches, where the analogy breaks, and what a mission team could test there.</p>
@@ -134,7 +144,7 @@ $rock_rows
   <div class="split">
     <div>
       <h3>Earth is not the Moon</h3>
-      <p>Gravity on Earth is about six times stronger. There is air, weather, liquid water and a magnetic field, so dust settles, rocks weather and radiation stays low. No Earth site has permanent shadow. In our Artemis III windows, Diviner shows the coldest spots averaging $div_cold_lo to $div_cold_hi kelvin over a year ($div_cold_lo_c to $div_cold_hi_c °C). An analog can only stand in for part of the Moon at a time.</p>
+      <p>Gravity on Earth is about six times stronger. There is air, weather, liquid water and a magnetic field, so dust settles, rocks weather and radiation stays low. No Earth site has permanent shadow. In our Artemis III windows, Diviner shows the coldest spots averaging $div_cold_lo_c to $div_cold_hi_c °C over a year ($div_cold_lo to $div_cold_hi K). An analog can only stand in for part of the Moon at a time.</p>
     </div>
     <div>
       <h3>Our method has limits</h3>

@@ -23,6 +23,8 @@ We never used the known analog sites to build the score. We used them, and $n_ne
 
 ## What we found
 
+- Which test, where (our most reliable results):
+$task_md
 - Mare target: AUC $mare_auc (95% interval $mare_lo to $mare_hi). AUC is the chance that a known analog scores higher than a look-alike; 0.5 is a coin flip. Terrain alone gives $terrain_auc, rock alone $rock_auc. We picked the look-alikes for their different rock, so rock separating them is expected; the finding is that terrain alone fails. The step from $rock_auc to $mare_auc suggests that terrain adds to rock, but the intervals overlap.
 - No hard negative reaches the top 100 for its own target. The closest is $best_neg_name, at rank $best_neg_rank of the $n_valid windows with a score.
 - The best mare candidates are Arabian basalt fields (harrats) in Jordan and Saudi Arabia, the best Imbrium-rim candidates are in the Afar rift, and the rough Artemis III targets match terrain in the Andes. These lie outside the four well-studied regions and are less studied as lunar analogs.

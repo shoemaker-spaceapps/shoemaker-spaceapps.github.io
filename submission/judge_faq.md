@@ -6,6 +6,20 @@ It ranks 22,147 Earth windows, each 10 km wide, by how much they look like 13 pl
 **How do you know the ranking means anything?**
 We tested it on 15 known analog sites and 16 hard negatives (look-alikes with the wrong rock). For the mare target the AUC is 0.92, with a 95% interval of 0.77 to 1.00. A random ranking would give 0.5. None of the hard negatives reaches the top 100 for its own target.
 
+**How is the score calculated, in plain words?**
+For each 10 km window and each lunar place we ask: is the ground shaped the same (similar slopes and height differences), and is it the same kind of rock? Rock counts for 42% of the score and ground shape for 58%. A score of 1 would be a perfect twin.
+
+**How is the AUC calculated?**
+Like an exam. For the mare we pair each of 34 windows from 7 known analog sites with each of 204 windows from 10 look-alike regions (6,936 pairs) and count how often the known-site window scores higher; a tie counts half. That share is the AUC: 1 means always, 0.5 means a coin flip. The 95% interval comes from redrawing whole sites and whole look-alike regions 2,000 times.
+
+**How do you pick new candidates?**
+We leave out the famous regions, the known sites and the look-alikes, and keep only bare or dry ground. A window counts only if it is in the top 100 on our score and also on a second, independent score from the first version of our pipeline. We keep the best five per target, at least 30 km apart.
+
+**Which results do you trust most?**
+  - **Rover driving and landing tests on flat basalt**, like Mare Tranquillitatis (Apollo 11): Jordan, Saudi Arabia and Ethiopia. AUC 0.92 (95% interval 0.77 to 1.00). All 5 candidates are bare basalt and pass our landing and rover slope limits (median slope 1.3 to 1.4°).
+  - **Rough-ground driving and hazard detection**, like Hadley Rille, Imbrium rim (Apollo 15): Ethiopia, Djibouti, Saudi Arabia and Kenya. AUC 0.90, from one known site, so no interval. All 5 are basalt a rover can drive, but too steep to land on (steep-end slope 17 to 20°).
+  - **Rehearse several Artemis III regions at one site**, like Artemis III candidate regions (south pole): Iran and Galapagos, Ecuador. Iran (33.995, 58.488) and Galapagos, Ecuador (-0.185, -90.775) each match 3 regions at once: Mons Mouton Plateau, Slater Plain and Haworth; 9 sites match two or more. Terrain only, since the lunar rock is not set; our slopes agree with LROC QuickMap within 0.87 to 1.45 times.
+
 **Did you tune the score on the known sites?**
 No. The weights come from AHP (expert pairwise judgments) and were set before testing. The known sites are used only to test the score.
 

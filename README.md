@@ -23,6 +23,10 @@ We never used the known analog sites to build the score. We used them, and 16 lo
 
 ## What we found
 
+- Which test, where (our most reliable results):
+  - **Rover driving and landing tests on flat basalt**, like Mare Tranquillitatis (Apollo 11): Jordan, Saudi Arabia and Ethiopia. AUC 0.92 (95% interval 0.77 to 1.00). All 5 candidates are bare basalt and pass our landing and rover slope limits (median slope 1.3 to 1.4°).
+  - **Rough-ground driving and hazard detection**, like Hadley Rille, Imbrium rim (Apollo 15): Ethiopia, Djibouti, Saudi Arabia and Kenya. AUC 0.90, from one known site, so no interval. All 5 are basalt a rover can drive, but too steep to land on (steep-end slope 17 to 20°).
+  - **Rehearse several Artemis III regions at one site**, like Artemis III candidate regions (south pole): Iran and Galapagos, Ecuador. Iran (33.995, 58.488) and Galapagos, Ecuador (-0.185, -90.775) each match 3 regions at once: Mons Mouton Plateau, Slater Plain and Haworth; 9 sites match two or more. Terrain only, since the lunar rock is not set; our slopes agree with LROC QuickMap within 0.87 to 1.45 times.
 - Mare target: AUC 0.92 (95% interval 0.77 to 1.00). AUC is the chance that a known analog scores higher than a look-alike; 0.5 is a coin flip. Terrain alone gives 0.43, rock alone 0.82. We picked the look-alikes for their different rock, so rock separating them is expected; the finding is that terrain alone fails. The step from 0.82 to 0.92 suggests that terrain adds to rock, but the intervals overlap.
 - No hard negative reaches the top 100 for its own target. The closest is Spitzkoppe-Erongo granites, at rank 629 of the 22,030 windows with a score.
 - The best mare candidates are Arabian basalt fields (harrats) in Jordan and Saudi Arabia, the best Imbrium-rim candidates are in the Afar rift, and the rough Artemis III targets match terrain in the Andes. These lie outside the four well-studied regions and are less studied as lunar analogs.
